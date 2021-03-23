@@ -17,7 +17,7 @@ if($q && $q->num_rows===0){ die(err("Нет доступа"));}
 
 $z = "DELETE FROM `hiking_vacancies` WHERE `id`={$id}";
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z, "patch" => $patch)));}
+if(!$q) { die(err($mysqli->error, array("z" => $z)));}
 
 die(out(array(
     "success" => true,
