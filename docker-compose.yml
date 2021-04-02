@@ -1,25 +1,20 @@
 version: '3.6'
 services:
-  nginx:
-    image: nginx:latest
+  webapp:
+    build: ./webapp
     ports:
       - 8002:80
       # - 443:443
     volumes:
-      - ./hosts:/etc/nginx/conf.d
-      - ./www:/var/www
-      - ./logs:/var/log/nginx
-      - ./ssl:/etc/ssl
-    links:
-      - php
-  php:
-    build: ./php
-    links:
-      - mysql
-    volumes:
-      - ./www:/var/www
+      - ./webapp/sites-available /etc/apache2/sites-available
+      - ./www:/var/www/html
     env_file:
       - .env
+  composer:
+    image: composer:latest
+    command: ["composer", "install"]
+    volumes:
+      - ./www:/app
   mysql:
     image: mysql
     ports:
@@ -50,4 +45,4 @@ services:
       UPLOAD_LIMIT: 300M
     volumes:
       - /sessions
-      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./webapp/php.ini:/usr/local/etc/php/php.ini

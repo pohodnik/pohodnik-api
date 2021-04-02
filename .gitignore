@@ -3,6 +3,6 @@
 /mysql/mysql-data
 /logs
 /tmp
-scrips/.env
-ssl/pohodnik.tk-key.pem
-ssl/pohodnik.tk.pem
+/www/vendor
+/www/.idea
+composer.lock
