@@ -32,7 +32,7 @@ jobs:
     - name: Send to ftp
       run: curl \
         -T ${{ env.ARTIFACT_NAME }} \
-        -u ${{ env.FTP_USER }}:${{ secrets.FTP_PASS }} ftp:/${{ env.FTP_USER }}:${{ secrets.FTP_PASS }}@${{ env.FTP_SERVER }}/${{ env.REMOTE_FOLDER }}
+        -u ${{ env.FTP_USER }}:${{ secrets.FTP_PASS }} ftp://${{ env.FTP_USER }}:${{ secrets.FTP_PASS }}@${{ env.FTP_SERVER }}/${{ env.REMOTE_FOLDER }}
       env:
         FTP_SERVER: ftp.fednik.ru
         FTP_USER: deploy@pohodnik.tk
