@@ -10,7 +10,7 @@ $wh = "";
 $fields = "";
 $group = "";
 $join = "";
-$order = "route_objects.date_create, route_objects.ord";
+$order = "route_objects.ord, route_objects.date_create";
 
 
 if(isset($_GET['id_route'])){ $wh .= " AND route_objects.id_route = ".intval($_GET['id_route']); }
