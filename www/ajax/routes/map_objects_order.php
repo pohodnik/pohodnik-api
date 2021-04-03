@@ -26,5 +26,5 @@ if (!$q) {
 	)));
 }
 
-exit(json_encode(array("success"=>true)));
+exit(json_encode(array("success"=>true, 'sql' => $sql)));
 ?>
