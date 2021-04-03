@@ -15,7 +15,7 @@ foreach($ids as $id) {
 	$index++;
 }
 
-$sql = implode(';\n', $rows);
+$sql = implode(";\r\n", $rows);
 $q = $mysqli->multi_query($sql);
 
 if (!$q) {
@@ -26,5 +26,5 @@ if (!$q) {
 	)));
 }
 
-exit(json_encode(array("success"=>true, 'sql' => $sql)));
+exit(json_encode(array("success"=>true)));
 ?>
