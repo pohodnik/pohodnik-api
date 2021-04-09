@@ -8,15 +8,13 @@ $id = isset($_GET['id'])?intval($_GET['id']):0;
 if(!($id>0)){die(json_encode(array("error"=>"ID is undefined")));}
 
 
-
-
-$q = $mysqli->query("SELECT id FROM hiking WHERE id={$id}  AND id_author = {$id_user} LIMIT 1");
-if($q && $q->num_rows===0){
-	$q = $mysqli->query("SELECT id FROM hiking_editors WHERE id_hiking={$id} AND id_user = {$id_user} LIMIT 1");
-	if($q && $q->num_rows===0){
-		die(json_encode(array("error"=>"Нет доступа")));
-	}
-}
+// $q = $mysqli->query("SELECT id FROM hiking WHERE id={$id}  AND id_author = {$id_user} LIMIT 1");
+// if($q && $q->num_rows===0){
+// 	$q = $mysqli->query("SELECT id FROM hiking_editors WHERE id_hiking={$id} AND id_user = {$id_user} LIMIT 1");
+// 	if($q && $q->num_rows===0){
+// 		die(json_encode(array("error"=>"Нет доступа")));
+// 	}
+// }
 
 $avai = explode(',','id_type,id_route,name,desc,text,start,finish,color,bg,id_region,ava,is_vacant_route');
 if(strripos($name,',')>0){$name=explode(',',$name);}
