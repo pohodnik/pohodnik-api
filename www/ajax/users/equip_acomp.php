@@ -8,6 +8,11 @@ if(isset($_GET['flag']) && in_array($_GET['flag'], array('is_group','is_musthave
 
 $term = $mysqli->real_escape_string(trim($_GET['term']));
 $res = array();
-$q = $mysqli->query("SELECT `id`, `name`, `weight`, `value`, `is_musthave`, `is_group` FROM `user_equip` WHERE `name` LIKE('%{$term}%') {$add_q} LIMIT 10");
+$q = $mysqli->query("
+	SELECT 
+		`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`,
+	FROM `user_equip`
+		WHERE `name` LIKE('%{$term}%') {$add_q} AND is_archive=0
+	LIMIT 10");
 while($r = $q->fetch_assoc()){$res[] = $r; }
 die(json_encode($res));

@@ -13,10 +13,13 @@ $q = $mysqli->query("SELECT
 	user_equip.weight, 
 	user_equip.value,
 	user_equip.is_musthave,
-	user_equip.is_group
+	user_equip.is_group,
+	user_equip.is_archive
 FROM user_equip_set_items 
 LEFT JOIN user_equip ON(user_equip_set_items.id_equip = user_equip.id)
-WHERE user_equip_set_items.id_set={$id}");
+WHERE user_equip_set_items.id_set={$id}
+ORDER BY user_equip.is_musthave DESC, user_equip.name
+");
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
 	$res[] = $r;
