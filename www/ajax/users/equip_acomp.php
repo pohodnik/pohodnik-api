@@ -10,9 +10,9 @@ $term = $mysqli->real_escape_string(trim($_GET['term']));
 $res = array();
 $q = $mysqli->query("
 	SELECT 
-		`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`,
+		`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`, `photo`
 	FROM `user_equip`
 		WHERE `name` LIKE('%{$term}%') {$add_q} AND is_archive=0
-	LIMIT 10");
+	LIMIT 5");
 while($r = $q->fetch_assoc()){$res[] = $r; }
 die(json_encode($res));
