@@ -11,22 +11,22 @@
 	set_error_handler("ErrorCatcher");
 	$imageData = $_POST['data'];
 	$name = isset($_POST['name'])?$_POST['name']:'file_'.md5(time());
-	$folder = isset($_POST['folder'])?$_POST['folder']:'images/custom';
+	$folder = trim(isset($_POST['folder'])?$_POST['folder']:'images/custom/', "/");
 	
 	list($type, $imageData) = explode(';', $imageData);
 	list(,$extension) = explode('/',$type);
 	list(,$imageData)      = explode(',', $imageData);
 	$fileName = $name.'.'.$extension;
 	$imageData = base64_decode($imageData);
-	if(file_exists ('../'.$folder.$fileName )){ $fileName = '_'.$name.'.'.$extension; }
-	file_put_contents('../'.$folder.$fileName, $imageData);
-	if(file_exists ('../'.$folder.$fileName )){ 
+	if(file_exists ('../'.$folder."/".$fileName )){ $fileName = '_'.$name.'.'.$extension; }
+	file_put_contents('../'.$folder."/".$fileName, $imageData);
+	if(file_exists ('../'.$folder."/".$fileName )){ 
 	$resSizes= array();
 
 		if(isset($_POST['sizes'])){
 			if(is_array($_POST['sizes'])){$sizes = $_POST['sizes'];} else { $sizes = explode(",", $_POST['sizes']);}
 			if(count($sizes)>0){
-				list($width, $height) = getimagesize('../'.$folder.$fileName);
+				list($width, $height) = getimagesize('../'.$folder."/".$fileName);
 				$coeff = $width / $height;
 				require_once('lib/php-image-magician/php_image_magician.php');
 				foreach ( $sizes as $size) {
@@ -39,9 +39,9 @@
 						$width = intval($size);
 						$height = intval($size) / $coeff;
 					}
-					$magicianObj = new imageLib('../'.$folder.$fileName);
+					$magicianObj = new imageLib('../'.$folder."/".$fileName);
 					$magicianObj -> resizeImage($width, $height, 'crop');
-					$resFile = $folder.$name.'_'.$width."_".$height.'.'.$extension;
+					$resFile = $folder."/".$name.'_'.$width."_".$height.'.'.$extension;
 					$magicianObj -> saveImage('../'.$resFile);
 					$resSizes[$size] = $resFile;
 
@@ -49,7 +49,15 @@
 			}
 		}
 
-		die(json_encode(array('success'=>true,'filename'=>$fileName, 'name'=>$fileName, 'extention'=>$extension, 'type'=>$type, 'folder'=>$folder, 'sizes'=>$resSizes )));
+		die(json_encode(array(
+			'success'=>true,
+			'filename'=>$fileName,
+			'name'=>$fileName,
+			'extention'=>$extension,
+			'type'=>$type,
+			'folder'=>$folder,
+			'sizes'=>$resSizes
+		)));
 	} else {
 		die(json_encode(array("error"=>"Не удалось сохранить файл")));	
 	}
