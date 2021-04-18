@@ -4,6 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $id_user = $_COOKIE["user"];
 $id = intval($_GET['id']);
 $res = array();
+
 $q = $mysqli->query("SELECT 
 	user_equip_set_items.id AS iid,	user_equip_set_items.is_check,
 	user_equip.id,
@@ -24,4 +25,24 @@ if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
 	$res[] = $r;
 }
+
+
+if($res[0]['id_user'] != $id_user) {
+	$z = "SELECT to_user FROM `user_equip_sets_share` where `id_set`={$id} AND (to_user={$id_user} OR to_user IS NULL)";
+	$q = $mysqli->query($z);
+	if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+	if ($q->num_rows == 0) {
+		die(json_encode(array("error"=>'Нет доступа')));
+	}
+
+	foreach($res as $i=>$r) {
+		$res[$i]['readonly'] = true;
+	}
+}
+
+
+
+
+
+
 die(json_encode($res));
