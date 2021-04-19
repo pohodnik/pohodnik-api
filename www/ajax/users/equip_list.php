@@ -15,7 +15,7 @@ $res = array();
 $id_user = isset($_GET['id_user'])?intval($_GET['id_user']):$_COOKIE["user"];
  $q = $mysqli->query("
  	SELECT 
-	 	`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`,`photo`, id_parent, is_archive
+	 	`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`,`photo`, id_parent, is_archive, category
 	FROM `user_equip`
 		WHERE `id_user`={$id_user} {$add_q}
 	ORDER BY id_parent, is_group DESC, is_musthave, name");

@@ -15,7 +15,8 @@ $q = $mysqli->query("SELECT
 	user_equip.value,
 	user_equip.is_musthave,
 	user_equip.is_group,
-	user_equip.is_archive
+	user_equip.is_archive,
+	user_equip.category
 FROM user_equip_set_items 
 LEFT JOIN user_equip ON(user_equip_set_items.id_equip = user_equip.id)
 WHERE user_equip_set_items.id_set={$id}
@@ -27,7 +28,7 @@ while($r = $q->fetch_assoc()){
 }
 
 
-if($res[0]['id_user'] != $id_user) {
+if($res[0] && $res[0]['id_user'] != $id_user) {
 	$z = "SELECT to_user FROM `user_equip_sets_share` where `id_set`={$id} AND (to_user={$id_user} OR to_user IS NULL)";
 	$q = $mysqli->query($z);
 	if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
