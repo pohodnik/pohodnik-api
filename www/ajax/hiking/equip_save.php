@@ -18,7 +18,7 @@ $name = $mysqli->real_escape_string(trim($_POST['name']));
 $user = isset($_POST['id_user']) && $_POST['id_user'] > 0 ? intval($_POST['id_user']) : 'NULL';
 $weight = floatval($_POST['weight']);
 $value = floatval($_POST['value']);
-$is_confirm = boolval($_POST['is_confirm']);
+$is_confirm = boolval($_POST['is_confirm']) ? 1 : 0;
 $photo = $mysqli->real_escape_string(trim($_POST['photo']));
 
 $action = $id > 0 ? 'UPDATE' : 'INSERT INTO';
@@ -41,6 +41,6 @@ $z = "
 ";
 
 $q = $mysqli->query($z);
-if (!$q) { exit(json_encode(array("error"=>"Ошибка {$action}. \r\n".$mysqli->error))); }
+if (!$q) { exit(json_encode(array("error"=>"Ошибка {$action}. \r\n".$mysqli->error, "sql" => $z))); }
 $id = $mysqli->insert_id;
 exit(json_encode(array("success"=>true, "id"=> $id)));
