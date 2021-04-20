@@ -41,7 +41,7 @@ $q = $mysqli->query("
 			LEFT JOIN user_equip_sets ON (user_equip_sets.id = uesi.id_set)
 			LEFT JOIN users ON (users.id = ue.id_user)
 		WHERE
-			user_equip_sets.id_hiking=38 AND ue.is_group = 1 {$claus2}
+			user_equip_sets.id_hiking={$id_hiking} AND ue.is_group = 1 {$claus2}
 	)
 	
 	ORDER BY id_user
