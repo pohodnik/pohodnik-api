@@ -1,6 +1,6 @@
 <?
-include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/db.php"); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
+include("../../blocks/for_auth.php"); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 $res = array();
 $id_hiking = intval($_POST['id_hiking']);
@@ -10,7 +10,7 @@ $comment = $mysqli->real_escape_string(trim($_POST['comment']));
 if($id_user!=$_COOKIE["user"]){
 	$q = $mysqli->query("SELECT id_author FROM hiking WHERE id = {$id_hiking} AND id_author=".$_COOKIE["user"]." LIMIT 1");
 	if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
-	if($q->num_rows===0){die(json_encode(array("error"=>"Вы не являетесь создателем похода")));}
+	if($q->num_rows===0){die(json_encode(array("error"=>"пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")));}
 } else {
 
 
@@ -23,7 +23,7 @@ if(time()>$deadline){
 	die(json_encode(array("Error"=>"Deadline: ". date('d.m.Y H:i', $deadline ))));
 }
 
-echo date('d.m.Y H:i', $deadline );
+// echo date('d.m.Y H:i', $deadline );
 
 
 
@@ -50,22 +50,20 @@ if(count($ivs_id)>0){
 		$ans_ids[] = intval($r[0]);
 	};
 	
-	$z = "DELETE FROM iv_ans_content WHERE id_ans IN(".implode(',', $ans_ids).")";
-	$res["z"][] = $z;
-	$q = $mysqli->query($z);
-	if(!$q){die(json_encode(array("error"=>$mysqli->error, "src"=>"iv_ans_content")));}
-	$res["iv_ans_content"] = $mysqli->affected_rows;
-
-
-
-
-	
-	$z = "DELETE FROM iv_ans WHERE id IN(".implode(',', $ans_ids).")";
-	$res["z"][] = $z;
-	$q = $mysqli->query($z);
-	if(!$q){die(json_encode(array("error"=>$mysqli->error, "src"=>"iv_ans")));}
-	$res["iv_ans"] = $mysqli->affected_rows;
-	
+	if (count($ans_ids)) {
+		$z = "DELETE FROM iv_ans_content WHERE id_ans IN(".implode(',', $ans_ids).")";
+		$res["z"][] = $z;
+		$q = $mysqli->query($z);
+		if(!$q){die(json_encode(array("error"=>$mysqli->error, "src"=>"iv_ans_content")));}
+		$res["iv_ans_content"] = $mysqli->affected_rows;
+		
+		$z = "DELETE FROM iv_ans WHERE id IN(".implode(',', $ans_ids).")";
+		$res["z"][] = $z;
+		$q = $mysqli->query($z);
+		if(!$q){die(json_encode(array("error"=>$mysqli->error, "src"=>"iv_ans")));}
+		$res["iv_ans"] = $mysqli->affected_rows;
+		
+	}
 	
 	
 }
