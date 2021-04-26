@@ -1,8 +1,9 @@
 <?php
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php");
-	$id_subs = intval($_POST['id_subs']);
-	$id_type = intval($_POST['id_type']);
-	$q = $mysqli->query("DELETE FROM user_subscribes_types WHERE id_subs={$id_subs} AND id_type={$id_type}");
+    $id_user = $_COOKIE["user"];
+
+	$id = intval($_POST['id']);
+	$q = $mysqli->query("DELETE FROM user_phones WHERE id_user={$id_user} AND id={$id}");
 	if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 	die(json_encode(array("success"=>true)));	
