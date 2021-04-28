@@ -99,7 +99,7 @@ $insertValues = array();
                 if ($oneweather['dt'] >= strtotime($params['min']." 00:00:00") && $oneweather['dt'] <= strtotime($params['max']." 23:59:59")) {
                     $res[$id_hiking][$latlng]['forecast'][] = $oneweather;
                     $isoD = date('Y-m-d', $oneweather['dt']);
-                    $insertQueries[] =  "({$id_hiking},'{$isoD}','{$weather['city']['name']}',{$weather['city']['coord']['lat']},{$weather['city']['coord']['lon']},'".(json_encode($oneweather))."',NOW())";
+                    $insertQueries[] =  "({$id_hiking},'{$isoD}','{$weather['city']['name']}',{$weather['city']['coord']['lat']},{$weather['city']['coord']['lon']},'".(json_encode($oneweather, JSON_UNESCAPED_UNICODE))."',NOW())";
                     $deleteQueries[] = "(date='$isoD' AND id_hiking={$id_hiking})";
                 }
             }
