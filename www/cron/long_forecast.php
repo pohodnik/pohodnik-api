@@ -92,7 +92,7 @@ $insertValues = array();
                 if ($oneweather['dt'] >= strtotime($params['min']." 00:00:00") && $oneweather['dt'] <= strtotime($params['max']." 23:59:59")) {
                     $res[$id_hiking][$latlng]['forecast'][] = $oneweather;
                     $isoD = date('Y-m-d', $oneweather['dt']);
-                    $insertQueries[] =  "({$id_hiking},'{$isoD}','{$weather['city']['name']}',{$weather['city']['coord']['lat']},{$weather['city']['coord']['lon']},'".(json_encode($oneweather))."')";
+                    $insertQueries[] =  "({$id_hiking},'{$isoD}','{$weather['city']['name']}',{$weather['city']['coord']['lat']},{$weather['city']['coord']['lon']},'".(json_encode($oneweather))."',NOW())";
                     $deleteQueries[] = "(date='$isoD' AND id_hiking={$id_hiking})";
                 }
             }
@@ -107,7 +107,7 @@ $insertValues = array();
    
 //     $body = file_get_contents("https://sms.ru/sms/send?api_id={$sms_api_key}&to={$phone}&msg=".urlencode(iconv("windows-1251","utf-8",$msg))."&json=1"); # Если приходят крякозябры, то уберите iconv и оставьте только urlencode("Привет!")
 $z = "INSERT INTO `hiking_weather`
-(`id_hiking`, `date`, `name`, `lat`, `lon`, `forecast`) VALUES ";
+(`id_hiking`, `date`, `name`, `lat`, `lon`, `forecast`, `created_at`) VALUES ";
 
 $q = $mysqli->query("DELETE FROM hiking_weather WHERE ".implode(" OR ", $deleteQueries));
 if(!$q){exit(json_encode(array("error"=>"Ошибка удаления ".$mysqli->error)));}
