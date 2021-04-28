@@ -20,10 +20,11 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
-      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./mysql/conf.d:/etc/mysql/conf.d
       - ./mysql/mysql-data:/var/lib/mysql
+      - ./mysql/init:/tmp/database-init
     restart: always
-    command:  --default-authentication-plugin=mysql_native_password
+    command: mysqld --init-file="/tmp/database-init/init.sql"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
