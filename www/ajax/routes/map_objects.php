@@ -22,7 +22,19 @@ if(isset($_GET['all'])){
 }
 
 $res = array();
-$q1=$mysqli->query("SELECT	route_objects.* {$fields} FROM route_objects {$join} WHERE 1 {$wh} {$group} ORDER BY {$order}");
+$q1=$mysqli->query("SELECT
+	route_objects.*,
+	mountain_passes.name as mp_name,
+	mountain_passes.altitude as mp_altitude,
+	mountain_passes.comment as mp_comment,
+	mountain_passes_categories.name as mpc_name,
+	mountain_passes_categories.description as mpc_comment
+	{$fields}
+FROM route_objects
+	LEFT JOIN mountain_passes ON mountain_passes.id = route_objects.id_mountain_pass
+	LEFT JOIN mountain_passes_categories ON mountain_passes_categories.id = mountain_passes.id_pass_category
+{$join}
+WHERE 1 {$wh} {$group} ORDER BY {$order}");
 if(!$q1){die($mysqli->error);}
 while($r1=$q1->fetch_assoc()){
 	//if($r1['id_typeobject']==2){ $result[]=json_decode($r1['coordinates']); }	
