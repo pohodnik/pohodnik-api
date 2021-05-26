@@ -5,10 +5,12 @@ $result = array();
 $id_route = intval($_POST['id_route']);
 $id_type = intval($_POST['id_type']);
 $coordinates = $mysqli->real_escape_string(trim($_POST['coordinates']));
+$name = $mysqli->real_escape_string(trim($_POST['name']));
 $id_user = isset($_COOKIE["user"])?$_COOKIE["user"]:0;
 if($id_route>0 && $id_user>0){
 $z = "	INSERT INTO `route_objects` 
 							SET `id_route`={$id_route},
+								`name`='{$name}',
 								`coordinates`='".$coordinates."',
 								`id_typeobject`={$id_type},
 								`id_creator`={$id_user},
