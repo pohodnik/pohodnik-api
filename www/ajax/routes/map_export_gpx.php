@@ -3,6 +3,25 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id_route = intval($_GET['id_route']);
+
+$is_markers = isset($_GET['is_markers']) ? intval($_GET['is_markers']) : 1;
+$is_lines = isset($_GET['is_lines']) ? intval($_GET['is_lines']) : 1;
+$is_not_distance = isset($_GET['is_not_distance']) ? intval($_GET['is_not_distance']) : 1;
+
+$wh = "";
+
+if ($is_markers == 0) {
+	$wh .= " AND ro.id_typeobject <> 1 ";
+}
+if ($is_lines == 0) {
+	$wh .= " AND ro.id_typeobject <> 2 ";
+}
+if ($is_not_distance == 0) {
+	$wh .= " AND ro.is_in_distance <> 1 ";
+}
+
+
+
 	ini_set('error_reporting', E_ALL);
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
@@ -31,11 +50,13 @@ if($id_route>0 ){
 	}
 
 
-			$q1=$mysqli->query("SELECT	ro.id, ro.id_route,ro.name,ro.`desc`,ro.coordinates,
-										ro.`id_typeobject`,ro.`stroke_color`,ro.`stroke_opacity`,ro.`stroke_width`,ro.`distance`,ro.`id_creator`,ro.`date_create`,ro.`id_editor`,
-										UNIX_TIMESTAMP(ro.`date_last_modif`) AS date_last_modif
-								FROM `route_objects` AS ro
-								WHERE ro.id_route=".$id_route." ORDER BY ro.ord, ro.date_create");
+$q1=$mysqli->query("
+	SELECT	ro.id, ro.id_route,ro.name,ro.`desc`,ro.coordinates,
+			ro.`id_typeobject`,ro.`stroke_color`,ro.`stroke_opacity`,ro.`stroke_width`,ro.`distance`,ro.`id_creator`,ro.`date_create`,ro.`id_editor`,
+			UNIX_TIMESTAMP(ro.`date_last_modif`) AS date_last_modif
+	FROM `route_objects` AS ro
+	WHERE ro.id_route=".$id_route." {$wh} ORDER BY ro.ord, ro.date_create
+");
 			if(!$q1){ die(json_encode(array("error"=>$mysqli->error)));}
 			while($r1=$q1->fetch_assoc()){
 				$r1['coordinates'] = json_decode($r1['coordinates']);
