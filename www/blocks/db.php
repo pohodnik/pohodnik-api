@@ -20,4 +20,15 @@ if ($mysqli->connect_error) {
 ini_set('date.timezone', 'Europe/Moscow');
 date_default_timezone_set( 'Europe/Moscow' );
 $time_offset = 0;//-14400;
-?>
+
+
+function clearStoredResults(){
+    global $mysqli;
+
+    do {
+         if ($res = $mysqli->store_result()) {
+           $res->free();
+         }
+        } while ($mysqli->more_results() && $mysqli->next_result());        
+
+}
