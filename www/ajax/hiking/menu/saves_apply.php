@@ -43,7 +43,7 @@
             
             foreach ($dataGroups as $idValStr) {
                 $idVal = explode(':', $idValStr);
-                $updates[] = "UPDATE `hiking_menu` SET assignee_user = {$idVal[1]} WHERE id = {$idVal[0]}";
+                $updates[] = "UPDATE `hiking_menu` SET assignee_user = {$idVal[1]} WHERE id = {$idVal[0]} AND id_hiking = {$id_hiking}";
             }
 
             $sql = implode(";\r\n", $updates);

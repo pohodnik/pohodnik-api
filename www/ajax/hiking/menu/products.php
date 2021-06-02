@@ -15,7 +15,9 @@ SUM(recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100)) AS amo
 recipes_products.id AS id_product,
 0 AS is_optimize,
 hiking_menu_products_force.id AS id_force,
+forceUser.id AS forceUserId,
 CONCAT(forceUser.name,' ',forceUser.surname) AS forceUserName,
+forceUser.photo_50 AS forceUserPhoto,
 
 GROUP_CONCAT(
 	CONCAT_WS(

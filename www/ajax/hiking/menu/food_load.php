@@ -50,18 +50,24 @@ $q = $mysqli->query("
 						recipes.*,
 						hiking_menu.*,
 						CONCAT(users.name,' ',users.surname) AS uname,
+						users.photo_50 AS uphoto,
 						users.id AS uid,
+
 						SUM((recipes_products.protein/100)*recipes_structure.amount) AS protein,
 						SUM((recipes_products.fat/100)*recipes_structure.amount) AS fat,
 						SUM((recipes_products.carbohydrates/100)*recipes_structure.amount) AS carbohydrates,
 						SUM((recipes_products.energy/100)*recipes_structure.amount) AS energy,
-						SUM(recipes_structure.amount) AS amount
+						SUM(recipes_structure.amount) AS amount,
+						GROUP_CONCAT(
+							CONCAT_WS('|', recipes_structure.id_product, recipes_products.name, recipes_structure.amount)
+							SEPARATOR '&'
+						) AS products
 					FROM hiking_menu
 						LEFT JOIN recipes ON recipes.id = hiking_menu.id_recipe 
 						LEFT JOIN recipes_structure ON recipes_structure.id_recipe = recipes.id
 						LEFT JOIN recipes_products ON  recipes_structure.id_product = recipes_products.id
-						LEFT JOIN users ON  hiking_menu.assignee_user = users.id
-						
+						LEFT JOIN users ON hiking_menu.assignee_user = users.id
+				
 					WHERE hiking_menu.id_hiking={$id_hiking} ".$addwhere." GROUP BY  hiking_menu.id_recipe, hiking_menu.id_act, hiking_menu.date
 				");//
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
