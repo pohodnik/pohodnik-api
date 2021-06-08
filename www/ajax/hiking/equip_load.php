@@ -19,7 +19,8 @@ $q = $mysqli->query("
 			he.id, he.id_user, he.name, he.weight, he.value, he.photo,
 			he.is_confirm,
 			users.name AS uname, users.surname AS usurname, users.photo_50,
-			NULL AS id_equip
+			NULL AS id_equip,
+			'hiking' AS src
 		FROM
 			hiking_equipment  AS he
 			LEFT JOIN users ON (users.id = he.id_user)
@@ -31,15 +32,16 @@ $q = $mysqli->query("
 	
 	(
 		SELECT
-			ue.id, ue.id_user, ue.name, ue.weight, ue.value, ue.photo,
+			ue.id, user_equip_sets.id_user, ue.name, ue.weight, ue.value, ue.photo,
 			(uesi.date_confirm IS NOT NULL) as is_confirm,
 			users.name AS uname, users.surname AS usurname, users.photo_50,
-			ue.id as id_equip
+			ue.id as id_equip,
+			'equip' AS src
 		FROM
 			user_equip_set_items AS uesi
-			LEFT JOIN user_equip AS ue ON (uesi.id_equip = ue.id)
 			LEFT JOIN user_equip_sets ON (user_equip_sets.id = uesi.id_set)
-			LEFT JOIN users ON (users.id = ue.id_user)
+			LEFT JOIN user_equip AS ue ON (uesi.id_equip = ue.id)
+			LEFT JOIN users ON (users.id = user_equip_sets.id_user)
 		WHERE
 			user_equip_sets.id_hiking={$id_hiking} AND ue.is_group = 1 {$claus2}
 	)
