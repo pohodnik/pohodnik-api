@@ -95,18 +95,25 @@ WHERE
 $q = $mysqli->query($z);
 if(!$q){exit(json_encode(array("error"=>"Ошибка ".$mysqli->error)));}
 $res = array();
+$points = array();
+
 while($r = $q->fetch_assoc()){
     extract($r);
     $res[] = $r;
     if(isset($points[$id_hiking]) && count($points[$id_hiking]) > 0) {
         $msg = implode("\n-\n",$points[$id_hiking]);
-        $body = file_get_contents("https://sms.ru/sms/send?api_id={$sms_api_key}&to={$phone}&msg=".urlencode(iconv("windows-1251","utf-8",$msg))."&json=1");   
+		
+		if (isset($_GET['debug'])){
+			$res[] = $msg;
+		} else {
+			$body = file_get_contents("https://sms.ru/sms/send?api_id={$sms_api_key}&to={$phone}&msg=".urlencode(iconv("windows-1251","utf-8",$msg))."&json=1");
+		}
     }
 
 }
 
     die(json_encode(array(
         'points' => $points,
-        // 'res' => $res
+        'res' => $res
     )));
 ?>
