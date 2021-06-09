@@ -5,7 +5,6 @@ include("../../../blocks/err.php");
 $result = array();
 $id_user = $_COOKIE["user"];
 $id_hiking = isset($_POST['id_hiking']) ? intval($_POST['id_hiking']) : 0;
-$product_ids = $_POST['product_ids'];
 
 $q = $mysqli->query("
     SELECT id FROM
