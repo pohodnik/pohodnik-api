@@ -1,7 +1,6 @@
 <?php
 include("../blocks/db.php"); //подключение к БД
 $current_user = $_COOKIE["user"];
-$id_recipient = $_POST['id_recipient'];
 
 $add_where = "";
 
@@ -10,14 +9,14 @@ if (isset($_GET['id_hiking'])) {
 }
 
 $z = "SELECT 
-hiking.`id`, hiking.`start`, hiking.`finish`,
-GROUP_CONCAT(DISTINCT CONCAT_WS (',', hiking_keypoints.date, hiking_keypoints.lat, hiking_keypoints.lon) SEPARATOR '|') AS keypoints
+    hiking.`id`, hiking.`start`, hiking.`finish`,
+    GROUP_CONCAT(DISTINCT CONCAT_WS (',', hiking_keypoints.date, hiking_keypoints.lat, hiking_keypoints.lon) SEPARATOR '|') AS keypoints
 FROM 
-`hiking` 
-LEFT JOIN hiking_keypoints ON hiking_keypoints.id_hiking = hiking.id
+    `hiking` 
+    LEFT JOIN hiking_keypoints ON hiking_keypoints.id_hiking = hiking.id
 WHERE
-(hiking.`start` BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 16 DAY)
-OR hiking.`finish` BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 16 DAY)) {$add_where}
+    (hiking.`start` BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 16 DAY)
+        OR hiking.`finish` BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 16 DAY)) {$add_where}
 GROUP BY hiking.id
 ";
 
