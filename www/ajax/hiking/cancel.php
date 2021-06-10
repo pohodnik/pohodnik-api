@@ -16,11 +16,13 @@ if($id_user!=$_COOKIE["user"]){
 
 $q = $mysqli->query("SELECT UNIX_TIMESTAMP(`date_finish`) FROM iv WHERE id_hiking = {$id_hiking} AND main=1");
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+if($q -> num_rows == 1) {
 $r=$q->fetch_row();
 $deadline = $r[0];
 
 if(time()>$deadline){
 	die(json_encode(array("Error"=>"Deadline: ". date('d.m.Y H:i', $deadline ))));
+}
 }
 
 // echo date('d.m.Y H:i', $deadline );
