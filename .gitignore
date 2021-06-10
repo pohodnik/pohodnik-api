@@ -7,5 +7,6 @@
 /www/.idea
 composer.lock
 /www/images
+/www/avatars
 /ssl
 www/pohodnik.tk/.idea/
