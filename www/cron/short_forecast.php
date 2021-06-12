@@ -21,7 +21,7 @@ $z = "SELECT
     FROM
         `hiking_weather`
     WHERE
-        (date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 DAY)) {$add_where}
+        date = DATE(NOW()) {$add_where}
 ";
 
 $q = $mysqli->query($z);
@@ -38,13 +38,29 @@ if ($q -> num_rows > 0) {
         $body = file_get_contents($url);
 
         $weather = json_decode($body, true);
+        $timezone_offset = $weather['timezone_offset'];
 
         if (is_array($weather['hourly'])) {
                 $oneweather = $weather['hourly'];
-                $forecastObj = json_decode($forecast, true);
-                $forecastObj['hourly'] = $oneweather;
-                $forecastStr = json_encode($forecastObj, JSON_UNESCAPED_UNICODE);
-                $updateQueries[] =  "UPDATE hiking_weather SET forecast = '{$forecastStr}', created_at = NOW() WHERE id='{$id}'";
+                $datesForecast = array();
+
+                foreach ($weather['hourly'] as $hour) {
+                    $t = date('Y-m-d', ($hour['dt'] + $timezone_offset) - 1);
+                    if (!isset($datesForecast)) {
+                        $datesForecast[$t] = array();
+                    }
+                    $hour['dt'] = $hour['dt'] + $timezone_offset;
+                    $hour['time'] = date('H', $hour['dt']);
+
+                    $datesForecast[$t][] = $hour;
+                }
+
+                foreach ($datesForecast as $isoDate => $hourlyForecasts) {
+                    $forecastStr = json_encode($hourlyForecasts, JSON_UNESCAPED_UNICODE);
+                    $updateQueries[] =  "UPDATE
+                        hiking_weather SET hourly_forecast = '{$forecastStr}', created_at = NOW()
+                    WHERE date='{$isoDate}' AND id_hiking={$id_hiking}";
+                }
         } else {
             die(json_encode(array(
                 'error' => 'not array',
@@ -55,7 +71,7 @@ if ($q -> num_rows > 0) {
 
 
     $q = $mysqli->multi_query(implode(";", $updateQueries));
-    if(!$q){exit(json_encode(array("error"=>"Ошибка удаления ".$mysqli->error)));}
+    if(!$q){exit(json_encode(array("error"=>"Ошибка ".$mysqli->error, '$updateQueries' => $updateQueries)));}
 
     clearStoredResults();
 
