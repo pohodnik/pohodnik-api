@@ -9,6 +9,7 @@ $is_musthave = intval($_POST['is_musthave']);
 $is_group = intval($_POST['is_group']);
 $id = isset($_POST['id'])?intval($_POST['id']):0;
 $id_parent = isset($_POST['id_parent'])?intval($_POST['id_parent']):'NULL';
+$id_category = isset($_POST['id_category']) && $_POST['id_category'] > 0 ?intval($_POST['id_category']):'NULL';
 $is_archive = isset($_POST['is_archive'])?boolval($_POST['is_archive']) ? 1 : 0 : 0;
 $category =  isset($_POST['category']) && !empty(trim($_POST['category']))
     ? $mysqli->real_escape_string(trim($_POST['category']))
@@ -26,6 +27,7 @@ $z = ($id>0?"UPDATE":"INSERT INTO")." `user_equip` SET
  `photo` = '{$photo}',
  `id_parent` = {$id_parent},
  `is_archive` = {$is_archive},
+ `id_category` = {$id_category},
  `category`=".( is_null($category) ? 'NULL' : "'{$category}'" )."
  ".($id>0?" WHERE id={$id}":"");
 

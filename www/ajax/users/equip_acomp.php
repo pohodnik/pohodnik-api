@@ -10,7 +10,7 @@ $term = $mysqli->real_escape_string(trim($_GET['term']));
 $res = array();
 $q = $mysqli->query("
 	SELECT 
-		`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`, `photo`
+		`id`, `name`, `weight`, `value`, `is_musthave`, `is_group`, `id_category`, `photo`
 	FROM `user_equip`
 		WHERE `name` LIKE('%{$term}%') {$add_q} AND is_archive=0
 	LIMIT 5");

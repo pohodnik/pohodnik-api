@@ -17,7 +17,7 @@ $q = $mysqli->query("SELECT
 	user_equip.is_musthave,
 	user_equip.is_group,
 	user_equip.is_archive,
-	user_equip.category,
+	user_equip.id_category,
 	user_equip_set_items.id_set,
 	user_equip_set_items.from_user AS ownerId,
 	CONCAT(users.name, ' ', users.surname) AS ownerName,
@@ -27,7 +27,7 @@ LEFT JOIN user_equip_set_items ON (user_equip_set_items.id_set = user_equip_sets
 LEFT JOIN user_equip ON(user_equip_set_items.id_equip = user_equip.id)
 LEFT JOIN users ON(user_equip_set_items.from_user = users.id)
 WHERE user_equip_sets.id={$id}
-ORDER BY user_equip.is_musthave DESC, user_equip.name
+ORDER BY user_equip.id_category, user_equip.is_musthave DESC, user_equip.name
 ");
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
