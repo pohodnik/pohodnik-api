@@ -38,6 +38,36 @@ echo '
                 {$rusDate} {$days[ date("w", $forecastObj['dt'] )]}  <small><sup>{$t1}</sup>☼<sub>{$t2}</sub></small>
                 <small><a href=\"geo:{$lat},{$lon}\">{$name}</a></small>
             </h2>";
+
+            echo "<table>";
+            echo "
+            <tr>
+                <td rowspan=2></td><td colspan=4>Температура, °C ({$temp['min']}-{$temp['max']})</td></td>
+            </tr>
+            <tr>
+                <td>ночь</td>
+                <td>утро</td>
+                <td>день</td>
+                <td>вечр</td>
+            </tr>
+            <tr>
+                <td>факт</td>
+                <td>{$temp['night']}</td>
+                <td>{$temp['morn']}</td>
+                <td>{$temp['day']}</td>
+                <td>{$temp['eve']}</td>
+            </tr>
+            <tr>
+                <td>ощущ</td>
+                <td>{$feels_like['night']}</td>
+                <td>{$feels_like['morn']}</td>
+                <td>{$feels_like['day']}</td>
+                <td>{$feels_like['eve']}</td>
+            </tr>
+    ";
+            echo "</table>";
+
+
             echo "<table>";
             echo "
             <tr>
@@ -68,33 +98,6 @@ echo '
     ";
             echo "</table>";
 
-            echo "<table>";
-            echo "
-            <tr>
-                <td rowspan=2></td><td colspan=4>Температура, °C ({$temp['min']}-{$temp['max']})</td></td>
-            </tr>
-            <tr>
-                <td>ночь</td>
-                <td>утро</td>
-                <td>день</td>
-                <td>вечр</td>
-            </tr>
-            <tr>
-                <td>факт</td>
-                <td>{$temp['night']}</td>
-                <td>{$temp['morn']}</td>
-                <td>{$temp['day']}</td>
-                <td>{$temp['eve']}</td>
-            </tr>
-            <tr>
-                <td>ощущ</td>
-                <td>{$feels_like['night']}</td>
-                <td>{$feels_like['morn']}</td>
-                <td>{$feels_like['day']}</td>
-                <td>{$feels_like['eve']}</td>
-            </tr>
-    ";
-            echo "</table>";
 
             if (isset($hourly) && !empty($hourly)) {
 
