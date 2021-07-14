@@ -48,7 +48,7 @@ while($r = $q->fetch_assoc()){
     $firstTimeOfGroup = null;
     foreach ($hourly as $h) {
         extract($h);
-        if (intval($dt) < $sunrise+3600 || intval($dt) > $sunset-3600) {
+        if (intval($dt) < ($sunrise + 3600) || intval($dt) > ($sunset - 3600)) {
              continue;
         }
         

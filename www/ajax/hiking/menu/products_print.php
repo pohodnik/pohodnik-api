@@ -21,6 +21,7 @@
 	$q = $mysqli->query("	SELECT 
 	IFNULL(forseuser.name,users.name) AS uname,
 	IFNULL(forseuser.surname, users.surname) AS usurname,
+	IFNULL(forseuser.photo_50, users.photo_50) AS uphoto,
 	IFNULL(forseuser.id, users.id) AS uid,
 	food_acts.name AS food_act_name,
 	".(isset($_GET['id_product'])?'1':'0')." AS is_one,
