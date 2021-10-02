@@ -8,5 +8,6 @@
 composer.lock
 /www/images
 /www/avatars
+/www/files
 /ssl
 www/pohodnik.tk/.idea/

@@ -6,7 +6,7 @@ services:
       - 8002:80
       # - 443:443
     volumes:
-      - ./webapp/sites-available /etc/apache2/sites-available
+      - ./webapp/sites-available:/etc/apache2/sites-available
       - ./www:/var/www/html
     env_file:
       - .env
