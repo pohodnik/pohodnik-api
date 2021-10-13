@@ -95,7 +95,7 @@ class Vk extends AbstractAdapter
                     'uids'         => $tokenInfo['user_id'],
                     'fields'       => 'uid,first_name,last_name,screen_name,sex,bdate,photo_big',
                     'access_token' => $tokenInfo['access_token'],
-					'v'=>'5.78'
+					'v'=>'5.131'
                 );
 
                 $userInfo = $this->get('https://api.vk.com/method/users.get', $params);
@@ -134,7 +134,7 @@ class Vk extends AbstractAdapter
                 'scope'         => 'email',
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
-				'v'=>'5.78'
+				'v'=>'5.131'
             )
         );
     }
