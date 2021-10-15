@@ -47,7 +47,7 @@ if ($q -> num_rows > 0) {
 
         $startToday = strtotime(date('Y-m-d')." 00:00:00");
 
-        while($cur <= $t2) {
+        while(($cur - 86400) <= $t2) {
 
             if ( $cur < $startToday) {
                 $cur += 86400;
