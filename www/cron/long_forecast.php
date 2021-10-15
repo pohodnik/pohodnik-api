@@ -27,7 +27,7 @@ if ($q -> num_rows > 0) {
     while ($r = $q -> fetch_assoc()) {
         extract($r);
         $t1 = strtotime($start);
-        $t2 = strtotime($finish) + 86400;
+        $t2 = strtotime($finish);
         $kp = explode("|", $keypoints);
 
         $kpd = array();
@@ -47,7 +47,7 @@ if ($q -> num_rows > 0) {
 
         $startToday = strtotime(date('Y-m-d')." 00:00:00");
 
-        while($cur <= $t2) {
+        while($cur <= ($t2 + 20000)) {
 
             if ($cur < $startToday) {
                 $cur += 86400;
