@@ -26,8 +26,8 @@ $res = array();
 if ($q -> num_rows > 0) {
     while ($r = $q -> fetch_assoc()) {
         extract($r);
-        $t1 = strtotime($start) - 86400;
-        $t2 = strtotime($finish);
+        $t1 = strtotime($start);
+        $t2 = strtotime($finish)+500;
         $kp = explode("|", $keypoints);
 
         $kpd = array();
