@@ -118,7 +118,7 @@ WHERE
     AND LENGTH(user_phones.sms_api_key) > 0
 ";
 $q = $mysqli->query($z);
-if(!$q){exit(json_encode(array("error"=>"Ошибка ".$mysqli->error)));}
+if(!$q){exit(json_encode(array("error"=>"Ошибка ".$mysqli->error, "z" => $z)));}
 $res = array();
 
 while($r = $q->fetch_assoc()){
