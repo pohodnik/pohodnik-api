@@ -12,6 +12,7 @@ $id = isset($_POST['id'])?intval($_POST['id']):0;
 $id_route = intval($_POST['id_route']);
 $id_region = intval($_POST['id_region']);
 $color = ($mysqli->real_escape_string(trim($_POST['color'])));
+$is_vacant_route = intval($mysqli->real_escape_string(trim($_POST['is_vacant_route']))) > 0 ? 1 : 0;
 
 if($d1>=$d2){exit(json_encode(array("error"=>"Дата начала должна быть раньше даты завершения")));}
 
@@ -23,7 +24,8 @@ if($id>0){
 						`start`='{$d1}',
 						`finish`='{$d2}',
 						`id_route`='{$id_route}',
-						`color` = '{$color}'
+						`color` = '{$color}',
+                        `is_vacant_route` = {$is_vacant_route}
 					  WHERE id={$id}
 					  ")){
 		exit(json_encode(array("success"=>"Данные успешно сохранены", "id"=> $id)));
@@ -39,7 +41,8 @@ if($id>0){
 						`id_route`='{$id_route}',
 						`color` = '{$color}',
 						id_author = {$id_user},
-						id_region = {$id_region}
+						id_region = {$id_region},
+                         `is_vacant_route` = {$is_vacant_route}
 					  ")){
 		$id = $mysqli->insert_id;
 		$q = $mysqli->query("INSERT INTO `hiking_members`
