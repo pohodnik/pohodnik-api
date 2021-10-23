@@ -4,7 +4,6 @@ services:
     build: ./webapp
     ports:
       - 8002:80
-      # - 443:443
     volumes:
       - ./webapp/sites-available:/etc/apache2/sites-available
       - ./www:/var/www/html
@@ -16,27 +15,33 @@ services:
     volumes:
       - ./www:/app
   mysql:
-    image: mysql
+    image: mysql:5.7
+    container_name: mysql-poh
+    restart: unless-stopped
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
       - ./mysql/conf.d:/etc/mysql/conf.d
       - ./mysql/mysql-data:/var/lib/mysql
       - ./mysql/init:/tmp/database-init
-    restart: always
-    command: mysqld --init-file="/tmp/database-init/init.sql"
+    command: |
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8
+      --collation-server=utf8_general_ci
+      --explicit_defaults_for_timestamp=1
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${TZ}
     env_file:
       - .env
   pma:
     image: phpmyadmin/phpmyadmin
     restart: always
     links:
-      - mysql:mysql
+      - mysql:mysql-poh
     ports:
       - 8001:80
     environment:
