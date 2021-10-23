@@ -23,7 +23,6 @@ services:
     volumes:
       - ./mysql/conf.d:/etc/mysql/conf.d
       - ./mysql/mysql-data:/var/lib/mysql
-      - ./mysql/init:/tmp/database-init
     command: |
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8
