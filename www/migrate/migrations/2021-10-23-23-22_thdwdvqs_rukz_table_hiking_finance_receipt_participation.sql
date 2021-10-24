@@ -10,7 +10,7 @@ CREATE TABLE `hiking_finance_receipt_participation` (
   `id_hiking_receipt` int(8) NOT NULL,
   `id_user` int(8) NOT NULL,
   `id_author` int(8) NOT NULL,
-  `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_create` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Если не все скидываются на чек';
 
 ALTER TABLE `hiking_finance_receipt_participation` ADD PRIMARY KEY (`id`), ADD KEY `hiking_finance_receipt_participation_id_hr` (`id_hiking_receipt`), ADD KEY `hiking_finance_receipt_participation_id_user` (`id_user`), ADD KEY `hiking_finance_receipt_participation_id_author` (`id_author`);

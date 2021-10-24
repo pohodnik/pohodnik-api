@@ -9,7 +9,7 @@ CREATE TABLE `hiking_vacancies_response` (
   `id` int(11) NOT NULL,
   `id_hiking_vacancy` int(8) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` datetime NOT NULL,
   `comment` varchar(255) NOT NULL DEFAULT '',
   `approve_user_id` int(11) DEFAULT NULL,
   `approve_date` datetime DEFAULT NULL
