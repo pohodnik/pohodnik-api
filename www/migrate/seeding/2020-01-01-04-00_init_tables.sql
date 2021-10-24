@@ -594,3 +594,19 @@ INSERT INTO `recipes_products_units` (`id`, `name`, `short_name`) VALUES
 (10, 'Лоток', 'лот.'),
 (11, 'Буханка', 'бух.');
 
+--
+-- Дамп данных таблицы `recipes_categories`
+--
+
+INSERT INTO `recipes_categories` (`id`, `name`) VALUES
+(1, 'Первое'),
+(2, 'Второе'),
+(3, 'Ништяки'),
+(4, 'Напитки'),
+(5, 'Каши'),
+(6, 'Хлеб'),
+(7, 'Соусы'),
+(8, 'Перекусы'),
+(9, 'Прочее');
+
+

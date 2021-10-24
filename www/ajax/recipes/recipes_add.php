@@ -24,7 +24,7 @@ if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
 		if($res){
 		echo json_encode(array("msg"=>"Рецепт ".$name." добавлен список рецептов!. \r\n"));
 		}else{
-			exit(json_encode(array("error"=>"Ошибка при добавлении рецепта. \r\n")));	
+			exit(json_encode(array("error"=>"Ошибка при добавлении рецепта. \r\n".$mysqli->error)));	
 		};
 	}
 }else{
