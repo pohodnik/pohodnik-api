@@ -5,7 +5,6 @@
 /tmp
 /www/vendor
 /www/.idea
-composer.lock
 /www/images
 /www/avatars
 /www/files
