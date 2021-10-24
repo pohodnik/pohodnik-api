@@ -12,9 +12,9 @@ CREATE TABLE `recipes` (
   `cooking_time` int(3) NOT NULL DEFAULT '60' COMMENT 'Время приготовления в минутах',
   `is_light` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'если легкоходненько',
   `photo` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `name_opt` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `promo_text` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `name_opt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `promo_text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `text` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_author` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='рецепты блюд';
 
