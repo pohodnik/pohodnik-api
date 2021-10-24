@@ -16,7 +16,7 @@ jobs:
         git subtree split --prefix www HEAD -b deployHeroku
     - name: Deploy backend to Heroku
       run: |
-        git push heroku-backend deployHeroku:main --force
+        git push heroku-backend deployHeroku:master --force
     - name: Remove temp branch
       run: |
         git branch -D deployHeroku
