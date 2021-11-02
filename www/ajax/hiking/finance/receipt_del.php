@@ -2,6 +2,8 @@
 
 	include("../../../blocks/db.php"); //подключение к БД
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
+	include("../../../blocks/cloudinary.php"); //Только для авторизованных
+	include("../../../vendor/autoload.php"); //Только для авторизованных
 	$id_user = $_COOKIE["user"];
 
 	$id = intval($_POST['id']);
@@ -15,9 +17,25 @@
 		exit(json_encode(array( "error"=>"Используется как подтверждение расходов" )));
 	}
 	
-	unlink('../../../'.$r['img_600']);
-	unlink('../../../'.$r['img_100']);
-	unlink('../../../'.$r['img_orig']);
+
+	$z = "SELECT img_orig FROM hiking_finance_receipt WHERE id={$id} LIMIT 1";
+	$q = $mysqli->query($z);
+	if (!$q) {
+		die(json_encode(array("error"=>$mysqli->error)));
+	}
+	$r = $q -> fetch_assoc();
+	$oldPhoto = $r['img_orig'];
+	
+	if (!empty($oldPhoto)) {
+		if (isUrlCloudinary($oldPhoto)) {
+			(new Cloudinary\Api\Upload\UploadApi)->destroy(getCloudinaryPublickIdByUrl($oldPhoto));
+		} else {
+			unlink('../../../'.$r['img_600']);
+			unlink('../../../'.$r['img_100']);
+			unlink('../../../'.$r['img_orig']);
+		}
+	}
+	
 
 	$q=$mysqli->query("DELETE FROM `hiking_finance_receipt` WHERE id=".$id." AND id_user=".$id_user."");
 	if(!$q){exit(json_encode(array("error"=>"Ошибка\r\n".$mysqli->error)));}

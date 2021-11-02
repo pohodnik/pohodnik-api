@@ -18,3 +18,12 @@ docker-compose up
 * http://localhost:8001 - phpMyAdmin (MySql database)
 
 phpmyadmin pohodnik.tk:8001
+
+
+`docker-compose down`
+Delete all containers using the following command:
+`docker rm -f $(docker ps -a -q)`
+Delete all volumes using the following command:
+`docker volume rm $(docker volume ls -q)`
+Restart the containers using the following command:
+`docker-compose up -d`

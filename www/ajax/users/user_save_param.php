@@ -1,6 +1,8 @@
 <?
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/cloudinary.php"); //Только для авторизованных
+include("../../vendor/autoload.php"); //Только для авторизованных
 
 
 
@@ -13,7 +15,9 @@ function saveAParam($name, $value, $mysqli){
 		if($q && $q->num_rows===1){
 			$r = $q->fetch_row();
 			$filename = $r[0];
-			if(is_file($filename)){
+			if (isUrlCloudinary($filename)) {
+				(new Cloudinary\Api\Upload\UploadApi)->destroy(getCloudinaryPublickIdByUrl($filename));
+			} else if(is_file($filename)){
 				unlink($filename);
 			} else if(is_file('../../'.$filename)){
 				unlink('../../'.$filename);
