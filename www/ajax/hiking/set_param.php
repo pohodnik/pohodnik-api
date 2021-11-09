@@ -2,7 +2,8 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../vendor/autoload.php"); //Только для авторизованных
-include("../../blocks/cloudinary.php"); //Только для авторизованных
+include("../../blocks/err.php"); //Только для авторизованных
+include("../../blocks/imagesStorage.php"); //Только для авторизованных
 $result = array();
 $name = $mysqli->real_escape_string(trim($_POST['name']));
 $value = $mysqli->real_escape_string(trim($_POST['value']));
@@ -28,7 +29,7 @@ if($name=='bg' || $name == 'ava'){
 	$r = $q->fetch_row();
 	if(strlen($r[0])>0){
 		if (isUrlCloudinary($r[0])) {
-			(new Cloudinary\Api\Upload\UploadApi)->destroy(getCloudinaryPublickIdByUrl($r[0]));
+			deleteCloudImageByUrl($r[0]);
 		} else {
 			unlink("../../".$r[0]);
 		}

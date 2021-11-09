@@ -2,7 +2,7 @@
 	ini_set('memory_limit', '256M');
 	include("../blocks/for_auth.php"); //Только для авторизованных
 	include("../blocks/err.php"); //Только для авторизованных
-    include("../vendor/autoload.php");
+    include("../blocks/imagesStorage.php");
 
 	$imageData = $_POST['data'];
 	$name = isset($_POST['name']) ? $_POST['name'] : "";
@@ -10,7 +10,7 @@
 	
 	list($type, $imageData) = explode(';', $imageData);
 	list(,$extension) = explode('/',$type);
-	list(,$imageData)      = explode(',', $imageData);
+	list(,$imageData) = explode(',', $imageData);
 	$fileName = uniqid($name).'.'.$extension;
 	$imageData = base64_decode($imageData);
 
@@ -56,17 +56,9 @@
 	}
 
 	        
-    $res = (new Cloudinary\Api\Upload\UploadApi())->upload(
-		$newFilePath,
-		[ 
-			"folder" => $folder,
-			"eager" => array_values($needSizes)
-		]
-	);
+    $res = uploadCloudImage($newFilePath, $folder, $needSizes);
 
-    // echo "<pre>";
-    // print_r($res);
-    // echo "</pre>";
+    unlink($newFilePath);
 
 	$sizesRes = array();
 

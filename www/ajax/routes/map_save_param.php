@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-include("../../blocks/cloudinary.php"); //Только для авторизованных
+include("../../blocks/imagesStorage.php"); //Только для авторизованных
 include("../../vendor/autoload.php"); //Только для авторизованных
 $result = array();
 $id = intval($_POST['id']);
@@ -20,7 +20,7 @@ if ($name == 'preview_img' && $id > 0) {
 
     if (!empty($oldPhoto)) {
         if (isUrlCloudinary($oldPhoto)) {
-            (new Cloudinary\Api\Upload\UploadApi)->destroy(getCloudinaryPublickIdByUrl($oldPhoto));
+            deleteCloudImageByUrl($oldPhoto);
         }
     }
 }

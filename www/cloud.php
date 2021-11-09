@@ -1,5 +1,5 @@
 <?php
-    require_once('./blocks/cloudinary.php');
+    require_once('./blocks/imagesStorage.php');
     require_once('./blocks/err.php');
     include("./vendor/autoload.php");
 

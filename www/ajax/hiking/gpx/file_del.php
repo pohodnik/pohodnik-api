@@ -1,7 +1,7 @@
 <?php
 include("../../../blocks/db.php"); //подключение к БД
 include("../../../blocks/for_auth.php"); //Только для авторизованных
-include("../../../blocks/cloudinary.php"); //Только для авторизованных
+include("../../../blocks/imagesStorage.php"); //Только для авторизованных
 include("../../../vendor/autoload.php"); //Только для авторизованных
 $result = array();
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):'NULL';
@@ -18,7 +18,7 @@ if($q && $q->num_rows===0){
 }
 
 	if (isUrlCloudinary($url)) {
-		(new Cloudinary\Api\Upload\UploadApi)->destroy(getCloudinaryPublickIdByUrl($url));
+		deleteCloudImageByUrl($url);
 	} else if(is_file('../../../'.$url)){
 		unlink('../../../'.$url);
 	}	

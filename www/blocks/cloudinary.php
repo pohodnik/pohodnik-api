@@ -1,5 +1,5 @@
 <?php
-    include("err.php");
+    require_once("err.php");
 
     function isUrlCloudinary($url) {
         $pos = strrpos($url, "cloudinary");

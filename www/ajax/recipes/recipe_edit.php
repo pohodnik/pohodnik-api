@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-include("../../blocks/cloudinary.php"); //Только для авторизованных
+include("../../blocks/imagesStorage.php"); //Только для авторизованных
 include("../../vendor/autoload.php"); //Только для авторизованных
 $id_user = $_COOKIE["user"];
 $id=$_POST['id'];
@@ -16,7 +16,7 @@ if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
 		if($q && $q->num_rows===1){
 			$r = $q->fetch_assoc();
 			if (isUrlCloudinary($r['photo'])) {
-				(new Cloudinary\Api\Upload\UploadApi)->destroy(getCloudinaryPublickIdByUrl($r['photo']));
+				deleteCloudImageByUrl($r['photo']);
 			} else if(is_file("../../".$r['photo'])){
 				unlink("../../".$r['photo']);
 			}

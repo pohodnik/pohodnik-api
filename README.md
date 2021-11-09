@@ -27,3 +27,21 @@ Delete all volumes using the following command:
 `docker volume rm $(docker volume ls -q)`
 Restart the containers using the following command:
 `docker-compose up -d`
+
+### config
+
+`_config.php`
+
+```php
+<?php
+    return array(
+        'MYSQL_HOST'=> '***',
+        'MYSQL_ROOT_PASSWORD'=> '***',
+        'MYSQL_DATABASE'=> '***',
+        'MYSQL_USER'=> '***',
+        'MYSQL_PASSWORD'=> '***',
+        'MIGRATOR_USER'=> '***',
+        'MIGRATOR_PASSWORD'=> '***',
+        'CLOUDINARY_URL'=> 'cloudinary://***:***@***'
+    );
+```
