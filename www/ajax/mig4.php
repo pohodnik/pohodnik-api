@@ -15,11 +15,11 @@
 	while($r = $q->fetch_assoc()) {
 		$url = $r['photo'];
 
-		if (getimagesize($url) === false) {
+		if (empty($url) || getimagesize('http://pohodnik.tk/'.$url) === false) {
 			continue;
 		}
 
-		$res = uploadCloudImage($url, 'images/equip/', array());
+		$res = uploadCloudImage('http://pohodnik.tk/'.$url, 'images/equip/', array());
 		$UQ = "UPDATE user_equip SET `photo`='".$res['url']."' WHERE id=".$r['id'];
 		$mysqli->query($UQ);
 		$res[] = $r;
