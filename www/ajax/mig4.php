@@ -5,7 +5,7 @@
 	include("../blocks/err.php");
     include("../blocks/imagesStorage.php");
 
-	$q = $mysqli->query("SELECT `id`, `photo` FROM `user_equip` WHERE 1");
+	$q = $mysqli->query("SELECT `id`, `photo` FROM `user_equip` WHERE photo not like('%cloudinary%')");
 
 	$res = array();
 
@@ -15,11 +15,11 @@
 	while($r = $q->fetch_assoc()) {
 		$url = $r['photo'];
 
-		if (empty($url) || getimagesize('http://pohodnik.tk/'.$url) === false) {
+		if (empty($url) || getimagesize($url) === false) {
 			continue;
 		}
 
-		$res = uploadCloudImage('http://pohodnik.tk/'.$url, 'images/equip/', array());
+		$res = uploadCloudImage($url, 'images/equip/', array());
 		$UQ = "UPDATE user_equip SET `photo`='".$res['url']."' WHERE id=".$r['id'];
 		$mysqli->query($UQ);
 		$res[] = $r;
