@@ -1,4 +1,5 @@
 <?php
+require_once("../../blocks/err.php"); //подключение к БД
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
@@ -6,25 +7,25 @@ include("../../blocks/dates.php"); //Только для авторизован�
 $id_user = $_COOKIE["user"];
 
 $q = $mysqli->query("
-						SELECT 
-							hiking.id, 
-							hiking.id_type, 
-							hiking.name, 
-							hiking.ava, 
-							hiking.`desc`, 
-							hiking.id_route,
-							hiking.id_author,
-							hiking.color,
-							UNIX_TIMESTAMP(hiking.start)+{$time_offset} AS start, 
-							UNIX_TIMESTAMP(hiking.finish)+{$time_offset} AS finish,
-							hiking_types.name AS type,
-							({$id_user} IN (SELECT id_user FROM hiking_editors WHERE id_hiking=hiking.id)) AS ieditor,
-							({$id_user} = hiking.id_author) AS iauthor
-							
-						FROM `hiking`
-							LEFT JOIN hiking_types ON hiking_types.id = hiking.id_type
-						WHERE hiking.finish>'".date('Y-m-d H:i:s')."'
-						ORDER BY hiking.start, hiking.id_type
+	SELECT 
+		hiking.id, 
+		hiking.id_type, 
+		hiking.name, 
+		hiking.ava, 
+		hiking.`desc`, 
+		hiking.id_route,
+		hiking.id_author,
+		hiking.color,
+		UNIX_TIMESTAMP(hiking.start)+{$time_offset} AS start, 
+		UNIX_TIMESTAMP(hiking.finish)+{$time_offset} AS finish,
+		hiking_types.name AS type,
+		({$id_user} IN (SELECT id_user FROM hiking_editors WHERE id_hiking=hiking.id)) AS ieditor,
+		({$id_user} = hiking.id_author) AS iauthor
+		
+	FROM `hiking`
+		LEFT JOIN hiking_types ON hiking_types.id = hiking.id_type
+	WHERE hiking.finish>'".date('Y-m-d H:i:s')."'
+	ORDER BY hiking.start, hiking.id_type
 ");
 
 
