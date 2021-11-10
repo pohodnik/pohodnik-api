@@ -1,6 +1,8 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/imagesStorage.php"); //Только для авторизованных
+include("../../vendor/autoload.php"); //Только для авторизованных
 $result = array();
 $id = intval($_POST['id']);
 if(!($id>0)){exit(json_encode(array("error"=>"Не передан идентификатор")));}
@@ -10,6 +12,20 @@ $id_user = $_COOKIE["user"];
 $q = $mysqli->query("SELECT id FROM routes WHERE id_author={$id_user} AND id={$id} LIMIT 1");
 if(!$q || $q->num_rows!=1){
 	exit(json_encode(array("error"=>"Удалить маршрут может только его создатель. \r\n".$mysqli->error)));
+}
+
+$z = "SELECT preview_img FROM routes WHERE id={$id} LIMIT 1";
+$q = $mysqli->query($z);
+if (!$q) {
+	die(json_encode(array("error"=>$mysqli->error)));
+}
+$r = $q -> fetch_assoc();
+$oldPhoto = $r['preview_img'];
+
+if (!empty($oldPhoto)) {
+	if (isUrlCloudinary($oldPhoto)) {
+		deleteCloudImageByUrl($oldPhoto);
+	}
 }
 
 

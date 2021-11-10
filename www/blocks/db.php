@@ -1,13 +1,9 @@
 <?php
-$host = getenv('MYSQL_HOST');
-$user = getenv('MYSQL_USER');
-$psw = getenv('MYSQL_PASSWORD');
-$db = getenv('MYSQL_DATABASE');
-
-$host = empty($host) ? 'localhost' : $host;
-$user = empty($user) ? 'thdwdvqs_rukz' : $user;
-$psw = empty($psw)? 'rukzrukz' : $psw;
-$db = empty($db) ? 'thdwdvqs_rukz' : $db;
+require_once("config.php");
+$host = getConf('MYSQL_HOST');
+$user = getConf('MYSQL_USER');
+$psw = getConf('MYSQL_PASSWORD');
+$db = getConf('MYSQL_DATABASE');
 
 $mysqli = new mysqli($host, $user, $psw, $db);
 if ($mysqli->connect_error) {

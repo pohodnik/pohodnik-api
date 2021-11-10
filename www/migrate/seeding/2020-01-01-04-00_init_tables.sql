@@ -610,3 +610,41 @@ INSERT INTO `recipes_categories` (`id`, `name`) VALUES
 (9, 'Прочее');
 
 
+INSERT INTO `route_maps` (`id`, `name`, `key`, `tileUrlTmpl`, `isElliptical`, `subdomains`, `minZoom`, `maxZoom`) VALUES
+(1, 'Bing', 'bing', 'http://ak.dynamic.t{s}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=ru-ru&it=G,VE,BX,L,LA&shading=hill&og=23&n=z', 0, '01234567', 1, 17),
+(2, 'Bing птичий глаз)', 'bing_birds_eye', 'http://ak.t{s}.tiles.virtualearth.net/tiles/cmd/svhybrid?a={quadkey}&g=0', 0, '01234567', 1, 17),
+(3, 'bing imagery', 'bing_imagery', 'http://ak.dynamic.t{s}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=ru-ru&it=A,G,L&shading=hill&og=23&n=z', 0, '01234567', 1, 19),
+(4, 'esri_imagery_world_2d', 'esri_imagery_world_2d', 'http://services.arcgisonline.com/ArcGIS/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(5, 'esri_streetmap_world_2d', 'esri_streetmap_world_2d', 'http://services.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(6, 'Google', 'google', 'http://mts{s}.google.com/vt/hl=ru&x={x}&y={y}&z={z}', 0, '0123', 0, 22),
+(7, 'Google Спутник', 'google_satellite', 'http://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', 0, '0123', 0, 23),
+(8, 'mapbox github', 'mapbox_github', 'https://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png', 0, 'abc', 0, 23),
+(9, 'natgeo_world_map', 'natgeo_world_map', 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(10, 'ocean_basemap', 'ocean_basemap', 'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(11, 'Open Street Map', 'open_street_map', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 0, 'abc', 0, 19),
+(12, 'США топографическая', 'usa_topo_maps', 'http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(13, 'world_imagery', 'world_imagery', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(14, 'world_physical_map', 'world_physical_map', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(15, 'world_shaded_relief', 'world_shaded_relief', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(16, 'world_street_map', 'world_street_map', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(17, 'world_terrain_base', 'world_terrain_base', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(18, 'Мировая топографическая', 'world_topo_map', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', 0, 'abc', 0, 23),
+(19, '2ГИС', '2gis', 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}', 0, '0123', 0, 18),
+(23, 'Topomapper 1km', 'topomapper ', 'http://144.76.234.107//cgi-bin/ta/tilecache.py/1.0.0/topomapper_v2/{z}/{x}/{y}.jpg', 0, 'abc', 0, 13),
+(26, 'OpenTopoMap', 'OpenTopoMap', '//{s}.tile.opentopomap.org/{z}/{x}/{y}.png', 0, 'abc', 1, 17),
+(27, 'OpenCycleMap', 'OpenCycleMap', 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=f2b9fd5a71384f37a108e8657a7fae3c', 0, 'abc', 1, 22),
+(28, 'Landscape', 'Landscape', 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=f2b9fd5a71384f37a108e8657a7fae3c', 0, 'abc', 1, 22),
+(29, 'Outdoors', 'Outdoors', 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=f2b9fd5a71384f37a108e8657a7fae3c', 0, 'abc', 1, 22),
+(30, 'Mapnik', 'Mapnik', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 0, 'abc', 1, 19),
+(31, 'ОСМ Ч/Б', 'osm_bw', 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 0, 'abc', 1, 18),
+(32, 'OpenMapSurfer.Roads', 'OpenMapSurferRoads', 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', 0, 'abc', 1, 20);
+
+
+INSERT INTO `user_equip_categories` (`id`, `name`, `is_default`) VALUES
+(1, 'Основное', 1),
+(2, 'Одежда и обувь', 1),
+(3, 'Посуда', 1),
+(4, 'Гигиена', 1),
+(5, 'Сон и отдых', 1),
+(6, 'Электроника и гаджеты', 1);
+

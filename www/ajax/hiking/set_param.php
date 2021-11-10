@@ -1,6 +1,9 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../vendor/autoload.php"); //Только для авторизованных
+include("../../blocks/err.php"); //Только для авторизованных
+include("../../blocks/imagesStorage.php"); //Только для авторизованных
 $result = array();
 $name = $mysqli->real_escape_string(trim($_POST['name']));
 $value = $mysqli->real_escape_string(trim($_POST['value']));
@@ -21,11 +24,16 @@ if($q && $q->num_rows===0){
 $avai = explode(',','id_type,id_route,name,desc,text,start,finish,color,bg,id_region,ava,is_vacant_route');
 if(!in_array($name, $avai)){die(json_encode(array("error"=>"Недопустимый параметр {$name}")));}
 
-if($name=='bg'){
-	$q = $mysqli->query("SELECT bg FROM hiking WHERE id={$id}");
+if($name=='bg' || $name == 'ava'){
+	$q = $mysqli->query("SELECT `{$name}` FROM hiking WHERE id={$id}");
 	$r = $q->fetch_row();
 	if(strlen($r[0])>0){
-		unlink("../../".$r[0]);
+		if (isUrlCloudinary($r[0])) {
+			deleteCloudImageByUrl($r[0]);
+		} else {
+			unlink("../../".$r[0]);
+		}
+		
 	}
 }
 

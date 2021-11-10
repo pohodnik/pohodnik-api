@@ -1,6 +1,8 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/imagesStorage.php"); //Только для авторизованных
+include("../../vendor/autoload.php"); //Только для авторизованных
 $id_user = $_COOKIE["user"];
 $id=$_POST['id'];
 $name=isset($_POST['name'])?$mysqli->real_escape_string(trim($_POST['name'])):NULL;
@@ -9,17 +11,17 @@ $text=isset($_POST['text'])?$mysqli->real_escape_string(trim($_POST['text'])):NU
 $photo=isset($_POST['photo'])?$mysqli->real_escape_string(trim($_POST['photo'])):NULL;
 
 if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
-
-
-if($photo){
-	$q= $mysqli->query("SELECT photo FROM recipes WHERE id={$id} LIMIT 1");
-	if($q && $q->num_rows===1){
-		$r = $q->fetch_assoc();
-		if(is_file("../../".$r['photo'])){
-			unlink("../../".$r['photo']);
+	if($photo){
+		$q= $mysqli->query("SELECT photo FROM recipes WHERE id={$id} LIMIT 1");
+		if($q && $q->num_rows===1){
+			$r = $q->fetch_assoc();
+			if (isUrlCloudinary($r['photo'])) {
+				deleteCloudImageByUrl($r['photo']);
+			} else if(is_file("../../".$r['photo'])){
+				unlink("../../".$r['photo']);
+			}
 		}
 	}
-}
 
 	$set = array();
 	if($name){$set[] = "name='{$name}'";}
