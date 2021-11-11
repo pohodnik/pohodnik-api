@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/imagesStorage.php"); //Только для авторизованных

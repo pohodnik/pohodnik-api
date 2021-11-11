@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../blocks/db.php"); //подключение к БД
 if(!isset($_GET['code'])){die("Неверный код");}
 $q = $mysqli->query("SELECT id, name,surname FROM users WHERE uniq_code='".$mysqli->real_escape_string($_GET['code'])."' LIMIT 1");

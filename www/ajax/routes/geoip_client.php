@@ -1,4 +1,4 @@
-<?
+<?php
 /* geoip.top 27.09.2015 ver. 2.00 (2012-2015)
    Автор: Vyacheslav Chulkin, Denis Baranov
    Библиотека подпрограмм для работы с сервисами geoip.top

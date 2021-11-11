@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../blocks/db.php"); //����������� � ��
 include("../../blocks/for_auth.php"); //������ ��� ��������������
 

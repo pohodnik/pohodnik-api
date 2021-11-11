@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../blocks/db.php"); //подключение к БД
 
 $res = array();

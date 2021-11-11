@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../blocks/db.php"); //подключение к БД
 $result = array();
 $q = $mysqli->query("SELECT `id`, `name` FROM `iv_directories` WHERE 1");
