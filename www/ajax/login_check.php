@@ -3,9 +3,9 @@
     Header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
     Header("Pragma: no-cache"); // HTTP/1.1
     Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
-	ini_set('error_reporting', E_ALL);
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
+	// ini_set('error_reporting', E_ALL);
+	// ini_set('display_errors', 1);
+	// ini_set('display_startup_errors', 1);
 	function ErrorCatcher($errno, $errstr, $errfile, $errline){
 		die(json_encode(array("error"=>$errstr."\n(".$errfile.":".$errline.")", "errno"=>$errno, "file"=>$errfile, "line"=>$errline )));
 		exit();

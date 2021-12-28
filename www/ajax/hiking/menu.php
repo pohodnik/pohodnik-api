@@ -3,9 +3,9 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php");
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// ini_set('error_reporting', E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
 $result = array();
 $id = intval($_GET['id']);
 $ext = isset($_GET['ext'])?true:false;

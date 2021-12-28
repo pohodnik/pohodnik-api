@@ -1,9 +1,9 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// ini_set('error_reporting', E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
 $result = array();
 $id = intval($_POST['id']);
 

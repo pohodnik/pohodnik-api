@@ -3,9 +3,9 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// ini_set('error_reporting', E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
 $id = intval($_POST['id']);
 $id_hiking = intval($_POST['id_hiking']);
 $id_equip = isset($_POST['id_equip']) ? intval($_POST['id_equip']) : "";
