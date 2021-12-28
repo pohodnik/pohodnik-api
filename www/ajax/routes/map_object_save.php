@@ -12,7 +12,7 @@
 	$stroke_width = intval($_POST['stroke_width']);
 	$distance = floatval($_POST['distance']);
 	$is_in_distance = intval($_POST['is_in_distance']);
-	$id_mountain_pass = isset($_POST['id_mountain_pass']) && $_POST['id_mountain_pass'] > 0 ? intval($_POST['id_mountain_pass']) : 'NULL';
+	$id_mountain_pass = isset($_POST['id_mountain_pass']) && intval($_POST['id_mountain_pass']) > 0 ? intval($_POST['id_mountain_pass']) : 'NULL';
 
 
 	$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
