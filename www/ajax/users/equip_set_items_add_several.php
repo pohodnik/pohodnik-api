@@ -1,4 +1,5 @@
-<?phpinclude("../../blocks/db.php"); //подключение к БД
+<?php
+include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 
 $id_set = intval($_POST['id_set']);
