@@ -1,7 +1,6 @@
 <?php
 ini_set('memory_limit', '512M');
 include("../blocks/db.php"); //подключение к БД
-$current_user = $_COOKIE["user"];
 
 $add_where = "";
 
@@ -26,19 +25,16 @@ $z = "SELECT
 
 $q = $mysqli->query($z);
 if(!$q){exit(json_encode(array("error"=>"Ошибка ".$mysqli->error)));}
+if($q -> num_rows == 0){exit(json_encode(array("error"=>"No Data")));}
 $res = array();
 $updateQueries = array();
-if ($q -> num_rows > 0) {
-    
 
-    while ($r = $q -> fetch_assoc()) {
-        extract($r);
-
-        $url = "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat={$lat}&lon={$lon}&APPID=2c7ee5aa0cd9ccedbcb6c836b605c24c&lang=ru";
-        $body = file_get_contents($url);
-
-        $weather = json_decode($body, true);
-        $timezone_offset = $weather['timezone_offset'];
+while ($r = $q -> fetch_assoc()) {
+    extract($r);
+    $url = "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat={$lat}&lon={$lon}&APPID=2c7ee5aa0cd9ccedbcb6c836b605c24c&lang=ru";
+    $body = file_get_contents($url);
+    $weather = json_decode($body, true);
+    $timezone_offset = $weather['timezone_offset'];
 
         if (is_array($weather['hourly'])) {
                 $oneweather = $weather['hourly'];
@@ -79,5 +75,4 @@ if ($q -> num_rows > 0) {
         'up' => $updateQueries,
         'res' => $weather
     )));
-}
 ?>
