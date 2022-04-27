@@ -10,21 +10,22 @@ if(isset($_GET['id_act'])){$addwhere .= " AND hiking_menu.id_act=".intval($_GET[
 if(isset($_GET['date'])){$addwhere .= " AND hiking_menu.date='".$mysqli->real_escape_string($_GET['date'])."' ";}
 
 $q = $mysqli->query("SELECT
-recipes_products.name,
-SUM(recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100)) AS amount,	
-recipes_products.id AS id_product,
-0 AS is_optimize,
-hiking_menu_products_force.id AS id_force,
-forceUser.id AS forceUserId,
-CONCAT(forceUser.name,' ',forceUser.surname) AS forceUserName,
-forceUser.photo_50 AS forceUserPhoto,
+  recipes_products.name,
+  SUM(recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100)) AS amount,
+  recipes_products.id AS id_product,
+  0 AS is_optimize,
+  hiking_menu_products_force.id AS id_force,
+  forceUser.id AS forceUserId,
+  CONCAT(forceUser.name,' ',forceUser.surname) AS forceUserName,
+  forceUser.photo_50 AS forceUserPhoto,
 
 GROUP_CONCAT(
 	CONCAT_WS(
 		'|',
 		recipes.name,
 		hiking_menu.date,
-		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100)
+		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100),
+		id_act
 	)
 ) AS use9,
 

@@ -5,8 +5,18 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $id = intval($_GET['id']);
 $id_user = $_COOKIE["user"];
 
-$qi = $mysqli->query("SELECT  hiking_members.id_user, UNIX_TIMESTAMP(hiking_members.date) AS date , users.name, users.surname,  users.vk_id, users.photo_50, users.photo_100, users.sex
-						FROM hiking_members LEFT JOIN users ON hiking_members.id_user = users.id
+$qi = $mysqli->query("SELECT
+    hiking_members.id_user,
+    UNIX_TIMESTAMP(hiking_members.date) AS date,
+    hiking_members.date_from,
+    hiking_members.date_to,
+    users.name,
+    users.surname,
+    users.vk_id,
+    users.photo_50,
+    users.photo_100,
+    users.sex
+FROM hiking_members LEFT JOIN users ON hiking_members.id_user = users.id
 						WHERE hiking_members.id_hiking={$id} ORDER BY hiking_members.date");
 $res = array();							
 while($ri = $qi->fetch_assoc()){
