@@ -82,6 +82,8 @@ if($q){
 	
 		$qi = $mysqli->query("SELECT
 			hiking_members.id_user, UNIX_TIMESTAMP(hiking_members.date) AS date ,
+			    hiking_members.date_from,
+                hiking_members.date_to,
 			users.name, users.surname, 
 			users.vk_id,
 			users.photo_50, users.photo_100, users.sex
