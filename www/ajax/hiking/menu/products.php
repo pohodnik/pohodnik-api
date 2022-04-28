@@ -19,11 +19,7 @@ if(isset($_GET['date'])){
 $q = $mysqli -> query("SELECT d1, d2, name, DATE(d1) as date, id_food_act FROM `hiking_schedule` WHERE id_hiking={$id_hiking} AND id_food_act IS NOT NULL {$addwhere1}");
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 $schedules = array();
-while($r = $q->fetch_assoc()){
-     $schedules[] = $r;
 
-
-}
 
 $q = $mysqli->query("SELECT
   recipes_products.name,
@@ -90,7 +86,7 @@ while($r = $q->fetch_assoc()){
             'amount' => floatval($parts[2]),
             'schedule' => $scheduleItem,
             'parts' => $parts,
-            'schedules' => $schedules
+            '$schedules' => $schedules
         );
     }, $usages);
 	$res[] = $r;
