@@ -87,7 +87,7 @@ WHERE hiking_menu.id_hiking={$id_hiking} ".$addwhere." GROUP BY id_product");//
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
     $usages = explode(',',$r['use9']);
-    $r['usages'] = array_map(function($str) {
+    $r['usages'] = array_map(function($str) use ($sss){
         $parts = explode('|',$str);
    		$scheduleItem = $sss[$parts[1]][$parts[3]];
         return array(
