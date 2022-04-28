@@ -5,9 +5,29 @@ $res = array();
 $id_hiking = intval($_GET['id_hiking']);
 
 $addwhere = "";
+$addwhere1 = "";
 
-if(isset($_GET['id_act'])){$addwhere .= " AND hiking_menu.id_act=".intval($_GET['id_act'])." ";}
-if(isset($_GET['date'])){$addwhere .= " AND hiking_menu.date='".$mysqli->real_escape_string($_GET['date'])."' ";}
+if(isset($_GET['id_act'])){
+    $addwhere .= " AND hiking_menu.id_act=".intval($_GET['id_act'])." ";
+    $addwhere1 .= " AND id_food_act =".intval($_GET['id_act'])." ";
+}
+if(isset($_GET['date'])){
+    $addwhere .= " AND hiking_menu.date='".$mysqli->real_escape_string($_GET['date'])."' ";
+    $addwhere1 .= " AND DATE(d1) ='".$mysqli->real_escape_string($_GET['date'])."' ";
+}
+
+$q = $mysqli -> query("SELECT d1, d2, name, DATE(d1) as date, id_food_act FROM `hiking_schedule` WHERE id_hiking={$id_hiking} AND id_food_act IS NOT NULL {$addwhere1}");
+if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+$schedules = [];
+while($r = $q->fetch_assoc()){
+    if (!isset($schedules[$r['date']])) {
+        $schedules[$r['date']] = array();
+    }
+
+    if (!isset($schedules[$r['date']][$r['id_food_act']])) {
+        $schedules[$r['date']][$r['id_food_act']] = $r;
+    }
+}
 
 $q = $mysqli->query("SELECT
   recipes_products.name,
@@ -25,7 +45,7 @@ GROUP_CONCAT(
 		recipes.name,
 		hiking_menu.date,
 		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100),
-		id_act
+		hiking_menu.id_act
 	)
 ) AS use9,
 
@@ -53,7 +73,7 @@ GROUP_CONCAT(
 ) AS cost1
 
 FROM hiking_menu
-	LEFT JOIN recipes ON recipes.id = hiking_menu.id_recipe 
+	LEFT JOIN recipes ON recipes.id = hiking_menu.id_recipe
 	LEFT JOIN recipes_structure ON recipes_structure.id_recipe = recipes.id
 	LEFT JOIN recipes_products ON  recipes_structure.id_product = recipes_products.id
 	LEFT JOIN hiking_menu_products_force ON (
@@ -64,6 +84,16 @@ FROM hiking_menu
 WHERE hiking_menu.id_hiking={$id_hiking} ".$addwhere." GROUP BY id_product");//
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
+    $usages = explode(',',$r['use9']);
+    $r['usages'] = array_map(function($str) {
+        $parts = explode('|',$str);
+        return array(
+            'name' => $parts[0],
+            'date' => $scheduleItem['d1'],
+            'amount' => floatval($parts[2]),
+            'schedule' => $scheduleItem
+        );
+    }, $usages);
 	$res[] = $r;
 }
 
@@ -76,15 +106,15 @@ if(!isset($_GET['view'])){
 			echo '<td>'.$k.'</td>';
 		}
 	echo '</tr>';
-	
-	
+
+
 	foreach($res as $r){
 		foreach($r as $k=>$v){
 			echo '<tr>';
 				foreach($r as $k=>$v){
 					echo '<td>'.$v.'</td>';
 				}
-			echo '</tr>'; 
+			echo '</tr>';
 		}
 	}
 	echo '</table>';
