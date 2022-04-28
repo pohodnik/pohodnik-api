@@ -18,8 +18,18 @@ if(isset($_GET['date'])){
 
 $q = $mysqli -> query("SELECT d1, d2, name, DATE(d1) as date, id_food_act FROM `hiking_schedule` WHERE id_hiking={$id_hiking} AND id_food_act IS NOT NULL {$addwhere1}");
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
-$schedules = array();
+$sss = array();
+while($r = $q->fetch_assoc()){
 
+
+    if (!isset($sss[$r['date']])) {
+        $sss[$r['date']] = array();
+    }
+
+    if (!isset($sss[$r['date']][$r['id_food_act']])) {
+        $sss[$r['date']][$r['id_food_act']] = array();
+    }
+}
 
 $q = $mysqli->query("SELECT
   recipes_products.name,
@@ -79,14 +89,14 @@ while($r = $q->fetch_assoc()){
     $usages = explode(',',$r['use9']);
     $r['usages'] = array_map(function($str) {
         $parts = explode('|',$str);
-   		$scheduleItem = $schedules[$parts[1]][$parts[3]];
+   		$scheduleItem = $sss[$parts[1]][$parts[3]];
         return array(
             'name' => $parts[0],
             'date' => $scheduleItem['d1'],
             'amount' => floatval($parts[2]),
             'schedule' => $scheduleItem,
             'parts' => $parts,
-            '$schedules' => $schedules
+            'sss' => $sss
         );
     }, $usages);
 	$res[] = $r;
