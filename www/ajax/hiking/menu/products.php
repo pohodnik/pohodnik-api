@@ -27,7 +27,7 @@ while($r = $q->fetch_assoc()){
     }
 
     if (!isset($sss[$r['date']][$r['id_food_act']])) {
-        $sss[$r['date']][$r['id_food_act']] = array();
+        $sss[$r['date']][$r['id_food_act']] = $r;
     }
 }
 
