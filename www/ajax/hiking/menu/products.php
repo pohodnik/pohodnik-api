@@ -25,7 +25,7 @@ while($r = $q->fetch_assoc()){
     }
 
     if (!isset($schedules[$r['date']][$r['id_food_act']])) {
-        $schedules[$r['date']][$r['id_food_act']][] = $r;
+        $schedules[$r['date']][$r['id_food_act']] = array();
     }
 }
 
