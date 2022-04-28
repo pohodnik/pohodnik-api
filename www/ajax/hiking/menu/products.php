@@ -87,6 +87,7 @@ while($r = $q->fetch_assoc()){
     $usages = explode(',',$r['use9']);
     $r['usages'] = array_map(function($str) {
         $parts = explode('|',$str);
+   		$scheduleItem = $schedules[$parts[1]][$parts[3]];
         return array(
             'name' => $parts[0],
             'date' => $scheduleItem['d1'],
