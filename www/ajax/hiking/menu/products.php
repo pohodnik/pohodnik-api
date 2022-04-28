@@ -93,7 +93,8 @@ while($r = $q->fetch_assoc()){
             'date' => $scheduleItem['d1'],
             'amount' => floatval($parts[2]),
             'schedule' => $scheduleItem,
-            'parts' => $parts
+            'parts' => $parts,
+            '$schedules' => $schedules
         );
     }, $usages);
 	$res[] = $r;
