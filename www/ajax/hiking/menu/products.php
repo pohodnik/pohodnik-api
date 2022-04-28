@@ -20,13 +20,9 @@ $q = $mysqli -> query("SELECT d1, d2, name, DATE(d1) as date, id_food_act FROM `
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 $schedules = array();
 while($r = $q->fetch_assoc()){
-    if (!isset($schedules[$r['date']])) {
-        $schedules[$r['date']] = array();
-    }
+     $schedules[] = $r;
 
-    if (!isset($schedules[$r['date']][$r['id_food_act']])) {
-        $schedules[$r['date']][$r['id_food_act']] = array();
-    }
+
 }
 
 $q = $mysqli->query("SELECT
@@ -94,7 +90,7 @@ while($r = $q->fetch_assoc()){
             'amount' => floatval($parts[2]),
             'schedule' => $scheduleItem,
             'parts' => $parts,
-            '$schedules' => $schedules
+            'schedules' => $schedules
         );
     }, $usages);
 	$res[] = $r;
