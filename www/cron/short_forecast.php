@@ -20,7 +20,11 @@ $z = "SELECT
     FROM
         `hiking_weather`
     WHERE
-        date = DATE(NOW()) {$add_where}
+        (
+            date = DATE(NOW()) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 1 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 2 DAY))
+        ) {$add_where}
 ";
 
 $q = $mysqli->query($z);
