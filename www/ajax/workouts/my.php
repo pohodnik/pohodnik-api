@@ -8,12 +8,14 @@ global $mysqli;
 
 $z = "
 SELECT
-    workouts.*
+    workouts.*,
+    workout_types.id as workout_type_id, workout_types.name as workout_type_name
 FROM
     `workouts`
 WHERE
-    `id_user`={$id_user}
-ORDER BY date_start DESC
+    workouts.`id_user`={$id_user}
+    LEFT JOIN workout_types ON workouts.workout_type = workout_types.id
+ORDER BY workouts.date_start DESC
 ";
 $q = $mysqli->query($z);
 if (!$q) {
