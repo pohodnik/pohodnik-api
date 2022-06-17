@@ -52,7 +52,7 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'grant_type'    => 'authorization_code',
                 'code'          => $_GET['code'],
-                'scope' => 'https://www.googleapis.com/auth/userinfo.email'
+                'scope' => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
             );
 
             $tokenInfo = $this->post('https://oauth2.googleapis.com/token', $params);
@@ -87,7 +87,7 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'https://www.googleapis.com/auth/userinfo.email'
+                'scope'         => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
             )
         );
     }
