@@ -52,17 +52,17 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'grant_type'    => 'authorization_code',
                 'code'          => $_GET['code'],
-                'scope' => 'https://www.googleapis.com/auth/userinfo.email'
+                'scope' => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
             );
 
-            $tokenInfo = $this->post('https://accounts.google.com/o/oauth2/token', $params);
+            $tokenInfo = $this->post('https://oauth2.googleapis.com/token', $params);
 			echo '<pre>';
 			print_r($tokenInfo);
 			echo '</pre>';
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
-                $userInfo = $this->get('https://www.googleapis.com/oauth2/v1/userinfo', $params);
+                $userInfo = $this->get('https://www.googleapis.com/oauth2/v3/userinfo', $params);
                 if (isset($userInfo[$this->socialFieldsMap['socialId']])) {
                     $this->userInfo = $userInfo;
                     $this->userInfo['access_token'] = $tokenInfo['access_token'];
@@ -82,7 +82,7 @@ class Google extends AbstractAdapter
     public function prepareAuthParams()
     {
         return array(
-            'auth_url'    => 'https://accounts.google.com/o/oauth2/auth',
+            'auth_url'    => 'https://accounts.google.com/o/oauth2/v2/auth',
             'auth_params' => array(
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
