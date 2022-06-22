@@ -1,6 +1,5 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
 
 $id_user = intval($_COOKIE["user"]);
 

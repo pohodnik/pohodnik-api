@@ -1,6 +1,6 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+//include("../../blocks/for_auth.php"); //Только для авторизованных
 $id = intval($_POST['id']);
 $id_user = $_COOKIE["user"];
 $q = $mysqli->query("SELECT `text` FROM `hiking` WHERE id = {$id} LIMIT 1");

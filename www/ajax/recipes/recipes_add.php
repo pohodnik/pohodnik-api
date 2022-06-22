@@ -22,7 +22,7 @@ if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
 					`text`='{$text}',
 					`photo`='{$photo}'");
 		if($res){
-		echo json_encode(array("msg"=>"Рецепт ".$name." добавлен список рецептов!. \r\n"));
+		echo json_encode(array("success" => true, "msg"=>"Рецепт ".$name." добавлен список рецептов!. \r\n", "id" => $mysqli -> insert_id));
 		}else{
 			exit(json_encode(array("error"=>"Ошибка при добавлении рецепта. \r\n".$mysqli->error)));	
 		};

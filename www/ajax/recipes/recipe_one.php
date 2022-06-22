@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 $result=array();
-$id_user = $_COOKIE["user"];
+$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
 $id = intval($_GET['id']);
 $optimize = isset($_GET['optimize']);
 $q = $mysqli->query("SELECT recipes.id, {$id_user}=recipes.id_author AS iauthor, recipes.name,recipes.name_opt, recipes.promo_text, recipes.text, recipes_categories.name AS category, CONCAT(users.name,' ',users.surname) AS author FROM `recipes` 

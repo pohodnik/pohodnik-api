@@ -23,7 +23,7 @@ if($id_category>0){
 
 $q = $mysqli->query("SELECT recipes_categories.id, recipes_categories.name FROM recipes_categories {$add_j} WHERE recipes_categories.id>0 {$add_q}");
 if(!$q){exit(json_encode(array("error"=>"Ошибка при запросе категорий. \r\n".$mysqli->error)));}
-$id_user = $_COOKIE["user"];
+$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
 
 
 while($r = $q->fetch_assoc()){

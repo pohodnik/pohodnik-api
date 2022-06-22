@@ -1,10 +1,10 @@
 <?php
 require_once("../../blocks/err.php"); //подключение к БД
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+// include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
 
-$id_user = $_COOKIE["user"];
+$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
 
 $q = $mysqli->query("
 	SELECT 

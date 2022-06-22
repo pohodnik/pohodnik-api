@@ -4,7 +4,6 @@ if (!($id > 0)) {
     die(json_encode(array('error' => 'id is required')));
 }
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
 
 $id_user = intval($_COOKIE["user"]);
 

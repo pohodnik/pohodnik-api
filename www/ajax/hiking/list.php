@@ -1,10 +1,10 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+// include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
 $mode = isset($_GET['mode'])?$mysqli->real_escape_string($_GET['mode']):'current';
 $type = isset($_GET['type'])?$mysqli->real_escape_string($_GET['type']):'my';
-$id_user = $_COOKIE["user"];
+$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
 $claus ="1";
 switch($mode){
 	case 'current': // Текущие походы

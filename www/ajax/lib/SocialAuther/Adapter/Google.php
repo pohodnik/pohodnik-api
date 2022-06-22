@@ -1,4 +1,6 @@
 <?php
+include('../../../../../vendor/autoload.php');
+use Google\Client;
 
 namespace SocialAuther\Adapter;
 
@@ -44,6 +46,13 @@ class Google extends AbstractAdapter
     public function authenticate()
     {
         $result = false;
+
+        $client = new Client();
+        $client->setApplicationName('People API PHP Quickstart');
+        $client->setScopes('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid');
+        $client->setAuthConfig('client_secret_569907811449-fc76blolbo9fqb2jduu7mt6tev9e8d1p.apps.googleusercontent.com.json');
+        $client->setAccessType('offline');
+        $client->setPrompt('select_account consent');
 
         if (isset($_GET['code'])) {
             $params = array(

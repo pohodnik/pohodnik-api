@@ -1,10 +1,10 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+// include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
 
 $id = intval($_GET['id']);
-$id_user = $_COOKIE["user"];
+$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
 
 /*
 
