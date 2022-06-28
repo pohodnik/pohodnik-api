@@ -15,6 +15,7 @@ SELECT
       GROUP_CONCAT(`workouts`.`name`) as names,
       GROUP_CONCAT(`workouts`.`id`) as ids,
       GROUP_CONCAT(CONCAT(`workouts`.`date_start`, '—', `workouts`.`date_finish`)) as dates,
+      GROUP_CONCAT(`workouts`.`distance`) as distances,
       MIN(`workouts`.`date_start`) as first_workout_date,
       MAX(`workouts`.`date_finish`) as max_workout_date,
       SUM(`workouts`.`distance`) as distance,
