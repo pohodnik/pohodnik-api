@@ -2,7 +2,7 @@
     require_once("err.php");
     require_once("config.php");
     
-    require_once("../vendor/autoload.php");
+    require_once(__DIR__."../vendor/autoload.php");
 
     $CLOUDINARY_URL = getConf('CLOUDINARY_URL');
 
