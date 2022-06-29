@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-include("../../vendor/autoload.php"); //Только для авторизованных
+include(__DIR__."/../../vendor/autoload.php"); //Только для авторизованных
 include("../../blocks/err.php"); //Только для авторизованных
 include("../../blocks/imagesStorage.php"); //Только для авторизованных
 $result = array();

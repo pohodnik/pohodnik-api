@@ -3,7 +3,7 @@
 	include("../blocks/for_auth.php"); //Только для авторизованных
 	include("../blocks/err.php"); //Только для авторизованных
     include("../blocks/imagesStorage.php");
-    include("../vendor/autoload.php");
+    include(__DIR__."/../vendor/autoload.php");
 
 	$url = $_POST['url'];
 	if (isUrlCloudinary($url)) {
