@@ -66,9 +66,9 @@ class Google extends AbstractAdapter
             ];
 
             $tokenInfo = $this->post($GOOGLE_TOKEN_URI, $params);
-			echo '<pre>';
-			print_r($tokenInfo);
-			echo '</pre>';
+			// echo '<pre>';
+			// print_r($tokenInfo);
+			// echo '</pre>';
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
@@ -82,7 +82,7 @@ class Google extends AbstractAdapter
                     $result = true;
                 }
             } else {
-                die("WRONG TOKENINFO".$tokenInfo);
+                echo("WRONG TOKENINFO".$tokenInfo);
             }
         }
 
