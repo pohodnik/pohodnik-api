@@ -8,8 +8,8 @@ $adapterConfigs = array(
 
     ),
     'google' => array(
-        'client_id'     => '569907811449-r04k2v0tnkh2lrc3obit4icor11koe9v.apps.googleusercontent.com',
-        'client_secret' => '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',
+        'client_id'     => '569907811449-fc76blolbo9fqb2jduu7mt6tev9e8d1p.apps.googleusercontent.com',
+        'client_secret' => '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',
         'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=google',
 		'name'=>'Google'
     ),
