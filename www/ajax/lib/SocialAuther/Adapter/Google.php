@@ -1,6 +1,6 @@
 <?php
 namespace SocialAuther\Adapter;
-include(__DIR__.'/../../../../../vendor/autoload.php');
+include(__DIR__.'/../../../../vendor/autoload.php');
 
 use Google\Client;
 
