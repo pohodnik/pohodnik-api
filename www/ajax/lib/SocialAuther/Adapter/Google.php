@@ -1,11 +1,4 @@
 <?php
-namespace SocialAuther\Adapter;
-include(__DIR__.'/../../../../vendor/autoload.php');
-
-use Google\Client;
-
-
-
 class Google extends AbstractAdapter
 {
     public function __construct($config)
@@ -49,36 +42,43 @@ class Google extends AbstractAdapter
     {
         $result = false;
 
-        $client = new Client();
-        $client->setApplicationName('People API PHP Quickstart');
-        $client->setScopes('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid');
-        $client->setAuthConfig('client_secret_569907811449-fc76blolbo9fqb2jduu7mt6tev9e8d1p.apps.googleusercontent.com.json');
-        $client->setAccessType('offline');
-        $client->setPrompt('Аккаунт походника');
+        const GOOGLE_SCOPES = [
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile'
+        ];
+        const GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth';
+        const GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
+        const GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v1/userinfo';
+
+
+        const GOOGLE_CLIENT_ID = $this->clientId;
+        const GOOGLE_CLIENT_SECRET = $this->clientSecret;
+        const GOOGLE_REDIRECT_URI = $this->redirectUri;
 
         if (isset($_GET['code'])) {
-            $params = array(
-                'client_id'     => $this->clientId,
-                'client_secret' => $this->clientSecret,
-                'redirect_uri'  => $this->redirectUri,
+            $params = [
+                'client_id'     => GOOGLE_CLIENT_ID,
+                'client_secret' => GOOGLE_CLIENT_SECRET,
+                'redirect_uri'  => GOOGLE_REDIRECT_URI,
                 'grant_type'    => 'authorization_code',
                 'code'          => $_GET['code'],
-                'scope' => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
-            );
+            ];
 
-            $tokenInfo = $this->post('https://oauth2.googleapis.com/token', $params);
+            $tokenInfo = $this->post(GOOGLE_TOKEN_URI, $params);
 			echo '<pre>';
 			print_r($tokenInfo);
 			echo '</pre>';
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
-                $userInfo = $this->get('https://www.googleapis.com/oauth2/v3/userinfo', $params);
+                $userInfo = $this->get(GOOGLE_USER_INFO_URI, $params);
                 if (isset($userInfo[$this->socialFieldsMap['socialId']])) {
                     $this->userInfo = $userInfo;
                     $this->userInfo['access_token'] = $tokenInfo['access_token'];
                     $result = true;
                 }
+            } else {
+                die("WRONG TOKENINFO".$tokenInfo);
             }
         }
 
