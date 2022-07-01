@@ -94,6 +94,10 @@ class Google extends AbstractAdapter
     public function prepareAuthParams()
     {
         $GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth';
+        $GOOGLE_SCOPES = [
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile'
+        ];
         return array(
             'auth_url'    => $GOOGLE_AUTH_URI,
             'auth_params' => array(
