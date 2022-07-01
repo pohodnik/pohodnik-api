@@ -43,4 +43,4 @@ $z = "
 $q = $mysqli->query($z);
 if (!$q) { exit(json_encode(array("error"=>"Ошибка {$action}. \r\n".$mysqli->error, "sql" => $z))); }
 $id = $mysqli->insert_id;
-exit(json_encode(array("success"=>true, "id"=> $id)));
+exit(json_encode(array("success"=>true, "id"=> $id, "z" => $z)));
