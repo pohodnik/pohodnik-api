@@ -73,6 +73,9 @@ class Google extends AbstractAdapter
                 $params['access_token'] = $tokenInfo['access_token'];
 
                 $userInfo = $this->get($GOOGLE_USER_INFO_URI, $params);
+                echo 'userInfo<pre>';
+                print_r($userInfo);
+                echo '</pre>';
                 if (isset($userInfo[$this->socialFieldsMap['socialId']])) {
                     $this->userInfo = $userInfo;
                     $this->userInfo['access_token'] = $tokenInfo['access_token'];
