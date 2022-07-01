@@ -56,7 +56,7 @@
 	    </body> 
 	</html>"; 
 	$to = $user['name']." ".$user['surname']." <".$user['email'].">";
-    //$headers = "From: Помощник по восстановлению паролей <info@pohodnik.tk>\r\n";
+    $headers = "From: Помощник по восстановлению паролей <info@pohodnik.tk>\r\n";
     $headers .= "Reply-To: info@pohodnik.tk\r\n";
     $headers .= "X-Mailer: pohodnik ".phpversion()."\r\n";
 	$headers  .= "Content-type: text/html; charset=utf-8\r\n"; 
