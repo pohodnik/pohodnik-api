@@ -23,8 +23,8 @@ $class = 'SocialAuther\Adapter\\' . ucfirst($_GET['provider']);
 $adapter = new $class($adapterConfigs[$_GET['provider']]);
 
 $auther = new SocialAuther\SocialAuther($adapter);
-    $rrr = $auther->authenticate();
-    if ($rrr == true) {
+
+    if ($auther->authenticate()) {
 
         include('../blocks/db.php');
 
@@ -67,9 +67,7 @@ $auther = new SocialAuther\SocialAuther($adapter);
         
 
     } else {
-        echo "<pre>";
-		print_r($rrr);
-        echo "</pre>";
+		print_r($auther);
         echo('no auth');
         $success = false;
     }
