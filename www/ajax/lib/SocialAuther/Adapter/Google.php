@@ -1,4 +1,14 @@
 <?php
+        $GOOGLE_SCOPES = [
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile'
+        ];
+        $GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth';
+        $GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
+        $GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v1/userinfo';
+
+
+
 class Google extends AbstractAdapter
 {
     public function __construct($config)
@@ -42,36 +52,28 @@ class Google extends AbstractAdapter
     {
         $result = false;
 
-        const GOOGLE_SCOPES = [
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile'
-        ];
-        const GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth';
-        const GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
-        const GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v1/userinfo';
-
-
-        const GOOGLE_CLIENT_ID = $this->clientId;
-        const GOOGLE_CLIENT_SECRET = $this->clientSecret;
-        const GOOGLE_REDIRECT_URI = $this->redirectUri;
+        
+        $GOOGLE_CLIENT_ID = $this->clientId;
+        $GOOGLE_CLIENT_SECRET = $this->clientSecret;
+        $GOOGLE_REDIRECT_URI = $this->redirectUri;
 
         if (isset($_GET['code'])) {
             $params = [
-                'client_id'     => GOOGLE_CLIENT_ID,
-                'client_secret' => GOOGLE_CLIENT_SECRET,
-                'redirect_uri'  => GOOGLE_REDIRECT_URI,
+                'client_id'     => $GOOGLE_CLIENT_ID,
+                'client_secret' => $GOOGLE_CLIENT_SECRET,
+                'redirect_uri'  => $GOOGLE_REDIRECT_URI,
                 'grant_type'    => 'authorization_code',
                 'code'          => $_GET['code'],
             ];
 
-            $tokenInfo = $this->post(GOOGLE_TOKEN_URI, $params);
+            $tokenInfo = $this->post($GOOGLE_TOKEN_URI, $params);
 			echo '<pre>';
 			print_r($tokenInfo);
 			echo '</pre>';
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
-                $userInfo = $this->get(GOOGLE_USER_INFO_URI, $params);
+                $userInfo = $this->get($GOOGLE_USER_INFO_URI, $params);
                 if (isset($userInfo[$this->socialFieldsMap['socialId']])) {
                     $this->userInfo = $userInfo;
                     $this->userInfo['access_token'] = $tokenInfo['access_token'];
@@ -93,12 +95,12 @@ class Google extends AbstractAdapter
     public function prepareAuthParams()
     {
         return array(
-            'auth_url'    => 'https://accounts.google.com/o/oauth2/v2/auth',
+            'auth_url'    => $GOOGLE_AUTH_URI,
             'auth_params' => array(
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+                'scope'         => implode(' ', GOOGLE_SCOPES)
             )
         );
     }
