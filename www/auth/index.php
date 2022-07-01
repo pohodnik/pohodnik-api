@@ -70,6 +70,7 @@ $auther = new SocialAuther\SocialAuther($adapter);
 		print_r($auther);
         echo('no auth');
         $success = false;
+        die();
     }
     
     echo "<script>
