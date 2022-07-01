@@ -1,8 +1,9 @@
 <?php
 include(__DIR__.'/../../../../../vendor/autoload.php');
+namespace SocialAuther\Adapter;
 use Google\Client;
 
-namespace SocialAuther\Adapter;
+
 
 class Google extends AbstractAdapter
 {
