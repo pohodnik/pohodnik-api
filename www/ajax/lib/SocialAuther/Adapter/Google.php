@@ -1,4 +1,7 @@
 <?php
+
+
+        namespace SocialAuther\Adapter;
         $GOOGLE_SCOPES = [
             'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile'
@@ -6,9 +9,6 @@
         $GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth';
         $GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
         $GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v1/userinfo';
-
-
-
 class Google extends AbstractAdapter
 {
     public function __construct($config)
