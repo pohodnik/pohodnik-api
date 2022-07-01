@@ -50,7 +50,7 @@ class Google extends AbstractAdapter
     public function authenticate()
     {
         $result = false;
-
+        try {
         
         $GOOGLE_CLIENT_ID = $this->clientId;
         $GOOGLE_CLIENT_SECRET = $this->clientSecret;
@@ -84,6 +84,10 @@ class Google extends AbstractAdapter
                return "WRONG TOKENINFO".$tokenInfo;
             }
         }
+
+    } catch (Exception $e) {
+        return 'Выброшено исключение: '.$e->getMessage()."\n";
+    }
 
         return $result;
     }
