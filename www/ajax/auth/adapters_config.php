@@ -7,6 +7,12 @@ $adapterConfigs = array(
 		'name'=>'ВКонтакте'
 
     ),
+    'yandex' => array(
+        'client_id'     => '94f124fc09334032bba0acb78954db81',
+        'client_secret' => 'fec8018a1528402099b92e1ce9b0e8cf',
+        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=yandex',
+		'name'=>'Яндекс'
+    ),
     'google' => array(
         'client_id'     => '569907811449-fc76blolbo9fqb2jduu7mt6tev9e8d1p.apps.googleusercontent.com',
         'client_secret' => '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',
@@ -18,12 +24,6 @@ $adapterConfigs = array(
         'client_secret' => '45cc15025003629e265487c81ddafbeb1f668a59',
         'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=strava',
 		'name'=>'Strava'
-    ),
-    'yandex' => array(
-        'client_id'     => '94f124fc09334032bba0acb78954db81',
-        'client_secret' => 'fec8018a1528402099b92e1ce9b0e8cf',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=yandex',
-		'name'=>'Яндекс'
     ),
     'facebook' => array(
         'client_id'     => '2139245699623747',
