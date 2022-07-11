@@ -48,7 +48,7 @@ GROUP_CONCAT(
 		hiking_menu.date,
 		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100),
 		hiking_menu.id_act
-	)
+	) SEPARATOR '→'
 ) AS use9,
 
 (
@@ -86,7 +86,7 @@ FROM hiking_menu
 WHERE hiking_menu.id_hiking={$id_hiking} ".$addwhere." GROUP BY id_product");//
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
-    $usages = explode(',',$r['use9']);
+    $usages = explode('→',$r['use9']);
     $r['usages'] = array_map(function($str) use ($sss){
         $parts = explode('|',$str);
    		$scheduleItem = $sss[$parts[1]][$parts[3]];
