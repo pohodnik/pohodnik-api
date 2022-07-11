@@ -1,6 +1,6 @@
 <?php //recipes_product_add.php
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+//include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
 $result = array();
 $id_user = $_COOKIE["user"];
