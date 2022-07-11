@@ -30,7 +30,7 @@ while($r = $q->fetch_assoc()){
         $sss[$r['date']][$r['id_food_act']] = $r;
     }
 }
-
+$q = $mysqli->query("SET SESSION group_concat_max_len=999999;");
 $q = $mysqli->query("SELECT
   recipes_products.name,
   SUM(recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100)) AS amount,
