@@ -43,7 +43,7 @@ $q = $mysqli->query("SELECT
 
 GROUP_CONCAT(
 	CONCAT_WS(
-		'|',
+		'œ',
 		recipes.name,
 		hiking_menu.date,
 		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100),
@@ -88,7 +88,7 @@ if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 while($r = $q->fetch_assoc()){
     $usages = explode('→',$r['use9']);
     $r['usages'] = array_map(function($str) use ($sss){
-        $parts = explode('|',$str);
+        $parts = explode('œ',$str);
    		$scheduleItem = $sss[$parts[1]][$parts[3]];
         return array(
             'name' => $parts[0],
