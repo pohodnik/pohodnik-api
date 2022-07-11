@@ -1,6 +1,6 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
+// include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id_hiking = intval($_GET['id_hiking']);
 $q = $mysqli->query("SELECT `id`, `name`, `date`, `lat`, `lon` FROM `hiking_keypoints` WHERE id_hiking={$id_hiking} ORDER BY date");
