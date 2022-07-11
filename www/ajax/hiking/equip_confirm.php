@@ -29,7 +29,7 @@ if(!empty($id_equip)) {
 	FROM
 		user_equip_set_items AS uesi
 		LEFT JOIN user_equip_sets ON (user_equip_sets.id = uesi.id_set)
-	WHERE user_equip_sets.id_hiking={$id_hiking} AND uesi.id_equip={$id_equip}
+	WHERE user_equip_sets.id_hiking={$id_hiking} AND uesi.id={$id_equip}
 	");
 	if(!$q || $q->num_rows===0){
 		die(json_encode(array("error"=>"Нет найден элемент снаряжения с id_equip={$id_equip} . \r\n".$mysqli->error)));

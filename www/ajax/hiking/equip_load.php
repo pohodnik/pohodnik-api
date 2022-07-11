@@ -35,7 +35,7 @@ $q = $mysqli->query("
 			ue.id, user_equip_sets.id_user, ue.name, ue.weight, ue.value, ue.photo,
 			(uesi.date_confirm IS NOT NULL) as is_confirm,
 			users.name AS uname, users.surname AS usurname, users.photo_50,
-			ue.id as id_equip,
+			uesi.id as id_equip,
 			'equip' AS src
 		FROM
 			user_equip_set_items AS uesi
