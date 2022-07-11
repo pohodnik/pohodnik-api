@@ -1,0 +1,1 @@
+SELECT id, name, surname, photo_50 from users 
