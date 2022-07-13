@@ -20,7 +20,11 @@ $q = $mysqli->query("
 			he.is_confirm,
 			users.name AS uname, users.surname AS usurname, users.photo_50,
 			NULL AS id_equip,
-			'hiking' AS src
+			NULL AS from_user_id,
+			NULL AS from_user_name,
+			NULL AS from_user_photo,
+			'hiking' AS src,
+			he.id_user = {$id_user} as my
 		FROM
 			hiking_equipment  AS he
 			LEFT JOIN users ON (users.id = he.id_user)
@@ -36,12 +40,17 @@ $q = $mysqli->query("
 			(uesi.date_confirm IS NOT NULL) as is_confirm,
 			users.name AS uname, users.surname AS usurname, users.photo_50,
 			uesi.id as id_equip,
-			'equip' AS src
+			from_user AS from_user_id,
+			CONCAT(fu.name,' ', fu.surname)  AS from_user_name,
+			fu.photo_50 AS from_user_photo,
+			'equip' AS src,
+			user_equip_sets.id_user = {$id_user} as my
 		FROM
 			user_equip_set_items AS uesi
 			LEFT JOIN user_equip_sets ON (user_equip_sets.id = uesi.id_set)
 			LEFT JOIN user_equip AS ue ON (uesi.id_equip = ue.id)
 			LEFT JOIN users ON (users.id = user_equip_sets.id_user)
+			LEFT JOIN users as fu ON (fu.id = uesi.from_user)
 		WHERE
 			user_equip_sets.id_hiking={$id_hiking} AND ue.is_group = 1 {$claus2}
 	)

@@ -4,6 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $id_user = $_COOKIE["user"];
 $id = intval($_GET['id']);
 $res = array();
+$addWhere = "";
 
 $q = $mysqli->query("SELECT 
 	user_equip_set_items.id AS iid,
@@ -26,7 +27,7 @@ FROM user_equip_sets
 LEFT JOIN user_equip_set_items ON (user_equip_set_items.id_set = user_equip_sets.id)
 LEFT JOIN user_equip ON(user_equip_set_items.id_equip = user_equip.id)
 LEFT JOIN users ON(user_equip_set_items.from_user = users.id)
-WHERE user_equip_sets.id={$id}
+WHERE user_equip_sets.id={$id} AND user_equip_set_items.user_confirm IS NULL {$addWhere}
 ORDER BY user_equip.id_category, user_equip.is_musthave DESC, user_equip.name
 ");
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
