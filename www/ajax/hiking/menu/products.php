@@ -47,7 +47,10 @@ GROUP_CONCAT(
 		recipes.name,
 		hiking_menu.date,
 		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100),
-		hiking_menu.id_act
+		hiking_menu.id_act,
+		hiking_menu.assignee_user,
+		CONCAT(assigneeUser.name,' ',assigneeUser.surname),
+		assigneeUser.photo_50
 	) SEPARATOR '→'
 ) AS use9,
 
@@ -82,6 +85,7 @@ FROM hiking_menu
 		hiking_menu_products_force.id_product = recipes_products.id
 		AND hiking_menu_products_force.id_hiking={$id_hiking})
 	LEFT JOIN users AS forceUser ON  hiking_menu_products_force.id_user = forceUser.id
+	LEFT JOIN users AS assigneeUser ON  hiking_menu.assignee_user = assigneeUser.id
 
 WHERE hiking_menu.id_hiking={$id_hiking} ".$addwhere." GROUP BY id_product");//
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
@@ -94,7 +98,12 @@ while($r = $q->fetch_assoc()){
             'name' => $parts[0],
             'date' => $scheduleItem['d1'],
             'amount' => floatval($parts[2]),
-            'schedule' => $scheduleItem
+            'schedule' => $scheduleItem,
+			"assigneeUser" => array(
+				"id" => $parts[4],
+				"name" => $parts[5],
+				"photo" => $parts[6]
+			)
         );
     }, $usages);
 	$res[] = $r;

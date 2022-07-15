@@ -19,7 +19,7 @@ $q = $mysqli->query("SELECT
 						UNIX_TIMESTAMP(hiking_invite.date_create)+{$time_offset} AS date,
 						hiking_types.name AS type,
 						hiking.id_route
-					FROM hiking_invite 
+					FROM hiking_invite ZA
 						LEFT JOIN users ON users.id = hiking_invite.id_user_from
 						LEFT JOIN hiking ON hiking.id = hiking_invite.id_hiking
 						LEFT JOIN hiking_types ON hiking_types.id = hiking.id_type
@@ -50,7 +50,8 @@ $q = $mysqli->query("
 							hiking.id, 
 							hiking.id_type, 
 							hiking.name, 
-							hiking.bg, 
+							hiking.bg,
+							hiking.ava as photo,
 							hiking.`desc`,
 							hiking.id_route,
 							hiking.vk_group_id,
