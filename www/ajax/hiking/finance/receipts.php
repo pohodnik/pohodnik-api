@@ -26,6 +26,7 @@
 		(hiking_finance_receipt.id_user={$id_user}) AS my,
 		users.name AS uname,
 		users.surname as usurname,
+		users.photo_50 as uphoto,
 		SUM(hiking_finance.cost * hiking_finance.amount) AS cursumm,
 		GROUP_CONCAT(
 			CONCAT(
