@@ -7,7 +7,7 @@ include("../../../blocks/global.php"); //Только для авторизов�
 $id_user = $_COOKIE["user"];
 $id_receipt = intval($_POST['id_receipt']);
 $id_hiking = intval($_POST['id_hiking']);
-$users = $_POST['users'];
+$users = isset($_POST['users']) ? $_POST['users'] : array();
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 if(!is_array($users)){die(json_encode(array("error"=>"users - expect array")));}
