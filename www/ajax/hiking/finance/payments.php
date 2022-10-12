@@ -31,9 +31,14 @@
 		UNIX_TIMESTAMP(hiking_finance_payment.date) AS uts,
 		(hiking_finance_payment.id_user={$id_user}) AS my,
 		users.name AS uname,
-		users.surname as usurname
+		users.surname as usurname,
+		users.photo_50 as uphoto,
+		userTo.name AS userToName,
+		userTo.surname as userToSurname,
+		userTo.photo_50 as userToPhoto
 	FROM `hiking_finance_payment`
 		LEFT JOIN users ON hiking_finance_payment.id_user = users.id
+		LEFT JOIN users as userTo ON hiking_finance_payment.id_target_user = userTo.id
 	WHERE
 		hiking_finance_payment.id_hiking={$id_hiking}
 		{$addwhere}
