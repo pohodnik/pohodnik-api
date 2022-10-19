@@ -5,7 +5,7 @@ include("../../../../blocks/for_auth.php"); //Только для авториз
 $id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 'NULL';
 
 global $mysqli;
-
+$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $id_track = intval($_POST['id_track']);
 $name = $mysqli->real_escape_string($_POST['name']);
 $from_point = implode('|', $_POST['from_point']);
@@ -13,8 +13,13 @@ $to_point = implode('|', $_POST['to_point']);
 $from_time = intval($_POST['from_time']);
 $to_time = intval($_POST['to_time']);
 
+$sql_command = $id > 0 ? "UPDATE" : "INSERT INTO";
+$sql_where = $id > 0 ? "WHERE id={$id}" : "";
+$updated = $id > 0 ? "`updated_at` = NOW()," : "`updated_at` = NULL,";
+$created = $id > 0 ? "" : "`created_at` = NOW(),";
+
 $z = "
-INSERT INTO
+{$sql_command}
     `hiking_tracks_break`
 SET
     `id_track` = {$id_track},
@@ -23,9 +28,10 @@ SET
     `from_time` = {$from_time},
     `to_point` = '{$to_point}',
     `to_time` = {$to_time},
-    `created_at` = NOW(),
-    `updated_at` = NULL,
+    {$created}
+    {$updated}
     `id_author` = {$id_user}
+{$sql_where}
 ";
 
 $q = $mysqli->query($z);
