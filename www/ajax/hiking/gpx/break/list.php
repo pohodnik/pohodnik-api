@@ -13,16 +13,7 @@ global $mysqli;
 
 $z = "
 SELECT
-    `id`,
-    `name`,
-    `is_break`
-    `from_point`,
-    `from_time`,
-    `to_point`,
-    `to_time`,
-    `created_at`,
-    `updated_at`,
-    `id_author`
+   *
 FROM
     `hiking_tracks_break`
 WHERE
@@ -37,7 +28,7 @@ $res = array();
 while ($r = $q -> fetch_assoc()) {
     $res[] = array(
         'id' => intval($r['id']),
-        'is_break' => $r['is_break'] == '1',
+        'is_break' => boolval($r['is_break']),
         'name' => $r['name'],
         'from' => array(
             'point' => array_map(function ($a) { return floatval($a); }, explode('|', $r['from_point'])),
