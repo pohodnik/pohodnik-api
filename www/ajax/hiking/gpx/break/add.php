@@ -7,6 +7,7 @@ $id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 'NULL';
 global $mysqli;
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $id_track = intval($_POST['id_track']);
+$is_break = $mysqli->real_escape_string($_POST['is_break']);
 $name = $mysqli->real_escape_string($_POST['name']);
 $from_point = implode('|', $_POST['from_point']);
 $to_point = implode('|', $_POST['to_point']);
@@ -23,6 +24,8 @@ $z = "
     `hiking_tracks_break`
 SET
     `id_track` = {$id_track},
+    `is_break` = {$is_break},
+    `name` = '{$name}',
     `name` = '{$name}',
     `from_point` = '{$from_point}',
     `from_time` = {$from_time},

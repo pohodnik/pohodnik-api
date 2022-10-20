@@ -1,0 +1,1 @@
+ALTER TABLE `hiking_tracks_break` ADD `is_break` BOOLEAN NOT NULL DEFAULT TRUE AFTER `id_track`;

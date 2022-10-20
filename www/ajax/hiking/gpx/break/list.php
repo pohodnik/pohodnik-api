@@ -15,6 +15,7 @@ $z = "
 SELECT
     `id`,
     `name`,
+    `is_break`
     `from_point`,
     `from_time`,
     `to_point`,
@@ -36,6 +37,7 @@ $res = array();
 while ($r = $q -> fetch_assoc()) {
     $res[] = array(
         'id' => intval($r['id']),
+        'is_break' => $r['is_break'] == '1',
         'name' => $r['name'],
         'from' => array(
             'point' => array_map(function ($a) { return floatval($a); }, explode('|', $r['from_point'])),
