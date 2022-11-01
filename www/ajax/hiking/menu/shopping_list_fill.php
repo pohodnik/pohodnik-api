@@ -14,16 +14,18 @@ $q = $mysqli->query("
     LIMIT 1
 ");
 if(!$q){die(json_encode(array('error'=>$mysqli->error)));}
-if($q -> num_rows == 1){die(json_encode(array('error'=>"has completed items")));}
+if($q -> num_rows == 1){die(json_encode(array('error'=>"has completed items")));} else {
+$q = $mysqli->query("
+    DELETE FROM
+        `hiking_menu_shopping`
+    WHERE 
+        `id_hiking`={$id_hiking} AND `is_complete`=0
+    LIMIT 1
+");
+if(!$q){die(json_encode(array('error'=>$mysqli->error)));}
+}
 
-// $q = $mysqli->query("
-//     DELETE FROM
-//         `hiking_menu_shopping`
-//     WHERE 
-//         `id_hiking`={$id_hiking} AND `is_complete`=0
-//     LIMIT 1
-// ");
-// if(!$q){die(json_encode(array('error'=>$mysqli->error)));}
+
 
 $q = $mysqli->query("
     INSERT INTO
