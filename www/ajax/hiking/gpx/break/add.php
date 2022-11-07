@@ -26,7 +26,6 @@ SET
     `id_track` = {$id_track},
     `is_break` = {$is_break},
     `name` = '{$name}',
-    `name` = '{$name}',
     `from_point` = '{$from_point}',
     `from_time` = {$from_time},
     `to_point` = '{$to_point}',
