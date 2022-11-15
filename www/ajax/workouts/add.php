@@ -31,10 +31,60 @@ $temp_min = isset($_POST['temp_min']) ? intval($_POST['temp_min']) : 'NULL';
 $temp_avg = isset($_POST['temp_avg']) ? intval($_POST['temp_avg']) : 'NULL';
 $time_mooving = intval($_POST['time_mooving']);
 $time_pause = intval($_POST['time_pause']);
+$track_id = 0;
 
-$q = $mysqli ->query("SELECT id FROM workouts WHERE `id_user` = {$id_user} AND `trackdata` = '{$trackdata}' LIMIT 1");
+$q = $mysqli ->query("
+  SELECT
+    workout_tracks.id,
+    workouts.id_user
+  FROM
+    workouts
+    LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
+  WHERE
+    workout_tracks.trackdata = '{$trackdata}'
+  LIMIT 1");
 if ($q && $q->num_rows == 1) {
+    $r = $q -> fetch_assoc();
+   if ($r['id_user'] == $id_user) {
     die(json_encode(array('error'=>"Трек уже добавлен")));
+   }
+   $track_id = $r['id'];
+} else {
+    $z = "
+    INSERT INTO
+        `workout_tracks`
+    SET
+        `id_user` = {$id_user},
+        `trackdata` = '{$trackdata}',
+        `trackmeta` = '{$trackmeta}',
+        `date_start` = '{$date_start}',
+        `date_finish` = '{$date_finish}',
+        `date_upload` = NOW(),
+        `date_update` = NULL,
+        `activity_type` = '{$activity_type}',
+        `distance` = {$distance},
+        `alt_ascent` = {$alt_ascent},
+        `alt_descent` = {$alt_descent},
+        `alt_max` = {$alt_max},
+        `alt_min` = {$alt_min},
+        `alt_avg` = {$alt_avg},
+        `speed_max` = {$speed_max},
+        `speed_min` = {$speed_min},
+        `speed_avg` = {$speed_avg},
+        `hr_max` = {$hr_max},
+        `hr_min` = {$hr_min},
+        `hr_avg` = {$hr_avg},
+        `temp_max` = {$temp_max},
+        `temp_min` = {$temp_min},
+        `temp_avg` = {$temp_avg},
+        `time_mooving` = {$time_mooving},
+        `time_pause` = {$time_pause}
+    ";
+
+    $q = $mysqli->query($z);
+
+    if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
+    $track_id = $mysqli->insert_id;
 }
 
 $z = "
@@ -44,31 +94,10 @@ SET
     `id_user` = {$id_user},
     `name` = '{$name}',
     `description` = '{$description}',
-    `trackdata` = '{$trackdata}',
-    `trackmeta` = '{$trackmeta}',
-    `date_start` = '{$date_start}',
-    `date_finish` = '{$date_finish}',
-    `date_upload` = NOW(),
-    `date_update` = NULL,
-    `activity_type` = '{$activity_type}',
     `workout_type` = {$workout_type},
-    `distance` = {$distance},
-    `alt_ascent` = {$alt_ascent},
-    `alt_descent` = {$alt_descent},
-    `alt_max` = {$alt_max},
-    `alt_min` = {$alt_min},
-    `alt_avg` = {$alt_avg},
-    `speed_max` = {$speed_max},
-    `speed_min` = {$speed_min},
-    `speed_avg` = {$speed_avg},
-    `hr_max` = {$hr_max},
-    `hr_min` = {$hr_min},
-    `hr_avg` = {$hr_avg},
-    `temp_max` = {$temp_max},
-    `temp_min` = {$temp_min},
-    `temp_avg` = {$temp_avg},
-    `time_mooving` = {$time_mooving},
-    `time_pause` = {$time_pause}
+    `id_workout_track` = {$track_id},
+    `date_create` = NOW(),
+    `date_update` = NULL
 ";
 
 $q = $mysqli->query($z);
