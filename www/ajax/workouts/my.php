@@ -13,13 +13,20 @@ $z = "
 SELECT
     workout_tracks.*,
     workouts.*,
-    workout_types.id as workout_type_id, workout_types.name as workout_type_name
+    workout_types.id as workout_type_id, workout_types.name as workout_type_name,
+    hiking_tracks.id_hiking as hiking_id,
+    hiking.name as hiking_name,
+    hiking.ava as hiking_ava,
+    hiking.start as hiking_start,
+    hiking.finish as hiking_finish
 FROM
     `workouts`
 WHERE
     workouts.`id_user`={$id_user}
     LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
     LEFT JOIN workout_types ON workouts.workout_type = workout_types.id
+    LEFT JOIN hiking_tracks ON hiking_tracks.id_workout_track = workout_tracks.id
+    LEFT JOIN hiking ON hiking_tracks.id_hiking = hiking.id
 ORDER BY workout_tracks.date_start DESC
 LIMIT {$limit} OFFSET {$offset}
 ";
