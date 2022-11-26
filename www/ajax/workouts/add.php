@@ -1,6 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/gpx.php"); //Только для авторизованных
 
 $id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 'NULL';
 
@@ -88,6 +89,72 @@ if ($q && $q->num_rows == 1) {
     if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
     $track_id = $mysqli->insert_id;
 }
+$id_workout_group = 'NULL';
+//check similar
+$threshold_similar = 0.949; // >= 95%
+$similar = 0;
+$candidates = array();
+$z = "
+SELECT
+  workout_tracks.id, workout_tracks.bounds, workout_tracks.date_start,
+  workouts.id as id_workout, workouts.workout_group as id_workout_group
+FROM `workout_tracks`
+  LEFT JOIN workouts ON workouts.id_workout_track = workout_tracks.id
+WHERE
+  workout_tracks.date_start BETWEEN DATE_SUB('{$date_start}', INTERVAL 30 MINUTE) AND  DATE_ADD('{$date_start}', INTERVAL 30 MINUTE)
+  AND workout_tracks.id <> {$track_id}
+";
+$q = $mysqli->query($z);
+if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
+if ($q-> num_rows > 0) {
+
+  $candidates = array();
+  while ($r = $q -> fetch_assoc()) {
+    $bounds1 = json_decode($r['bounds'], true);
+    $bounds2 = json_decode($bounds, true);
+    $similar = compareBounds(array_merge(...$bounds1), array_merge(...$bounds2)); // 0...1 // can be percent
+
+    if ($similar > $threshold_similar) {
+      if (!isset($candidates[0]) || $candidates[0][2] > $threshold_similar) {
+        $candidates[] = array($r['id_workout'], $r['id_workout_group'], $threshold_similar);
+      } else {
+        array_unshift($candidates, array($r['id_workout'], $r['id_workout_group'], $threshold_similar));
+      }
+    }
+  }
+
+  if (isset($candidates[0])) {
+    if(isset($candidates[0][1])) { // has Group
+      $id_workout_group = $candidates[0][1];
+    } else {
+      $z = "
+        INSERT INTO `workouts_groups` SET
+          `name`='auto',
+          `workout_type`={$workout_type},
+          `id_user`={$id_user},
+          `date_create`=NOW(),
+          `date_update`=NULL
+      ";
+      $q = $mysqli->query($z);
+      if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
+      $id_workout_group = $mysqli -> insert_id;
+      $id_wo = $candidates[0][0];
+      $z = "UPDATE workouts SET workout_group={$id_workout_group} WHERE id={$id_wo}";
+      $q = $mysqli->query($z);
+      if(!$q){die(json_encode(array(
+        'error'=>$mysqli->error,
+        'query' => $z,
+        'candidates' => $candidates,
+        'bounds' => array(
+          $bounds1[0][0], $bounds1[0][1],
+          $bounds1[1][0], $bounds1[1][1]
+        )
+      )));}
+    }
+  }
+}
+
+// end check similar
 
 $z = "
 INSERT INTO
@@ -98,6 +165,7 @@ SET
     `description` = '{$description}',
     `workout_type` = {$workout_type},
     `id_workout_track` = {$track_id},
+    `workout_group`={$id_workout_group},
     `date_create` = NOW(),
     `date_update` = NULL
 ";
@@ -106,4 +174,4 @@ $q = $mysqli->query($z);
 
 if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
 
-die(json_encode(array('success'=>true,'id'=>$mysqli->insert_id)));
+die(json_encode(array('success'=>true,'id'=>$mysqli->insert_id, "id_group" => $id_workout_group, "candidates" =>$candidates)));
