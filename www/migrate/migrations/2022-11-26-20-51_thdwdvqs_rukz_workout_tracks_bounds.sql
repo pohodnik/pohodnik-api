@@ -1,0 +1,1 @@
+ALTER TABLE `workout_tracks` ADD `bounds` VARCHAR(128) NULL DEFAULT NULL COMMENT 'Границы области трека' AFTER `activity_type`;
