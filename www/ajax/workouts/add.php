@@ -14,6 +14,7 @@ $date_start = $mysqli->real_escape_string($_POST['date_start']);
 $date_finish = $mysqli->real_escape_string($_POST['date_finish']);
 $activity_type = $mysqli->real_escape_string($_POST['activity_type']);
 $workout_type = isset($_POST['workout_type']) && !empty($_POST['workout_type']) ? intval($_POST['workout_type']) : 'NULL';
+$bounds = $mysqli->real_escape_string($_POST['bounds']);
 $distance = intval($_POST['distance']);
 $alt_ascent = intval($_POST['alt_ascent']);
 $alt_descent = intval($_POST['alt_descent']);
@@ -62,6 +63,7 @@ if ($q && $q->num_rows == 1) {
         `date_upload` = NOW(),
         `date_update` = NULL,
         `activity_type` = '{$activity_type}',
+        `bounds` = '{$bounds}',
         `distance` = {$distance},
         `alt_ascent` = {$alt_ascent},
         `alt_descent` = {$alt_descent},
