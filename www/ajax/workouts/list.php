@@ -4,6 +4,15 @@ include("../../blocks/db.php"); //подключение к БД
 $id_user = intval($_COOKIE["user"]);
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 30;
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+$id_group = isset($_GET['id_group']) ?  : 0;
+
+
+$where = "1";
+
+if (isset($_GET['id_group'])) {
+    $id_group = intval($_GET['id_group']);
+    $where .= " AND `workouts`.`workout_group`={$id_group}";
+}
 
 global $mysqli;
 
@@ -14,6 +23,7 @@ SELECT
     `workouts`.`name`,
     `workouts`.`description`,
     `workouts`.`workout_type`,
+    `workouts`.`workout_group`,
     `workout_tracks`.`date_start`,
     `workout_tracks`.`date_finish`,
     `workout_tracks`.`date_upload`,
@@ -50,6 +60,7 @@ FROM
     LEFT JOIN workout_types ON workouts.workout_type = workout_types.id
     LEFT JOIN hiking_tracks ON hiking_tracks.id_workout_track = workout_tracks.id
     LEFT JOIN hiking ON hiking_tracks.id_hiking = hiking.id
+WHERE {$where}
 ORDER BY workout_tracks.date_start DESC
 LIMIT {$limit} OFFSET {$offset}
 ";
