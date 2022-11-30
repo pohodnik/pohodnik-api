@@ -91,7 +91,7 @@ if ($q && $q->num_rows == 1) {
 }
 $id_workout_group = 'NULL';
 //check similar
-$threshold_similar = 0.949; // >= 95%
+$threshold_similar = 0.8; // >= 80%
 $similar = 0;
 $candidates = array();
 $z = "
