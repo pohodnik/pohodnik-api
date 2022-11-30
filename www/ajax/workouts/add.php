@@ -110,15 +110,17 @@ if ($q-> num_rows > 0) {
 
   $candidates = array();
   while ($r = $q -> fetch_assoc()) {
-    $bounds1 = json_decode($r['bounds'], true);
-    $bounds2 = json_decode($bounds, true);
-    $similar = compareBounds(array_merge(...$bounds1), array_merge(...$bounds2)); // 0...1 // can be percent
-
-    if ($similar > $threshold_similar) {
-      if (!isset($candidates[0]) || $candidates[0][2] > $threshold_similar) {
-        $candidates[] = array($r['id_workout'], $r['id_workout_group'], $threshold_similar);
-      } else {
-        array_unshift($candidates, array($r['id_workout'], $r['id_workout_group'], $threshold_similar));
+    if (isset($r['id_workout'])) {
+      $bounds1 = json_decode($r['bounds'], true);
+      $bounds2 = json_decode($bounds, true);
+      $similar = compareBounds(array_merge(...$bounds1), array_merge(...$bounds2)); // 0...1 // can be percent
+  
+      if ($similar > $threshold_similar) {
+        if (!isset($candidates[0]) || $candidates[0][2] > $threshold_similar) {
+          $candidates[] = array($r['id_workout'], $r['id_workout_group'], $threshold_similar);
+        } else {
+          array_unshift($candidates, array($r['id_workout'], $r['id_workout_group'], $threshold_similar));
+        }
       }
     }
   }
