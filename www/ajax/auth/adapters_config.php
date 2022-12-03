@@ -7,12 +7,12 @@ $adapterConfigs = array(
 		'name'=>'ВКонтакте'
 
     ),
-    'telegram' => array(
-        'client_id'     => '0',
-        'client_secret' => '0',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=telegram',
-		'name'=>'Телеграм'
-    ),
+    // 'telegram' => array(
+    //     'client_id'     => '0',
+    //     'client_secret' => '0',
+    //     'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=telegram',
+	// 	'name'=>'Телеграм'
+    // ),
     'yandex' => array(
         'client_id'     => '94f124fc09334032bba0acb78954db81',
         'client_secret' => 'fec8018a1528402099b92e1ce9b0e8cf',
