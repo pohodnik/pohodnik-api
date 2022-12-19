@@ -14,31 +14,33 @@ SELECT
       `hiking_members`.id_user,
       GROUP_CONCAT(`workouts`.`name`) as names,
       GROUP_CONCAT(`workouts`.`id`) as ids,
-      GROUP_CONCAT(CONCAT(`workouts`.`date_start`, '—', `workouts`.`date_finish`)) as dates,
-      GROUP_CONCAT(`workouts`.`distance`) as distances,
-      MIN(`workouts`.`date_start`) as first_workout_date,
-      MAX(`workouts`.`date_finish`) as max_workout_date,
-      SUM(`workouts`.`distance`) as distance,
-      SUM(`workouts`.`alt_ascent`) as alt_ascent,
-      SUM(`workouts`.`alt_descent`) as alt_descent,
-      MAX(`workouts`.`alt_max`) as alt_max,
-      MIN(`workouts`.`alt_min`) as alt_min,
-      AVG(`workouts`.`alt_avg`) as alt_avg,
-      MAX(`workouts`.`speed_max`) as speed_max,
-      MIN(`workouts`.`speed_min`) as speed_min,
-      AVG(`workouts`.`speed_avg`) as speed_avg,
-      MAX(`workouts`.`hr_max`) as hr_max,
-      MIN(`workouts`.`hr_min`) as hr_min,
-      AVG(`workouts`.`hr_avg`) as hr_avg,
-      SUM(`workouts`.`time_mooving`) as time_mooving
+      GROUP_CONCAT(CONCAT(`workout_tracks`.`date_start`, '—', `workout_tracks`.`date_finish`)) as dates,
+      GROUP_CONCAT(`workout_tracks`.`distance`) as distances,
+      MIN(`workout_tracks`.`date_start`) as first_workout_date,
+      MAX(`workout_tracks`.`date_finish`) as max_workout_date,
+      SUM(`workout_tracks`.`distance`) as distance,
+      SUM(`workout_tracks`.`alt_ascent`) as alt_ascent,
+      SUM(`workout_tracks`.`alt_descent`) as alt_descent,
+      MAX(`workout_tracks`.`alt_max`) as alt_max,
+      MIN(`workout_tracks`.`alt_min`) as alt_min,
+      AVG(`workout_tracks`.`alt_avg`) as alt_avg,
+      MAX(`workout_tracks`.`speed_max`) as speed_max,
+      MIN(`workout_tracks`.`speed_min`) as speed_min,
+      AVG(`workout_tracks`.`speed_avg`) as speed_avg,
+      MAX(`workout_tracks`.`hr_max`) as hr_max,
+      MIN(`workout_tracks`.`hr_min`) as hr_min,
+      AVG(`workout_tracks`.`hr_avg`) as hr_avg,
+      SUM(`workout_tracks`.`time_mooving`) as time_mooving
 
 FROM
       `hiking_members`
+
       LEFT JOIN workouts ON workouts.id_user = hiking_members.id_user
+      LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
       LEFT JOIN hiking_workouts_target ON `hiking_workouts_target`.`id_hiking`=hiking_members.id_hiking
 WHERE
       `hiking_members`.`id_hiking`={$id_hiking}
-      AND workouts.date_start BETWEEN hiking_workouts_target.date_start AND hiking_workouts_target.date_finish
+      AND workout_tracks.date_start BETWEEN hiking_workouts_target.date_start AND hiking_workouts_target.date_finish
 
 GROUP BY hiking_members.id_user
 ";

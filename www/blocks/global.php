@@ -16,3 +16,6 @@ function err($err, $data=array()) {
 function out($data) {
     return json_encode($data);
 }
+function jout($data) {
+    return json_encode($data);
+}
