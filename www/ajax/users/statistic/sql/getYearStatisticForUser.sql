@@ -9,7 +9,16 @@ SELECT
   hiking.name,
   hiking.ava,
   hiking.id,
-  GROUP_CONCAT(DISTINCT CONCAT_WS('→', hiking_tracks.name, workout_tracks.trackdata) SEPARATOR '\n') as tracks,
+  GROUP_CONCAT(
+    DISTINCT CONCAT_WS(
+      '→',
+      hiking_tracks.name,
+      workout_tracks.trackdata,
+      workout_tracks.distance,
+      workout_tracks.date_start,
+      workout_tracks.date_finish
+    ) SEPARATOR '\n'
+  ) as tracks,
   IF(NOT(ISNULL(hiking_members.date_from)), hiking_members.date_from, hiking.start) as date_start,
   IF(NOT(ISNULL(hiking_members.date_to)), hiking_members.date_to, hiking.finish) as date_finish,
   (
