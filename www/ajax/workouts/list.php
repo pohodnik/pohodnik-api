@@ -14,6 +14,16 @@ if (isset($_GET['id_group'])) {
     $where .= " AND `workouts`.`workout_group`={$id_group}";
 }
 
+if (isset($_GET['d1'])) {
+    $d1 = $mysqli->real_escape_string($_GET['d1']);
+    $where .= " AND `workout_tracks`.`date_start`>'{$d1}'";
+}
+
+if (isset($_GET['d2'])) {
+    $d2 = $mysqli->real_escape_string($_GET['d2']);
+    $where .= " AND `workout_tracks`.`date_finish`<'{$d2}'";
+}
+
 global $mysqli;
 
 $z = "
@@ -24,6 +34,7 @@ SELECT
     `workouts`.`description`,
     `workouts`.`workout_type`,
     `workouts`.`workout_group`,
+    `workout_tracks`.`id` as id_workout_track,
     `workout_tracks`.`date_start`,
     `workout_tracks`.`date_finish`,
     `workout_tracks`.`date_upload`,
