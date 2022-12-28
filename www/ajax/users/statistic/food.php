@@ -1,10 +1,10 @@
 <?php
 	include('../../../blocks/db.php');
-	// include("../../../blocks/err.php");
-    include('../../../blocks/sql.php');
+  include('../../../blocks/sql.php');
 	include("../../../blocks/global.php");
 
-    $ids_hiking = explode(',', $mysqli->real_escape_string($_GET['hiking_ids']));
+    $id_user = intval($_GET['id_user']);
+    $year = intval($_GET['year']);
 
     $q = $mysqli->query("SELECT
     recipes_products.name,
@@ -25,13 +25,30 @@
         recipes_categories.name
       ) SEPARATOR '→'
     ) AS usages
-  FROM hiking_menu
+  FROM hiking
+  LEFT JOIN hiking_members ON (hiking_members.id_hiking = hiking.id)
+  LEFT JOIN hiking_schedule ON (
+    hiking_schedule.id_hiking = hiking_members.id_hiking
+    AND (
+      hiking_schedule.d1 BETWEEN IF(NOT(ISNULL(hiking_members.date_from)), hiking_members.date_from, hiking.start)
+      AND IF(NOT(ISNULL(hiking_members.date_to)), hiking_members.date_to, hiking.finish)
+    ) AND (
+      hiking_schedule.d2 BETWEEN IF(NOT(ISNULL(hiking_members.date_from)), hiking_members.date_from, hiking.start)
+      AND IF(NOT(ISNULL(hiking_members.date_to)), hiking_members.date_to, hiking.finish)
+    )
+  )
+  LEFT JOIN hiking_menu ON (
+    hiking_schedule.id_hiking = hiking_menu.id_hiking
+    AND DATE(hiking_schedule.d1) = DATE(hiking_menu.date)
+    AND hiking_schedule.id_food_act = hiking_menu.id_act
+  )
   LEFT JOIN recipes ON recipes.id = hiking_menu.id_recipe
   LEFT JOIN recipes_structure ON recipes_structure.id_recipe = recipes.id
   LEFT JOIN recipes_products ON  recipes_structure.id_product = recipes_products.id
   LEFT JOIN recipes_categories ON  recipes.id_category = recipes_categories.id
   LEFT JOIN food_acts ON  food_acts.id = hiking_menu.id_act
-WHERE hiking_menu.id_hiking IN(".implode(',',$ids_hiking).")
+WHERE
+  hiking_members.id_user = {$id_user} AND YEAR(hiking.start) = {$year}
 GROUP BY id_product  
 ORDER BY `amount` DESC;");
     if (!$q) { die(err('Error update', array('message' => $mysqli->error, 'sql' => $sql, 'file'=>$file))); }
