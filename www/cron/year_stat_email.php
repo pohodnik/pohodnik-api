@@ -1,5 +1,6 @@
 <?php
 include("../blocks/db.php"); //подключение к БД
+require("../blocks/mail.php"); //мылилка
 
 $year = date('Y');
 $id_user = 3;
@@ -51,21 +52,20 @@ while ($r = $q -> fetch_assoc()) {
             </p>
         </body> 
     </html>"; 
-    $to = "fedoseev.nn@gmail.com";
-   // $headers = "From: Почтовый сервис сайта Походники <info@pohodnik.tk>\r\n";
-    // $headers = "Reply-To: info@pohodnik.tk\r\n";
-    // $headers .= "X-Mailer: pohodnik ".phpversion()."\r\n";
-    $headers  = "Content-type: text/html; charset=utf-8\r\n"; 
-    
+
 
 
     $result[] = array(
         "data" => $r,
-        "to" => $to,
         "subject" => $subject,
         "message" => $message,
-        "headers" => $headers,
-        "result" => mail($to, $subject, $message, $headers),
+        "result" => sendMail(
+            array_map(function ($a) { global $r; return array($a, $r['name']." ".$r['surname']); }, explode(',', $r['addresses'])),
+            $subject,
+            $message,
+            "",
+            "Почтовый сервис сайта Походники"
+        ),
         "error" => error_get_last()['message']
     );
 }
