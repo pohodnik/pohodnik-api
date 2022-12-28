@@ -20,9 +20,9 @@
         global $SMTP_PSW;
         global $SMTP_PORT;
 
-        require_once(__DIR__."/../vendor/PHPMailer/PHPMailer/src/Exception.php");
-        require_once(__DIR__."/../vendor/PHPMailer/PHPMailer/src/PHPMailer.php");
-        require_once(__DIR__."/../vendor/PHPMailer/PHPMailer/src/SMTP.php");
+        require_once(__DIR__."/../vendor/phpmailer/phpmailer/src/Exception.php");
+        require_once(__DIR__."/../vendor/phpmailer/phpmailer/src/PHPMailer.php");
+        require_once(__DIR__."/../vendor/phpmailer/phpmailer/src/SMTP.php");
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
 
         try {
