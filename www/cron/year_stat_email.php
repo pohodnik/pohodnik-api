@@ -51,11 +51,11 @@ while ($r = $q -> fetch_assoc()) {
             </p>
         </body> 
     </html>"; 
-    $to = $r['addresses'];
+    $to = "fedoseev.nn@gmail.com";
    // $headers = "From: Почтовый сервис сайта Походники <info@pohodnik.tk>\r\n";
-    $headers = "Reply-To: info@pohodnik.tk\r\n";
-    $headers .= "X-Mailer: pohodnik ".phpversion()."\r\n";
-    $headers  .= "Content-type: text/html; charset=utf-8\r\n"; 
+    // $headers = "Reply-To: info@pohodnik.tk\r\n";
+    // $headers .= "X-Mailer: pohodnik ".phpversion()."\r\n";
+    $headers  = "Content-type: text/html; charset=utf-8\r\n"; 
     
 
 
