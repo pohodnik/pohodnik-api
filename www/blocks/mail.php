@@ -10,6 +10,7 @@
     $SMTP_USER = getConf('SMTP_USER');
     $SMTP_PSW = getConf('SMTP_PSW');
     $SMTP_PORT = getConf('SMTP_PORT');
+    $SMTP_DEBUG = getConf('SMTP_DEBUG');
 
 
     function sendMail($toArray, $subject, $htmlBody, $altBody, $fromName) {
@@ -27,14 +28,16 @@
 
         try {
             //Server settings
-            $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            if (!empty($SMTP_DEBUG)){
+                $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            }
             $mail->isSMTP();                                            //Send using SMTP
             $mail->CharSet = 'UTF-8';
             $mail->Host       = $SMTP_HOST;                     //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
             $mail->Username   = $SMTP_USER;                     //SMTP username
             $mail->Password   = $SMTP_PSW;                               //SMTP password
-            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = $SMTP_PORT;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
         
             //Recipients
