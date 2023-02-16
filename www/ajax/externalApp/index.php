@@ -6,7 +6,7 @@
 	$referer = $_SERVER['HTTP_REFERER'];
 
 
-	$q = $mysqli->query("SELECT `domain`, `last_call` FROM `external_apps` WHERE `id`={$client} AND `secret`={$secret} LIMIT 1");
+	$q = $mysqli->query("SELECT `domain`, `last_call` FROM `external_apps` WHERE `id`={$client} AND `secret`='{$secret}' LIMIT 1");
 	if (!$q){ die(json_encode(array("error"=>"Wrong client data. ".$mysqli->error))); }
 	if ($q->num_rows===0){ die(json_encode(array("error"=>"Is Not a valid client."))); }
 	$res = $q->fetch_assoc();
