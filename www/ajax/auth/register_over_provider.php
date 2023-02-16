@@ -11,7 +11,7 @@ $sex = isset($_POST['sex']) ? ($_POST['sex'] == 'male' ? 1 : 2) : 0;
 $socialId = isset($_POST['socialId']) ? $_POST['socialId']: null;
 $socialPage = isset($_POST['socialPage']) ? $_POST['socialPage']: null;
 $token = isset($_POST['token']) ? $mysqli->real_escape_string($_POST['token']) : null;
-
+$id_app  =		isset($_POST['id_app'])?intval($_POST['id_app']):'NULL';
 if(empty($token)){
     die(err("Wrong token"));
 }
@@ -63,7 +63,7 @@ if(!$q) {
 }
 
 
-$q = $mysqli->query("INSERT INTO `user_hash`(`id_user`, `hash`, `date_start`) VALUES ({$uid},'{$token}',NOW())");
+$q = $mysqli->query("INSERT INTO `user_hash`(`id_user`, `hash`, `date_start`, `id_external_app`) VALUES ({$uid},'{$token}',NOW(), {$id_app})");
 if(!$q){
     die(err(array(
         "message"=>"Ошибка добавления токена",

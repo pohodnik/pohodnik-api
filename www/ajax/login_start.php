@@ -7,13 +7,14 @@ $login =		$mysqli->real_escape_string(trim(strtolower($_POST["login"])));
 $pass  =		$mysqli->real_escape_string(trim($_POST["pass"]));
 $is_remember =  isset($_POST['is_remember']) ? (boolean) $_POST['is_remember'] : false;
 $hash  =		uniqid("poh").rand(100,999).'x';
+$id_app  =		isset($_POST['id_app'])?intval($_POST['id_app']):'NULL';
 
 $q = $mysqli->query("SELECT id_user, password FROM user_login_variants WHERE login='{$login}' LIMIT 1");
 if($q && $q->num_rows===1){
 	$res = $q->fetch_assoc();
 	$id_user = $res["id_user"];
 	if($res["password"]===md5(md5($pass))){
-		if($mysqli->query("INSERT INTO user_hash SET hash='{$hash}', date_start=NOW(), id_user={$id_user}")){
+		if($mysqli->query("INSERT INTO user_hash SET hash='{$hash}', date_start=NOW(), id_user={$id_user}, id_external_app={$id_app}")){
 
 		    $timeout = $is_remember ? time() + (86400 * 7) : time() + 3600;
 			setcookie("hash", $hash, $timeout, "/");
