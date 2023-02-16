@@ -19,7 +19,7 @@
 	$q = $mysqli->query("
 	SELECT users.id, users.name, users.surname, users.email, users.photo_50
 	FROM user_hash
-	LEFT JOIN users ON user_hash.id_user = users.id WHERE  hash={$token} LIMIT 1"); //id_external_app={$client} AND
+	LEFT JOIN users ON user_hash.id_user = users.id WHERE  hash='{$token}' LIMIT 1"); //id_external_app={$client} AND
 	if (!$q){ die(json_encode(array("error"=>"Wrong client data. ".$mysqli->error))); }
 	$res = $q->fetch_assoc();
 	die(json_encode($res));
