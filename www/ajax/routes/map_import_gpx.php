@@ -64,7 +64,7 @@ if(isset($_FILES['import_gpx']) ){
 		
 		$q = $mysqli->query($res);
 		if(!$q){die(json_encode(array('error'=>$mysqli->error, "q"=>$res)));}
-		die(json_encode(array('success'=>true)));
+		die(json_encode(array('success'=>true, "id" => $mysqli -> insert_id)));
 	}
 	
 } else {
