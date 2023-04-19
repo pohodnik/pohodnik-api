@@ -1,8 +1,8 @@
 {
     "require": {
-        "zircote/swagger-php": "^3.0",
-        "cloudinary/cloudinary_php": "^2",
-        "google/apiclient":"^2.12.1",
+        "zircote/swagger-php": "^3.3.6",
+        "cloudinary/cloudinary_php": "^2.9.2",
+        "google/apiclient":"^2.13.0",
         "phpmailer/phpmailer": "^6.7.1"
     }
 }
