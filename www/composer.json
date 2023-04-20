@@ -2,7 +2,10 @@
     "require": {
         "zircote/swagger-php": "3.2.3",
         "cloudinary/cloudinary_php": "2.4.1",
-        "google/apiclient":"2.0.0"
+        "guzzlehttp/guzzle": "^6",
+      "symfony/yaml": "v6.0.19",
+      "symfony/deprecation-contracts": "v2.2.0",
+      "symfony/finder": "v5.4.21"
     },
     "config": {
       "platform": {
