@@ -16,7 +16,7 @@ if(!($id>0)){die(json_encode(array("error"=>"ID is undefined")));}
 // 	}
 // }
 
-$avai = explode(',','id_type,id_route,name,desc,text,start,finish,color,bg,id_region,ava,is_vacant_route');
+$avai = explode(',','id_type,id_route,name,desc,text,start,finish,color,bg,id_region,ava,is_vacant_route,slogan');
 if(strripos($name,',')>0){$name=explode(',',$name);}
 if(!is_array($name)){
 	if(!in_array($name, $avai)){die(json_encode(array("error"=>"Недопустимый параметр {$name}")));}
