@@ -21,7 +21,7 @@ if($q && $q->num_rows===0){
 
 
 
-$avai = explode(',','id_type,id_route,name,desc,text,start,finish,color,bg,id_region,ava,is_vacant_route');
+$avai = explode(',','id_type,id_route,slogan,name,desc,text,start,finish,color,bg,id_region,ava,is_vacant_route');
 if(!in_array($name, $avai)){die(json_encode(array("error"=>"Недопустимый параметр {$name}")));}
 
 if($name=='bg' || $name == 'ava'){

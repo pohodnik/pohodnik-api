@@ -1,0 +1,1 @@
+ALTER TABLE `hiking` ADD `slogan` VARCHAR(255) NULL DEFAULT NULL AFTER `desc`;

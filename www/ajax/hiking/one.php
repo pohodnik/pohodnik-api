@@ -53,6 +53,7 @@ $q = $mysqli->query("
 							hiking.bg,
 							hiking.ava as photo,
 							hiking.`desc`,
+						    hiking.slogan,
 							hiking.id_route,
 							hiking.vk_group_id,
 							hiking.is_vacant_route,
