@@ -11,10 +11,15 @@ if(!($id_hiking>0)){die(err("id_hiking is undefined"));}
 
 $z = "SELECT
         medicaments.*,
-        hiking_first_aid_kit.*
+        hiking_first_aid_kit.*,
+        medicaments_categories.name as category,
+        medicaments_form.name as form_name,
+        medicaments.id as medicament_id
       FROM
         hiking_first_aid_kit
         LEFT JOIN medicaments ON medicaments.id = hiking_first_aid_kit.id_medicament
+        LEFT JOIN medicaments_categories ON medicaments_categories.id = medicaments.medical_group
+        LEFT JOIN medicaments_form ON medicaments_form.id = medicaments.form
       WHERE
         hiking_first_aid_kit.id_hiking={$id_hiking} ";
 $q = $mysqli->query($z);

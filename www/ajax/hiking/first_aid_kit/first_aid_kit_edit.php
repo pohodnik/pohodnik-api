@@ -28,6 +28,15 @@ if (isset($_POST['amount'])) {
     $patch[] = "`amount`=".intval($_POST['amount'])."";
 }
 
+if (isset($_POST['deadline'])) {
+    if (empty($_POST['deadline'])) {
+        $patch[] = "`deadline` = NULL";
+    } else {
+        $patch[] = "`deadline`='".$mysqli->real_escape_string($_POST['deadline'])."'";
+    }
+
+}
+
 if(!(count($patch)>0)){die(err("no changes"));}
 
 
