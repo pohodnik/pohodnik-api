@@ -13,7 +13,7 @@ $for_use = isset($_POST['for_use'])?$mysqli->real_escape_string($_POST['for_use'
 $contraindications = isset($_POST['contraindications'])?$mysqli->real_escape_string($_POST['contraindications']):"";
 
 if(strlen($name)<3){die(err("Название препарата не корректно либо не заполнено"));}
-if(strlen($dosage)<3){die(err("Введите рекомендуемую дозировку препарата"));}
+if(empty($dosage)){die(err("Введите рекомендуемую дозировку препарата"));}
 if(strlen($for_use)<5){die(err("Введите показания к применению"));}
 
 $z = "INSERT INTO `medicaments`( `name`, `medical_group`, `form`, `dosage`, `for_use`, `contraindications`) VALUES ('{$name}','{$medical_group}','{$form}','{$dosage}','{$for_use}','{$contraindications}')";
