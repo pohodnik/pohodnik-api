@@ -16,10 +16,24 @@ if($q){
 	while($r = $q->fetch_assoc()){
 		if($cur != date('Y-m-d',$r['d1']) ){
 			if($cur != ""){ $res[] = $buf; }
-			$buf = array("date"=> $r['d1'], "date_rus"=>date('d.m.Y H:i:s',$r['d1']), "day_rus"=>date('d.m.Y',$r['d1']), "day"=>date('Y-m-d',$r['d1']), "acts"=>array());
+			$buf = array(
+                "date"=> $r['d1'],
+                "date_rus"=>date('d.m.Y H:i:s',$r['d1']),
+                "day_rus"=>date('d.m.Y',$r['d1']),
+                "day"=>date('Y-m-d',$r['d1']),
+                "acts"=>array()
+            );
 			$cur = date('Y-m-d',$r['d1']); 
 		}
-		$buf['acts'][] = array('id'=> $r['id'], 'norm_kkal'=>$r['norm_kkal'],'kkal'=>$r['kkal'], 'name'=>$r['name'], 'time'=>date('H:i', $r['d1']));	
+		$buf['acts'][] = array(
+            'id'=> $r['id'],
+            'norm_kkal'=>$r['norm_kkal'],
+            'kkal'=>$r['kkal'],
+            'name'=>$r['name'],
+            'time'=>date('H:i', $r['d1']),
+            'start'=>$r['d1'],
+            'finish'=>$r['d2']
+        );
 		
 	}
 	$res[] = $buf; 
