@@ -7,7 +7,10 @@ $id_user = $_COOKIE["user"];
 $id_hiking = isset($_GET['id_hiking'])?intval($_GET['id_hiking']):0;
 
 $q = $mysqli->query("
-	SELECT recipes_categories.name AS category, hiking_recipes.*, recipes.* 
+	SELECT
+	    recipes_categories.name AS category,
+	    recipes.*,
+	    hiking_recipes.*
 	FROM `hiking_recipes` 
 	LEFT JOIN recipes ON hiking_recipes.id_recipe = recipes.id 
 	LEFT JOIN recipes_categories ON recipes.id_category = recipes_categories.id 

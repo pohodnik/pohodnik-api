@@ -5,7 +5,9 @@ include("../../blocks/err.php"); //подключение к БД
 $result=array();$id_act = 0;$id_category = 0; $for_hiking = 0;
 if(isset($_GET['id_act']) && $_GET['id_act']>0){$id_act=intval($_GET['id_act']);}
 if(isset($_GET['id_category']) && $_GET['id_category']>0){$id_category=intval($_GET['id_category']);}
-if(isset($_GET['exclude_ids']) && count($_GET['exclude_ids'])>0){$exclude_ids=$_GET['exclude_ids'];}
+if(isset($_GET['exclude_ids'])){
+    $exclude_ids = is_array($_GET['exclude_ids']) ? $_GET['exclude_ids'] : array($_GET['exclude_ids']);
+}
 if(isset($_GET['for_hiking']) && intval($_GET['for_hiking'])>0){$for_hiking=intval($_GET['for_hiking']);}
 
 $add_j = "";

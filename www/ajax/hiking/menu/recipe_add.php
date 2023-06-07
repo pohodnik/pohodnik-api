@@ -43,7 +43,17 @@ if(is_array($id_recipe)){
 $z = "INSERT INTO `hiking_recipes`( `id_hiking`, `id_recipe`) VALUES ".implode(',',$values)."";
 if($mysqli->query($z)){
 
-	die(json_encode(array('success'=>true, 'id'=>$mysqli->insert_id, "recipes_id"=>$id_recipe, "affected" => $mysqli->affected_rows)));
+    $id = $mysqli->insert_id;
+    $ids = [$id];
+    if ($id && $mysqli->affected_rows > 1) {
+        for ($i = 0; $i < $mysqli->affected_rows - 1; $i++) {
+            $ids[] = $id + 1;
+        }
+    }
+
+
+	die(json_encode(
+        array('success'=>true, 'id'=>$id,'ids'=>$ids, "recipes_id"=>$id_recipe, "affected" => $mysqli->affected_rows)));
 } else {
 	die(json_encode(array('error'=>$mysqli->error, "z" => $z)));
 }
