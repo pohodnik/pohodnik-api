@@ -20,6 +20,7 @@ hiking_duty.`creator_id`,
 hiking_duty.`updated_at`,
 hiking_duty.`updated_id`,
 CONCAT(users.name,' ', users.surname) AS user_name,
+users.photo_50 AS user_photo,
 CONCAT(cruser.name,' ', cruser.surname) AS creator_name,
 CONCAT(upuser.name,' ', upuser.surname) AS updated_name
 FROM `hiking_duty`
