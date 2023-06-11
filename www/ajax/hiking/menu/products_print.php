@@ -51,7 +51,7 @@ FROM hiking_menu
 	LEFT JOIN hiking_menu_products_force ON (hiking_menu.id_hiking = hiking_menu_products_force.id_hiking AND hiking_menu_products_force.id_product = recipes_products.id)
 	LEFT JOIN users AS forseuser ON forseuser.id = hiking_menu_products_force.id_user
 	
-WHERE {$where} ORDER BY hiking_schedule.d1, recipes.id");
+WHERE {$where} ORDER BY recipes_products.name, hiking_schedule.d1, recipes.id");
 
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 
