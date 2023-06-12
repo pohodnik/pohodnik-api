@@ -7,6 +7,8 @@
         hiking_menu_saves.id,
         hiking_menu_saves.name,
         hiking_menu_saves.date,
+        hiking_menu_saves.confirm_user,
+        hiking_menu_saves.confirm_date,
         CONCAT(users.name,' ', users.surname) AS user,
         is_current
     FROM
