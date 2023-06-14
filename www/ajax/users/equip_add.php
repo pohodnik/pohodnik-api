@@ -13,15 +13,15 @@ $id = isset($_POST['id'])
         ? intval($_POST['id'])
         : 0;
 
-$id_parent = isset($_POST['id_parent'])
+$id_parent = isset($_POST['id_parent']) && !empty($_POST['id_parent'])&& $_POST['id_parent'] !== 'null'
             ? intval($_POST['id_parent'])
             : 'NULL';
 
-$id_category = isset($_POST['id_category']) && $_POST['id_category'] > 0
+$id_category = isset($_POST['id_category']) && $_POST['id_category'] > 0 && $_POST['id_category'] !== 'null'
                 ? intval($_POST['id_category'])
                 : 'NULL';
 $is_archive = isset($_POST['is_archive'])
-                ? boolval($_POST['is_archive']) ? 1 : 0
+                ? $_POST['is_archive'] ? 1 : 0
                 : 0;
 
 $category = isset($_POST['category']) && !empty(trim($_POST['category']))
@@ -49,7 +49,7 @@ $z = ($id>0?"UPDATE":"INSERT INTO")." `user_equip` SET
  ".($id>0?" WHERE id={$id}":"");
 
 $q = $mysqli->query($z);
-if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+if(!$q){die(json_encode(array("error"=>$mysqli->error, "z" => $z)));}
 
 if ($id > 0) {
     $z = "SELECT photo FROM user_equip WHERE id={$id} LIMIT 1";

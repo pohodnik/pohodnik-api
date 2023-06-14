@@ -20,7 +20,7 @@
 
 
 
-    if ($confirm != 'false') {
+    if ($confirm == 'false') {
         $current_user = 'NULL';
         $date = 'NULL';
     }
@@ -42,4 +42,4 @@
         die(json_encode(array('error' => $mysqli -> error, "z" => $z)));
     }
 
-    die(json_encode(array('success' => true)));
+    die(json_encode(array('success' => true, 'date' => $date)));

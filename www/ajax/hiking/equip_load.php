@@ -13,6 +13,8 @@ if (isset($_GET['confirmed'])) {
 	$claus2 .= " AND uesi.date_confirm IS NOT NULL";
 }
 
+$result = array();
+
 $q = $mysqli->query("
 	(
 		SELECT
