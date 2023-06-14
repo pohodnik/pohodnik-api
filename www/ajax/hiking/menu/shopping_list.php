@@ -2,6 +2,8 @@
 include("../../../blocks/db.php");
 include("../../../blocks/for_auth.php");
 include("../../../blocks/err.php");
+
+
 $result = array();
 $id_user = $_COOKIE["user"];
 $id_hiking = isset($_GET['id_hiking']) ? intval($_GET['id_hiking']) : 0;
@@ -32,6 +34,8 @@ WHERE
 ORDER BY
     hiking_menu_shopping.`is_complete` 
 ";
+
+$q = $mysqli->query("SET SESSION group_concat_max_len=999999;");
 
 $q = $mysqli->query($z);
 if(!$q){die(json_encode(array('error'=>$mysqli->error, 'z' => $z)));}

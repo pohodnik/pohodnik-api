@@ -26,7 +26,7 @@ if(!$q){die(json_encode(array('error'=>$mysqli->error)));}
 }
 
 
-
+$q = $mysqli->query("SET SESSION group_concat_max_len=999999;");
 $q = $mysqli->query("
     INSERT INTO
         `hiking_menu_shopping`
