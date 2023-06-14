@@ -20,6 +20,7 @@ $q = $mysqli->query("SELECT
 	user_equip.is_archive,
 	user_equip.id_category,
 	user_equip_set_items.id_set,
+    `user_equip_set_items`.`amount`,
 	user_equip_set_items.from_user AS ownerId,
 	CONCAT(users.name, ' ', users.surname) AS ownerName,
 	users.photo_50 AS ownerPhoto
