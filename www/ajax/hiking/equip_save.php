@@ -15,7 +15,7 @@ if(!$q || $q->num_rows===0){
 
 $id = intval($_POST['id']);
 $name = $mysqli->real_escape_string(trim($_POST['name']));
-$user = isset($_POST['id_user']) && $_POST['id_user'] > 0 ? intval($_POST['id_user']) : 'NULL';
+$user = isset($_POST['id_user']) && intval($_POST['id_user']) > 0 && $_POST['id_user']!='null' ? intval($_POST['id_user']) : 'NULL';
 $weight = floatval($_POST['weight']);
 $value = floatval($_POST['value']);
 $is_confirm = boolval($_POST['is_confirm']) ? 1 : 0;

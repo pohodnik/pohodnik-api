@@ -25,9 +25,12 @@ $q = $mysqli->query("
 		user_backpacks.*,
 		user_backpacks.name AS backpack_name,
 		user_equip_sets.*,
-		user_equip_sets.id_user={$id_user} AS has_access 
+		user_equip_sets.id_user={$id_user} AS has_access,
+	       users.photo_50 as user_photo,
+	       CONCAT(users.surname,' ', users.name) as user_name
 	FROM `user_equip_sets` 
-		LEFT JOIN user_backpacks ON user_backpacks.id =user_equip_sets.id_backpack 
+		LEFT JOIN user_backpacks ON user_backpacks.id =user_equip_sets.id_backpack
+	     LEFT JOIN users ON users.id =user_equip_sets.id_user
 		WHERE ".$wh
 );
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}

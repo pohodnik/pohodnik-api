@@ -8,7 +8,7 @@ $id_user = $_COOKIE["user"];
 $claus1 = '';
 $claus2 = '';
 
-if (isset($_GET['confirmed'])) {
+if (isset($_GET['confirmed']) && intval($_GET['confirmed']) == 1) {
 	$claus1 .= " AND is_confirm=1";
 	$claus2 .= " AND uesi.date_confirm IS NOT NULL";
 }
