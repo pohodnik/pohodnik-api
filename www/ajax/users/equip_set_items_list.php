@@ -9,6 +9,7 @@ $addWhere = "";
 $q = $mysqli->query("SELECT 
 	user_equip_set_items.id AS iid,
 	user_equip_set_items.is_check,
+	user_equip_set_items.is_on_me,
 	user_equip.id,
 	user_equip_sets.id_user, 
 	user_equip.name,
