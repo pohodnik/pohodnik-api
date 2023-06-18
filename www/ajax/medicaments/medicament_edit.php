@@ -15,27 +15,22 @@ if (isset($_POST['name'])) {
     $patch[] = "`name`='".$mysqli->real_escape_string($_POST['name'])."'";
 }
 
-$patch = array();
 if (isset($_POST['medical_group'])) {
     $patch[] = "`medical_group`='".$mysqli->real_escape_string($_POST['medical_group'])."'";
 }
 
-$patch = array();
 if (isset($_POST['form'])) {
     $patch[] = "`form`='".$mysqli->real_escape_string($_POST['form'])."'";
 }
 
-$patch = array();
 if (isset($_POST['dosage'])) {
     $patch[] = "`dosage`='".$mysqli->real_escape_string($_POST['dosage'])."'";
 }
 
-$patch = array();
 if (isset($_POST['for_use'])) {
     $patch[] = "`for_use`='".$mysqli->real_escape_string($_POST['for_use'])."'";
 }
 
-$patch = array();
 if (isset($_POST['contraindications'])) {
     $patch[] = "`contraindications`='".$mysqli->real_escape_string($_POST['contraindications'])."'";
 }
