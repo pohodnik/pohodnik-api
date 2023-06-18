@@ -48,5 +48,6 @@ if(!$q) { die(err($mysqli->error, array("z" => $z, "patch" => $patch)));}
 
 die(out(array(
     "success" => true,
-    "affected" => $mysqli->affected_rows
+    "affected" => $mysqli->affected_rows,
+    "z" => $z
 )));
