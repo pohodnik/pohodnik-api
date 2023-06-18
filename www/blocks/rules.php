@@ -3,7 +3,7 @@
 
     function boolByFlags($data, $flags) {
         foreach ($flags as $k) {
-            if ($data[$k] == '1') {
+            if (!empty($k) && $data[$k] == '1') {
                 return true;
             }
         }
@@ -90,7 +90,7 @@
 
             $rules["full"] =        boolByFlags($r, array('is_author'));
             $rules["all"] =         boolByFlags($r, array('is_author', 'is_pos1', ''));
-            $rules["routes"] =      boolByFlags($r, array('is_author', 'is_pos1', 'is_pos2', 'is_quide'));
+            $rules["routes"] =      boolByFlags($r, array('is_author', 'is_pos1', 'is_pos2', 'is_guide'));
             $rules["kitchen"] =     boolByFlags($r, array('is_author', 'is_pos1', 'is_pos3', 'is_cook'));
             $rules["health"] =      boolByFlags($r, array('is_author', 'is_pos1', 'is_pos4', 'is_medic'));
             $rules["media"] =       boolByFlags($r, array('is_author', 'is_pos1', 'is_pos5'));
