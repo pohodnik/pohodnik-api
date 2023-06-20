@@ -34,6 +34,7 @@ SELECT
     `workouts`.`description`,
     `workouts`.`workout_type`,
     `workouts`.`workout_group`,
+    `workouts_groups`.`name` as workout_group_name,
     `workout_tracks`.`id` as id_workout_track,
     `workout_tracks`.`date_start`,
     `workout_tracks`.`date_finish`,
@@ -69,6 +70,7 @@ FROM
     LEFT JOIN users ON users.id = workouts.id_user
     LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
     LEFT JOIN workout_types ON workouts.workout_type = workout_types.id
+    LEFT JOIN workouts_groups ON workouts.workout_group = workouts_groups.id
     LEFT JOIN hiking_tracks ON hiking_tracks.id_workout_track = workout_tracks.id
     LEFT JOIN hiking ON hiking_tracks.id_hiking = hiking.id
 WHERE {$where}
