@@ -21,6 +21,7 @@ $hr_max = isset($_POST['hr_max']) && !empty($_POST['hr_max']) ? intval($_POST['h
 $hr_min = isset($_POST['hr_min']) && !empty($_POST['hr_min']) ? intval($_POST['hr_min']) : 'NULL';
 $hr_avg = isset($_POST['hr_avg']) && !empty($_POST['hr_avg']) ? intval($_POST['hr_avg']) : 'NULL';
 $time_mooving = isset($_POST['time_mooving']) && !empty($_POST['time_mooving']) ? intval($_POST['time_mooving']) : 'NULL';
+$workout_type = isset($_POST['workout_type']) && !empty($_POST['workout_type']) ? intval($_POST['workout_type']) : 'NULL';
 
 if(strlen($date_start)<10){die(err("date_start is incorrect"));}
 if(strlen($date_finish)<10){die(err("date_finish is incorrect"));}
@@ -47,9 +48,9 @@ SET
 `hr_max` = {$hr_max},
 `hr_min` = {$hr_min},
 `hr_avg` = {$hr_avg},
-`time_mooving` = {$time_mooving}
-WHERE
-1";
+`time_mooving` = {$time_mooving},
+`workout_type` = {$workout_type}
+";
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
 
