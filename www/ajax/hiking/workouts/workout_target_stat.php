@@ -9,6 +9,14 @@ $id_hiking = isset($_GET['id_hiking'])?intval($_GET['id_hiking']):0;
 
 if(!($id_hiking>0)){die(err("id_hiking is undefined"));}
 
+global $mysqli;
+
+$where = "`hiking_members`.`id_hiking`={$id_hiking}";
+
+if (isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] !== 'null' && $_GET['type'] > 0) {
+    $where .= " AND `workouts`.`workout_type`=".intval($_GET['type']);
+}
+
 $z = "
 SELECT
       `hiking_members`.id_user,
@@ -39,8 +47,8 @@ FROM
       LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
       LEFT JOIN hiking_workouts_target ON `hiking_workouts_target`.`id_hiking`=hiking_members.id_hiking
 WHERE
-      `hiking_members`.`id_hiking`={$id_hiking}
-      AND workout_tracks.date_start BETWEEN hiking_workouts_target.date_start AND hiking_workouts_target.date_finish
+      {$where}
+AND workout_tracks.date_start BETWEEN hiking_workouts_target.date_start AND hiking_workouts_target.date_finish
 
 GROUP BY hiking_members.id_user
 ";

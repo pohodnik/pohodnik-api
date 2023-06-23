@@ -6,7 +6,7 @@ include("../../../blocks/global.php");
 $result = array();
 $id_user = $_COOKIE["user"];
 $id_hiking = isset($_GET['id_hiking'])?intval($_GET['id_hiking']):0;
-
+global $mysqli;
 if(!($id_hiking>0)){die(err("id_hiking is undefined"));}
 
 $z = "SELECT
@@ -33,12 +33,15 @@ hiking_workouts_target.`time_mooving`,
 workout_types.name as workout_type_name
 FROM
 `hiking_workouts_target`
-LEFT JOIN workout_types ON hiking_workouts_target.id = workout_types.id
+LEFT JOIN workout_types ON hiking_workouts_target.workout_type = workout_types.id
       WHERE
       hiking_workouts_target.id_hiking={$id_hiking}
 ";
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
 
-$res = $q -> fetch_assoc();
+$res = array();
+while($r = $q -> fetch_assoc()) {
+    $res[] = $r;
+}
 die(out($res));
