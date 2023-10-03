@@ -2,6 +2,9 @@
 include("../../blocks/db.php"); //подключение к БД
 //include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
+
+global $mysqli;
+
 $result = array();
 $id_user = $_COOKIE["user"];
 $id_hiking = intval($_GET['id_hiking']);
@@ -11,16 +14,18 @@ if(isset($_GET['day'])){
 	$claus .= " AND hiking_schedule.d1 BETWEEN '".$_GET['day']." 00:00:00' AND '".$_GET['day']." 23:59:59' ";
 }
 
-
 $q = $mysqli->query("SELECT 
 		hiking_schedule.id, 
 		hiking_schedule.id_hiking, 
-		UNIX_TIMESTAMP(hiking_schedule.d1)+{$time_offset} AS uts1,  
-		UNIX_TIMESTAMP(hiking_schedule.d2)+{$time_offset} AS uts2, 
+		UNIX_TIMESTAMP(hiking_schedule.d1) AS uts1,  
+		UNIX_TIMESTAMP(hiking_schedule.d2) AS uts2, 
 		hiking_schedule.name, 
 		hiking_schedule.id_food_act, 
 		hiking_schedule.id_route_object,
 		hiking_schedule.kkal,
+		hiking_schedule.description,
+		hiking_schedule.link,
+		hiking_schedule.cost,
 		route_objects.name AS name_routeobject,
 		route_objects.distance AS routeobject_distance,
 		route_objects.`desc` AS routeobject_description,
