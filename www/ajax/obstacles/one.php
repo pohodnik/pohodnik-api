@@ -4,11 +4,7 @@ include("../../blocks/global.php"); //подключение к БД
 
 global $mysqli;
 
-$claus = "";
-
-if (isset($_GET['type'])) {
-    $claus .= " AND obstacles.`type` = '".$mysqli->real_escape_string($_GET['type'])."'";
-}
+$id = intval($_GET['id']);
 
 $z = "
 SELECT
@@ -35,14 +31,10 @@ FROM
     LEFT JOIN users AS creator ON creator.id = obstacles.creator_id
     LEFT JOIN users AS updator ON updator.id = obstacles.updated_id
     LEFT JOIN geo_regions ON geo_regions.id = obstacles.id_geo_region
-WHERE 1 {$claus}
+WHERE obstacles.`id` = {$id}
 ";
 $q = $mysqli->query($z);
 if(!$q){die(err($mysqli->error, array('query' => $z)));}
-$res = array();
-
-while($r = $q->fetch_assoc()) {
-    $res[] = $r;
-}
-echo(jout($res));
+$r = $q->fetch_assoc();
+echo(jout($r));
 
