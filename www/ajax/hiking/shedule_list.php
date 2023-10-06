@@ -27,6 +27,8 @@ $q = $mysqli->query("SELECT
 		hiking_schedule.link,
 		hiking_schedule.cost,
 		route_objects.name AS name_routeobject,
+		route_objects.id_typeobject AS type_routeobject,
+		IF(route_objects.id_typeobject = 1, route_objects.coordinates, NULL) AS coordinates_routeobject,
 		route_objects.distance AS routeobject_distance,
 		route_objects.`desc` AS routeobject_description,
 		food_acts.name AS name_food_act,
