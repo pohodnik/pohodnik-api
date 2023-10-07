@@ -10,9 +10,11 @@ $id_current_user = $_COOKIE["user"];
 $z = "
 SELECT
     sh.*,
+       
     users.name,
     users.surname,
     users.photo_50 as photo,
+       own.id as own_id,
     own.name as own_name,
     own.surname as own_surname,
     own.photo_50 as own_photo
