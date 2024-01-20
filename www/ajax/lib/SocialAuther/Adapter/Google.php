@@ -1,12 +1,5 @@
 <?php
     namespace SocialAuther\Adapter;
-    $GOOGLE_SCOPES = [
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile'
-    ];
-    
-    $GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
-    $GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v1/userinfo';
 
 class Google extends AbstractAdapter
 {
@@ -56,33 +49,33 @@ class Google extends AbstractAdapter
         $GOOGLE_CLIENT_SECRET = $this->clientSecret;
         $GOOGLE_REDIRECT_URI = $this->redirectUri;
 
-        if (isset($_GET['code'])) {
-            $params = [
-                'client_id'     => $GOOGLE_CLIENT_ID,
-                'client_secret' => $GOOGLE_CLIENT_SECRET,
-                'redirect_uri'  => $GOOGLE_REDIRECT_URI,
-                'grant_type'    => 'authorization_code',
-                'code'          => $_GET['code'],
-            ];
+        if (isset($_GET['code'])) {$params = array(
+            'client_id'     => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'redirect_uri'  => $this->redirectUri,
+            'grant_type'    => 'authorization_code',
+            'code'          => $_GET['code']
+        );
 
-            $tokenInfo = $this->post($GOOGLE_TOKEN_URI, $params);
-			// echo '<pre>';
-			// print_r($tokenInfo);
-			// echo '</pre>';
+            $tokenInfo = $this->post('https://accounts.google.com/o/oauth2/token', $params);
+
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
-                $userInfo = $this->get($GOOGLE_USER_INFO_URI, $params);
-                echo 'userInfo<pre>';
-                print_r($userInfo);
-                echo '</pre>';
-                if (isset($userInfo[$this->socialFieldsMap['socialId']])) {
-                    $this->userInfo = $userInfo;
-                    $this->userInfo['access_token'] = $tokenInfo['access_token'];
-                    $result = true;
+                $userInfo = $this->get('https://www.googleapis.com/oauth2/v1/userinfo', $params);
+                if (isset($userInfo['id']))
+                {
+                    $this->parseUserData($userInfo);
+
+                    if (isset($this->response['birthday'])) {
+                        $birthDate = explode('-', $this->response['birthday']);
+                        $this->userInfo['birthDay']   = isset($birthDate[2]) ? $birthDate[2] : null;
+                        $this->userInfo['birthMonth'] = isset($birthDate[1]) ? $birthDate[1] : null;
+                        $this->userInfo['birthYear']  = isset($birthDate[0]) ? $birthDate[0] : null;
+                    }
+
+                    return true;
                 }
-            } else {
-                echo("WRONG TOKENINFO".$tokenInfo);
             }
         }
 
@@ -100,18 +93,13 @@ class Google extends AbstractAdapter
      */
     public function prepareAuthParams()
     {
-        $GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth';
-        $GOOGLE_SCOPES = [
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile'
-        ];
         return array(
-            'auth_url'    => $GOOGLE_AUTH_URI,
+            'auth_url'    => 'https://accounts.google.com/o/oauth2/auth',
             'auth_params' => array(
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => implode(' ', $GOOGLE_SCOPES)
+                'scope'         => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
             )
         );
     }
