@@ -77,9 +77,11 @@ class Google extends AbstractAdapter
 
                     return true;
                 }
+            } else {
+                return array('reason' => 'Has no access_token in tokenInfo', "token_info" => $tokenInfo);
             }
         } else {
-            return 'Error_______________'.$_GET['error'];
+            return array('reason' => 'Has no Query parameter code', "error" => $_GET['error']);
         }
 
     } catch (Exception $e) {
