@@ -60,6 +60,8 @@ class Google extends AbstractAdapter
 
             $tokenInfo = $this->post('https://accounts.google.com/o/oauth2/token', $params);
 
+            return array('token_inFo' => $tokenInfo);
+
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 

@@ -26,7 +26,7 @@ $auther = new SocialAuther\SocialAuther($adapter);
 
     $authResult = $auther->authenticate();
     if ($authResult === true) {
-
+        die(json_encode($auther));
         include('../blocks/db.php');
 
         $q = $mysqli->query("
