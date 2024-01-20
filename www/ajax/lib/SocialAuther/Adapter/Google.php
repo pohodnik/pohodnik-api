@@ -58,14 +58,14 @@ class Google extends AbstractAdapter
                 'code'          => $_GET['code']
             );
 
-            $tokenInfo = $this->post('https://accounts.google.com/o/oauth2/token', $params);
+            $tokenInfo = $this->post('https://www.googleapis.com/oauth2/v4/token', $params);
 
 
 
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
-                $userInfo = $this->get('https://www.googleapis.com/oauth2/v1/userinfo', $params);
+                $userInfo = $this->get('https://www.googleapis.com/oauth2/v3/userinfo', $params);
 
                 if (isset($userInfo['id']))
                 {
@@ -107,13 +107,13 @@ class Google extends AbstractAdapter
     public function prepareAuthParams()
     {
         return array(
-            'auth_url'    => 'https://accounts.google.com/o/oauth2/auth',
+            'auth_url'    => 'https://accounts.google.com/o/oauth2/v2/auth',
             'auth_params' => array(
                 'access_type' => 'offline',
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'https://www.googleapis.com/auth/userinfo.profile'
+                'scope'         => 'openid email profile'
             )
         );
     }
