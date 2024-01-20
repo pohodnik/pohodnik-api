@@ -66,7 +66,7 @@ class Google extends AbstractAdapter
                 $params['access_token'] = $tokenInfo['access_token'];
 
                 $userInfo = $this->get('https://www.googleapis.com/oauth2/v1/userinfo', $params);
-                return array('____userInfo' => $userInfo);
+
                 if (isset($userInfo['id']))
                 {
                     $this->parseUserData($userInfo);
@@ -79,6 +79,8 @@ class Google extends AbstractAdapter
                     }
 
                     return true;
+                } else {
+                    return array('reason' => 'USerinfo has no id', 'userInfo' => $userInfo);
                 }
             } else {
                 return array('reason' => 'Has no access_token in tokenInfo', "token_info" => $tokenInfo, "params" =>  $params);
@@ -108,7 +110,7 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+                'scope'         => 'https://www.googleapis.com/auth/userinfo.email'
             )
         );
     }
