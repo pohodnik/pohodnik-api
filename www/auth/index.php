@@ -25,7 +25,7 @@ $adapter = new $class($adapterConfigs[$_GET['provider']]);
 $auther = new SocialAuther\SocialAuther($adapter);
 
     $authResult = $auther->authenticate();
-    if ($authResult) {
+    if ($authResult === true) {
 
         include('../blocks/db.php');
 
@@ -68,12 +68,8 @@ $auther = new SocialAuther\SocialAuther($adapter);
         
 
     } else {
-		print_r($auther);
-        echo('\n\n\n-----------------------------------------\n\n\n');
-        print_r($authResult);
-        echo('no auth');
-        $success = false;
-        die();
+        die(json_encode(array("error" => $authResult, "auth" => $auther)));
+
     }
     
     echo "<script>
