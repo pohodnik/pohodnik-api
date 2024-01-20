@@ -69,13 +69,9 @@ $auther = new SocialAuther\SocialAuther($adapter);
 
     } else {
         die(json_encode(array("error" => $authResult, "auth" => $auther)));
-
     }
 
-    die('Ok');
-    
-    echo "Success<script>
-    
+    echo "<script>
     opener.postMessage(".json_encode(array(
         "result" => $success,
         "new" => $new,

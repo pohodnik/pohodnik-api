@@ -60,8 +60,6 @@ class Google extends AbstractAdapter
 
             $tokenInfo = $this->post('https://accounts.google.com/o/oauth2/token', $params);
 
-            return array("ti" => $tokenInfo, "params" => $params);
-
             if (isset($tokenInfo['access_token'])) {
                 $params['access_token'] = $tokenInfo['access_token'];
 
@@ -78,8 +76,6 @@ class Google extends AbstractAdapter
                         $this->userInfo['birthMonth'] = isset($birthDate[1]) ? $birthDate[1] : null;
                         $this->userInfo['birthYear']  = isset($birthDate[0]) ? $birthDate[0] : null;
                     }
-
-
 
                     return true;
                 } else {
