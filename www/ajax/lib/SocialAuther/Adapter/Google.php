@@ -78,7 +78,7 @@ class Google extends AbstractAdapter
                     return true;
                 }
             } else {
-                return array('reason' => 'Has no access_token in tokenInfo', "token_info" => $tokenInfo);
+                return array('reason' => 'Has no access_token in tokenInfo', "token_info" => $tokenInfo, "params" =>  $params);
             }
         } else {
             return array('reason' => 'Has no Query parameter code', "error" => $_GET['error']);
@@ -105,7 +105,7 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'profile email' // https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
+                'scope'         => '' // https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
             )
         );
     }
