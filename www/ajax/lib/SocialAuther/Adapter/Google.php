@@ -79,7 +79,7 @@ class Google extends AbstractAdapter
                 }
             }
         } else {
-            die('Error_______________'.$_GET['error']);
+            return 'Error_______________'.$_GET['error'];
         }
 
     } catch (Exception $e) {

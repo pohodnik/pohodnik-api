@@ -24,7 +24,8 @@ $adapter = new $class($adapterConfigs[$_GET['provider']]);
 
 $auther = new SocialAuther\SocialAuther($adapter);
 
-    if ($auther->authenticate()) {
+    $authResult = $auther->authenticate();
+    if ($authResult) {
 
         include('../blocks/db.php');
 
@@ -68,6 +69,8 @@ $auther = new SocialAuther\SocialAuther($adapter);
 
     } else {
 		print_r($auther);
+        echo('\n\n\n-----------------------------------------\n\n\n');
+        print_r($authResult);
         echo('no auth');
         $success = false;
         die();
