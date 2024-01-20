@@ -20,8 +20,8 @@ $adapterConfigs = array(
 		'name'=>'Яндекс'
     ),
     'google' => array(
-        'client_id'     => '569907811449-fc76blolbo9fqb2jduu7mt6tev9e8d1p.apps.googleusercontent.com',
-        'client_secret' => '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',
+        'client_id'     => '569907811449-3uooqtcajm6kb5j2e8e4lvqo5jtg8st2.apps.googleusercontent.com',
+        'client_secret' => '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',
         'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=google',
 		'name'=>'Google'
     ),
