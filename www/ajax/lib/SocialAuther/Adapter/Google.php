@@ -96,6 +96,7 @@ class Google extends AbstractAdapter
         return array(
             'auth_url'    => 'https://accounts.google.com/o/oauth2/auth',
             'auth_params' => array(
+                'access_type' => 'offline',
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
