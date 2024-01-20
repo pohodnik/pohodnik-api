@@ -49,13 +49,14 @@ class Google extends AbstractAdapter
         $GOOGLE_CLIENT_SECRET = $this->clientSecret;
         $GOOGLE_REDIRECT_URI = $this->redirectUri;
 
-        if (isset($_GET['code'])) {$params = array(
-            'client_id'     => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'redirect_uri'  => $this->redirectUri,
-            'grant_type'    => 'authorization_code',
-            'code'          => $_GET['code']
-        );
+        if (isset($_GET['code'])) {
+            $params = array(
+                'client_id'     => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'redirect_uri'  => $this->redirectUri,
+                'grant_type'    => 'authorization_code',
+                'code'          => $_GET['code']
+            );
 
             $tokenInfo = $this->post('https://accounts.google.com/o/oauth2/token', $params);
 
@@ -77,6 +78,8 @@ class Google extends AbstractAdapter
                     return true;
                 }
             }
+        } else {
+            die('Error_______________'.$_GET['error']);
         }
 
     } catch (Exception $e) {
@@ -96,6 +99,7 @@ class Google extends AbstractAdapter
         return array(
             'auth_url'    => 'https://accounts.google.com/o/oauth2/auth',
             'auth_params' => array(
+                'access_type' => 'offline',
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
