@@ -78,6 +78,8 @@ class Google extends AbstractAdapter
                         $this->userInfo['birthYear']  = isset($birthDate[0]) ? $birthDate[0] : null;
                     }
 
+                    return $this;
+
                     return true;
                 } else {
                     return array('reason' => 'USerinfo has no id', 'userInfo' => $userInfo);
