@@ -113,7 +113,7 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
+                'scope'         => 'profile https://www.googleapis.com/auth/userinfo.email'
             )
         );
     }
