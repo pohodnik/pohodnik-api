@@ -66,11 +66,11 @@ class Google extends AbstractAdapter
                 $params['access_token'] = $tokenInfo['access_token'];
 
                 $userInfo = $this->get('https://www.googleapis.com/oauth2/v1/userinfo', $params);
-                return $userInfo;
+
                 if (isset($userInfo['id']))
                 {
                     $this->parseUserData($userInfo);
-
+                    return $userInfo;
                     if (isset($this->response['birthday'])) {
                         $birthDate = explode('-', $this->response['birthday']);
                         $this->userInfo['birthDay']   = isset($birthDate[2]) ? $birthDate[2] : null;
