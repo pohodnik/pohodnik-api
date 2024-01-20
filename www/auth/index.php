@@ -72,7 +72,7 @@ $auther = new SocialAuther\SocialAuther($adapter);
 
     }
     
-    echo "<script>
+    echo "Success<script>
     
     opener.postMessage(".json_encode(array(
         "result" => $success,
