@@ -113,7 +113,7 @@ class Google extends AbstractAdapter
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
                 'client_id'     => $this->clientId,
-                'scope'         => 'openid email profile'
+                'scope'         => 'openid email'
             )
         );
     }
