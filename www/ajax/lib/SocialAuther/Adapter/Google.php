@@ -69,8 +69,9 @@ class Google extends AbstractAdapter
 
                 if (isset($userInfo['id']))
                 {
-                    $this->parseUserData($userInfo);
-                    return $userInfo;
+                    $this->userInfo = $userInfo;
+                    $this->userInfo['access_token'] = $tokenInfo['access_token'];
+
                     if (isset($this->response['birthday'])) {
                         $birthDate = explode('-', $this->response['birthday']);
                         $this->userInfo['birthDay']   = isset($birthDate[2]) ? $birthDate[2] : null;
