@@ -3,7 +3,8 @@
 	include("../../blocks/for_auth.php"); //Только для авторизованных
 
 	$id = intval($_POST['id']);
-	$coordinates = $mysqli->real_escape_string(trim($_POST['coordinates']));
+$coordinates = isset($_POST['coordinates']) ? $mysqli->real_escape_string(trim($_POST['coordinates'])) : '';
+	$trackData = isset($_POST['trackData']) ? $mysqli->real_escape_string(trim($_POST['trackData'])) : '';
 	$name = $mysqli->real_escape_string(trim($_POST['name']));
 	$desc = $mysqli->real_escape_string(trim($_POST['desc']));
 	$icon_url = $mysqli->real_escape_string(trim($_POST['icon_url']));
@@ -32,6 +33,7 @@
 			`name` = '{$name}',
 			`desc` = '{$desc}',
 			`coordinates` = '{$coordinates}',
+			`trackData` = '{$trackData}',
 			`icon_url` = '{$icon_url}',
 			`stroke_color` = '{$stroke_color}',
 			`stroke_opacity` = {$stroke_opacity},

@@ -7,8 +7,8 @@ $id = intval($_POST['id']);
 $uid = intval($_COOKIE["user"]);
 
 $z = "
-INSERT INTO `routes`(`id_copySrc`, `name`, `desc`, `center_coordinates`, `zoom`, `length`, `id_author`, `id_type`, `controls`, `date_create`, `preview_img`) 
-SELECT {$id} as id_copySrc, CONCAT(`name`, ' (копия)') as name, `desc`, `center_coordinates`, `zoom`, `length`, {$uid} as `id_author`, `id_type`, `controls`, NOW() AS `date_create`, `preview_img` FROM `routes` WHERE id={$id}";
+INSERT INTO `routes`(`id_copySrc`, `name`, `desc`, `bounds`, `length`, `id_author`, `id_type`, `controls`, `date_create`, `preview_img`) 
+SELECT {$id} as id_copySrc, CONCAT(`name`, ' (копия)') as name, `desc`, `bounds`, `length`, {$uid} as `id_author`, `id_type`, `controls`, NOW() AS `date_create`, `preview_img` FROM `routes` WHERE id={$id}";
 $q = $mysqli -> query($z);
 
 if(!$q) {

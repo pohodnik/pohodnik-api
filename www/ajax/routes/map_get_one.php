@@ -4,9 +4,21 @@ include("../../blocks/db.php"); //подключение к БД
 $id_user = isset($_COOKIE["user"])? $_COOKIE["user"]:0;
 $id = intval($_GET['id']);
 $result = array();
-$q = $mysqli->query("SELECT routes.`id`, routes.`name`, routes.preview_img, routes.`desc`, routes.`center_coordinates`, routes.`zoom`, routes.`length`, 
-					routes.`id_author`,routes.`id_author`={$id_user} AS iauthor, routes.`id_type`,  routes.`date_create`
-					FROM `routes` WHERE routes.id={$id} LIMIT 1");
+$q = $mysqli->query("SELECT
+routes.`id`,
+       routes.`name`,
+       routes.preview_img,
+       routes.`desc`,
+       routes.`bounds`,
+       routes.`length`, 
+       routes.`id_author`,
+       routes.`id_author`={$id_user} AS iauthor,
+       routes.`id_type`,
+       routes.`date_create`,
+        author.id AS author_id,
+        author.photo_50 as author_photo,
+        CONCAT(author.surname,' ', author.name) as author_name
+FROM `routes` LEFT JOIN users as author ON author.id=routes.`id_author` WHERE routes.id={$id} LIMIT 1");
 if($q && $q->num_rows===1){
 
 $result['route'] = $q->fetch_assoc();

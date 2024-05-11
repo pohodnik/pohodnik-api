@@ -2,7 +2,7 @@
 $curl = curl_init();
 $lat = $_GET['lat'];
 $lon = $_GET['lon'];
-$layer = isset($_GET['layer']) ? $_GET['layer'] : 'unset';
+$layer = isset($_GET['layer']) ? $_GET['layer'] : 'poi,natural';
 
 curl_setopt($curl, CURLOPT_URL, "https://nominatim.openstreetmap.org/reverse?lat={$lat}&lon={$lon}&format=json&extratags=1&layer={$layer}");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

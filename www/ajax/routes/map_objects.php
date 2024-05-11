@@ -28,11 +28,21 @@ $q1=$mysqli->query("SELECT
 	mountain_passes.altitude as mp_altitude,
 	mountain_passes.comment as mp_comment,
 	mountain_passes_categories.name as mpc_name,
-	mountain_passes_categories.description as mpc_comment
+	mountain_passes_categories.description as mpc_comment,
+	creator.id AS creator_id,
+	creator.photo_50 as creator_photo,
+    CONCAT(creator.surname,' ', creator.name) as creator_name,
+    editor.id AS editor_id,
+	editor.photo_50 as editor_photo,
+    CONCAT(editor.surname,' ', editor.name) as editor_name
+       
 	{$fields}
 FROM route_objects
 	LEFT JOIN mountain_passes ON mountain_passes.id = route_objects.id_mountain_pass
 	LEFT JOIN mountain_passes_categories ON mountain_passes_categories.id = mountain_passes.id_pass_category
+	LEFT JOIN users as creator ON creator.id = route_objects.id_creator 
+	LEFT JOIN users as editor ON editor.id = route_objects.id_editor 
+	
 {$join}
 WHERE 1 {$wh} {$group} ORDER BY {$order}");
 if(!$q1){die($mysqli->error);}

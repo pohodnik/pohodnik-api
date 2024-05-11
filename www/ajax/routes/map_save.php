@@ -9,14 +9,12 @@ else if(($q && $q->num_rows===0) || $id > 0){
 
 $id_user = $_COOKIE["user"];
 if($id ===0){
-$coords = "53.132729914996006,45.024418952452734";
-
 
 
 $q = $mysqli->query("INSERT INTO `routes` SET 
 						`name`='".trim($mysqli->real_escape_string($_POST['name']))."',
 						`desc`='".trim($mysqli->real_escape_string($_POST['desc']))."',
-						`center_coordinates`='".$coords."',
+						`bounds`='[[53.132729,45.024418],[53.132729,45.024418]]',
 						`zoom` = 12,
 						`length`= 0,
 						`id_author`=".$id_user."
@@ -37,8 +35,7 @@ $q = $mysqli->query("INSERT INTO `routes` SET
 $q = $mysqli->query("UPDATE `routes` SET 
 						`name`='".trim($mysqli->real_escape_string($_POST['name']))."',
 						`desc`='".trim($mysqli->real_escape_string($_POST['desc']))."',
-						`center_coordinates`='".trim($mysqli->real_escape_string($_POST['center']))."',
-						`zoom`=".intval($_POST['zoom']).",
+						`bounds`='".trim($mysqli->real_escape_string($_POST['bounds']))."',
 						`length`=0,
 						`id_author`=".$id_user.",
 						`id_type`=".intval($_POST['type'])."
