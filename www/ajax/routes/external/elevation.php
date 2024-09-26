@@ -2,7 +2,8 @@
 $curl = curl_init();
 $locations = $_GET['locations'];
 
-$url = "https://api.open-elevation.com/api/v1/lookup"; // https://api.opentopodata.org/v1/srtm90m
+$url = "https://api.open-elevation.com/api/v1/lookup";
+//$url = "https://api.opentopodata.org/v1/srtm90m";
 
 
 curl_setopt($curl, CURLOPT_URL, "{$url}?locations={$locations}");
