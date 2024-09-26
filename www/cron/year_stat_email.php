@@ -1,6 +1,15 @@
 <?php
 include("../blocks/db.php"); //подключение к БД
 require("../blocks/mail.php"); //мылилка
+require('../blocks/config.php');
+
+
+if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != getConf('MIGRATOR_USER') || $_SERVER['PHP_AUTH_PW'] != getConf('MIGRATOR_PASSWORD')) {
+    header('WWW-Authenticate: Basic realm="Phodnik Migrator"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo 'Без авторизации тут делать нечего';
+    exit;
+}
 
 $year = date('Y');
 $add_where = "";
