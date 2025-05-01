@@ -23,13 +23,15 @@ jobs:
       working-directory: ./www/
       run: zip -r ../${{ env.ARTIFACT_NAME }} *
 
-    - name: SCP to server
-      run: |
-        tmpfile=$(mktemp sec.XXXXXX)
-
-        echo "${{ secrets.VDSKA_KEY }}" >> "$tmpfile"
-        scp -C -i $tmpfile -r ${{ env.ARTIFACT_NAME }} ${{ secrets.VDSKA_USER }}@${{ secrets.VDSKA_HOST }}:/var/www/fednik
-        rm "$tmpfile"
+    - name: Copy files via SSH
+      uses: appleboy/scp-action@v1
+      with:
+        host: ${{ secrets.VDSKA_HOST }}
+        username: ${{ secrets.VDSKA_USER }}
+        password: ${{ secrets.VDSKA_PASSWORD }}
+        #port: ${{ secrets.PORT }}
+        source: "${{ env.ARTIFACT_NAME }}"
+        target: /var/www/fednik
 
     - name: Unzip remote
       run: curl -i -X GET https://pohodnik.tk/unzip.php?name=${{ env.ARTIFACT_NAME }}
