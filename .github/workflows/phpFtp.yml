@@ -31,7 +31,7 @@ jobs:
         password: ${{ secrets.VDSKA_PASSWORD }}
         #port: ${{ secrets.PORT }}
         source: "${{ env.ARTIFACT_NAME }}"
-        target: /var/www/fednik
+        target: /var/www/pohodnik
 
     - name: Unzip remote
       run: curl -i -X GET https://pohodnik.tk/unzip.php?name=${{ env.ARTIFACT_NAME }}
