@@ -23,18 +23,13 @@ jobs:
       working-directory: ./www/
       run: zip -r ../${{ env.ARTIFACT_NAME }} *
 
-    - name: Try FTP Login
-      run: curl ftp://${{env.FTP_SERVER}}/ --user ${{env.FTP_USER}}:${{ secrets.FTP_PASS }}
-      env:
-        FTP_SERVER: ftp.fednik.ru
-        FTP_USER: deploy@pohodnik.tk
+    - name: SCP to server
+      run: |
+        tmpfile=$(mktemp sec.XXXXXX)
 
-    - name: Send to ftp
-      run: curl -T ${{ env.ARTIFACT_NAME }} -u ${{ env.FTP_USER }}:${{ secrets.FTP_PASS }} ftp://${{ env.FTP_SERVER }}/${{ env.REMOTE_FOLDER }}
-      env:
-        FTP_SERVER: ftp.fednik.ru
-        FTP_USER: deploy@pohodnik.tk
-        REMOTE_FOLDER: deploy/
+        echo ${{ secrets.TELEGRAM_TOKEN }} >> "$tmpfile"
+        scp -C -i $tmpfile -r ${{ env.ARTIFACT_NAME }} ${{ secrets.VDSKA_USER }}@${{ secrets.VDSKA_HOST }}:/var/www/fednik
+        rm "$tmpfile"
 
     - name: Unzip remote
       run: curl -i -X GET https://pohodnik.tk/unzip.php?name=${{ env.ARTIFACT_NAME }}
