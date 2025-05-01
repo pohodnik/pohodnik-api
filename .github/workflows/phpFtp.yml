@@ -40,7 +40,7 @@ jobs:
         username: ${{ secrets.VDSKA_USER }}
         password: ${{ secrets.VDSKA_PASSWORD }}
         #port: ${{ secrets.PORT }}
-        script: unzip -u -f -d /var/www/pohodnik/ /var/www/pohodnik/deploy/${{ env.ARTIFACT_NAME }}
+        script: unzip -u -q -d /var/www/pohodnik/ /var/www/pohodnik/deploy/${{ env.ARTIFACT_NAME }}
 
 
     - name: Unzip remote
