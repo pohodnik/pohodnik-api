@@ -33,6 +33,16 @@ jobs:
         source: "${{ env.ARTIFACT_NAME }}"
         target: /var/www/pohodnik/deploy
 
+    - name: Execute remote SSH commands using password
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.VDSKA_HOST }}
+        username: ${{ secrets.VDSKA_USER }}
+        password: ${{ secrets.VDSKA_PASSWORD }}
+        #port: ${{ secrets.PORT }}
+        script: unzip  -f -d /var/www/pohodnik/ /var/www/pohodnik/deploy/${{ env.ARTIFACT_NAME }}
+
+
     - name: Unzip remote
       run: curl -i -X GET https://pohodnik.tk/unzip.php?name=${{ env.ARTIFACT_NAME }}
 
