@@ -34,8 +34,8 @@ if ($tg_user !== false) {
 } else {
   $bot_username = BOT_USERNAME;
   $html = <<<HTML
-<h1>Hello, anonymous!</h1>
-<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="pohodnik58Bot" data-size="large" data-radius="4" data-auth-url="https://pohodnik.tk/auth/?provider=telegram" data-request-access="write"></script>
+<h1>Привет, походник!</h1>
+<script async src="https://telegram.org/js/telegram-widget.js?2" data-telegram-login="{$bot_username}" data-size="large" data-radius="4" data-auth-url="https://pohodnik.tk/auth/?provider=telegram" data-request-access="read"></script>
 HTML;
 }
 
@@ -45,7 +45,17 @@ HTML;
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Login Widget Example</title>
+    <title>Авторизация походника через телеграм</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  h1 {
+  font-family: "Russo One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}  
+</style>
   </head>
   <body><center>{$html}</center></body>
 </html>
