@@ -1,5 +1,4 @@
 <?php
-
 namespace SocialAuther\Adapter;
 
 class Telegram extends AbstractAdapter
@@ -10,104 +9,78 @@ class Telegram extends AbstractAdapter
 
         $this->socialFieldsMap = array(
             'socialId'   => 'id',
-            'email'      => 'email',
-            'avatar'     => 'profile'
+            'firstName'  => 'first_name',
+            'lastName'   => 'last_name',
+            'username'   => 'username',
+            'avatar'     => 'photo_url'
         );
 
-        $this->provider = 'strava';
-    }
-
-    /**
-     * Get user name or null if it is not set
-     *
-     * @return string|null
-     */
-    public function getName()
-    {
-        $result = null;
-
-        if (isset($this->userInfo['firstname']) && isset($this->userInfo['lastname'])) {
-            $result = $this->userInfo['firstname'] . ' ' . $this->userInfo['lastname'];
-        } elseif (isset($this->userInfo['firstname']) && !isset($this->userInfo['lastname'])) {
-            $result = $this->userInfo['firstname'];
-        } elseif (!isset($this->userInfo['firstname']) && isset($this->userInfo['lastname'])) {
-            $result = $this->userInfo['lastname'];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Get user social id or null if it is not set
-     *
-     * @return string|null
-     */
-    public function getSocialPage()
-    {
-        $result = null;
-
-        if (isset($this->userInfo['id'])) {
-            $result = 'https://www.strava.com/athletes/' . $this->userInfo['id'];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Get user sex or null if it is not set
-     *
-     * @return string|null
-     */
-    public function getSex()
-    {
-        $result = null;
-        if (isset($this->userInfo['sex'])) {
-            $result = $this->userInfo['sex'] == 'M' ? 'male' : 'female';
-        }
-
-        return $result;
+        $this->provider = 'telegram';
     }
 
     /**
      * Authenticate and return bool result of authentication
      *
-     * @return bool
+     * @return bool|array
      */
     public function authenticate()
     {
         $result = false;
-
-        if (isset($_GET['code'])) {
-             $params= array(
-                'client_id' => $this->clientId,
-                'client_secret' => $this->clientSecret,
-                'code' => $_GET['code']
-            );
-
-            $tokenInfo = $this->post('https://www.strava.com/oauth/token', $params);
-			
-            if (isset($tokenInfo['access_token'])) {
-               $params = array(
-                    'access_token' => $tokenInfo['access_token']
-                );
-
-                $userInfo = $this->get('https://www.strava.com/api/v3/athlete', $params);
-				
-				//print_r($userInfo);
-				
-                if (isset($userInfo['id'])) {
-                    $this->userInfo = $userInfo;
-                    $this->userInfo['access_token'] = $tokenInfo['access_token'];
-                    $result = true;
+        
+        try {
+            // Telegram Widget login passes user data via $_GET
+            if (isset($_GET['hash'])) {
+                $authData = $_GET;
+                
+                // Verify the authentication data
+                if ($this->verifyTelegramAuth($authData)) {
+                    $this->userInfo = array(
+                        'id'         => $authData['id'] ?? null,
+                        'first_name' => $authData['first_name'] ?? null,
+                        'last_name'  => $authData['last_name'] ?? null,
+                        'username'   => $authData['username'] ?? null,
+                        'photo_url'  => $authData['photo_url'] ?? null,
+                        'auth_date'  => $authData['auth_date'] ?? null,
+                        'hash'       => $authData['hash']
+                    );
+                    
+                    return true;
+                } else {
+                    return array('reason' => 'Telegram authentication failed', 'authData' => $authData);
                 }
             } else {
-				die('no ACCESS TOKEN');
-			}
-        } else {
-			die('no CODE');
-		}
+                return array('reason' => 'No Telegram authentication data received');
+            }
+        } catch (\Exception $e) {
+            return 'Exception thrown: '.$e->getMessage()."\n";
+        }
 
         return $result;
+    }
+
+    /**
+     * Verify Telegram authentication data
+     *
+     * @param array $authData
+     * @return bool
+     */
+    private function verifyTelegramAuth($authData)
+    {
+        $checkHash = $authData['hash'];
+        unset($authData['hash']);
+        
+        $dataCheckArr = [];
+        foreach ($authData as $key => $value) {
+            $dataCheckArr[] = $key . '=' . $value;
+        }
+        
+        sort($dataCheckArr);
+        $dataCheckString = implode("\n", $dataCheckArr);
+        
+        $secretKey = hash('sha256', $this->clientSecret, true);
+        $hash = hash_hmac('sha256', $dataCheckString, $secretKey);
+        
+        return strcmp($hash, $checkHash) === 0;
     }
 
     /**
@@ -118,14 +91,23 @@ class Telegram extends AbstractAdapter
     public function prepareAuthParams()
     {
         return array(
-            'auth_url'    => '/auth/telegram/',
+            'auth_url'    => '/auth/telegram',
             'auth_params' => array(
-                'client_id'     => $this->clientId,
-                'scope'         => 'profile:read_all',
-                'redirect_uri'  => $this->redirectUri,
-                'response_type' => 'code',
-				'state'=>'ok'
+                'bot_id'     => $this->clientId,  // Используем clientId как bot_id
+                'origin'     => $this->redirectUri,
+                'embed'      => '0',
+                'request_access' => 'read'
             )
         );
+    }
+
+    /**
+     * Get user birthday or null if it is not set
+     *
+     * @return null
+     */
+    public function getBirthday()
+    {
+        return null;
     }
 }

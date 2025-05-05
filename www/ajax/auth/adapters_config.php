@@ -1,53 +1,84 @@
 <?php
-$adapterConfigs = array(
-    'vk' => array(
-        'client_id'     => '6499514',
-        'client_secret' => 'thztiCXqcTYm2oaXZq4h',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=vk',
-		'name'=>'ВКонтакте'
+    require_once("../../blocks/config.php");
 
-    ),
-    // 'telegram' => array(
-    //     'client_id'     => '0',
-    //     'client_secret' => '0',
-    //     'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=telegram',
-	// 	'name'=>'Телеграм'
-    // ),
-    'yandex' => array(
-        'client_id'     => '94f124fc09334032bba0acb78954db81',
-        'client_secret' => 'fec8018a1528402099b92e1ce9b0e8cf',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=yandex',
-		'name'=>'Яндекс'
-    ),
-    'google' => array(
-        'client_id'     => '569907811449-3uooqtcajm6kb5j2e8e4lvqo5jtg8st2.apps.googleusercontent.com',
-        'client_secret' => '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',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=google',
-		'name'=>'Google'
-    ),
-    'strava' => array(
-        'client_id'     => '15626',
-        'client_secret' => '45cc15025003629e265487c81ddafbeb1f668a59',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=strava',
-		'name'=>'Strava'
-    ),
-    'facebook' => array(
-        'client_id'     => '2139245699623747',
-        'client_secret' => '6d4c2b42b9f2255783fd45515f89541b',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=facebook',
-		'name'=>'Facebook'
-    ),
-    'odnoklassniki' => array(
-        'client_id'     => '1267313664',
-        'client_secret' => '41FBFA3E60F32D40987922E2',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=odnoklassniki',
-        'public_key'    => 'CBANKKIMEBABABABA',
-		'name'=>'Одноклассники'
-    ),
-    'mailru' => array(
-        'client_id'     => '760410',
-        'client_secret' => '357aaf458d5acded3ec62dd04a0c5b94',
-        'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=mailru',
-		'name'=>'Mail.Ru'
-    )
-);
+    $adapterConfigs = array();
+
+    if (!empty(getConf('VK_CLIENT_ID')) && !empty(getConf('VK_CLIENT_SECRET'))) {
+        $adapterConfigs['vk'] = array(
+            'client_id'     => getConf('VK_CLIENT_ID'),
+            'client_secret' => getConf('VK_CLIENT_SECRET'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=vk',
+            'name'=>'ВКонтакте'
+        );
+    }
+
+
+    if (!empty(getConf('YANDEX_CLIENT_ID')) && !empty(getConf('YANDEX_CLIENT_SECRET'))) {
+        $adapterConfigs['yandex'] = array(
+            'client_id'     => getConf('YANDEX_CLIENT_ID'),
+            'client_secret' => getConf('YANDEX_CLIENT_SECRET'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=yandex',
+            'name'=>'Яндекс'
+        );
+    }
+
+    if (!empty(getConf('GOOGLE_CLIENT_ID')) && !empty(getConf('GOOGLE_CLIENT_SECRET'))) {
+        $adapterConfigs['google'] = array(
+            'client_id'     => getConf('GOOGLE_CLIENT_ID'),
+            'client_secret' => getConf('GOOGLE_CLIENT_SECRET'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=google',
+            'name'=>'Google'
+        );
+    }
+
+
+    if (!empty(getConf('TG_CLIENT_ID')) && !empty(getConf('TG_CLIENT_SECRET'))) {
+        $adapterConfigs['telegram'] = array(
+            'client_id'     => getConf('TG_CLIENT_ID'),
+            'client_secret' => getConf('TG_CLIENT_SECRET'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=telegram',
+            'name'=>'Телеграм'
+        );
+    }
+
+    if (!empty(getConf('STRAVA_CLIENT_ID')) && !empty(getConf('STRAVA_CLIENT_SECRET'))) {
+        $adapterConfigs['strava'] = array(
+            'client_id'     => getConf('STRAVA_CLIENT_ID'),
+            'client_secret' => getConf('STRAVA_CLIENT_SECRET'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=strava',
+            'name'=>'Strava'
+        );
+    }
+
+
+    if (!empty(getConf('FACEBOOK_CLIENT_ID')) && !empty(getConf('FACEBOOK_CLIENT_SECRET'))) {
+        $adapterConfigs['facebook'] = array(
+            'client_id'     => getConf('FACEBOOK_CLIENT_ID'),
+            'client_secret' => getConf('FACEBOOK_CLIENT_SECRET'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=facebook',
+            'name'=>'facebook'
+        );
+    }
+
+
+    if (!empty(getConf('OK_CLIENT_ID')) && !empty(getConf('OK_CLIENT_SECRET')) && !empty(getConf('OK_PUBLIC_KEY'))) {
+        $adapterConfigs['odnoklassniki'] = array(
+            'client_id'     => getConf('OK_CLIENT_ID'),
+            'client_secret' => getConf('OK_CLIENT_SECRET'),
+            'public_key' => getConf('OK_PUBLIC_KEY'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=odnoklassniki',
+            'name'=>'Одноклассники'
+        );
+    }
+
+
+    if (!empty(getConf('MAILRU_CLIENT_ID')) && !empty(getConf('MAILRU_CLIENT_SECRET'))) {
+        $adapterConfigs['mailru'] = array(
+            'client_id'     => getConf('MAILRU_CLIENT_ID'),
+            'client_secret' => getConf('MAILRU_CLIENT_SECRET'),
+            'public_key' => getConf('OK_PUBLIC_KEY'),
+            'redirect_uri'  => 'https://pohodnik.tk/auth/?provider=mailru',
+            'name'=>'Mail.Ru'
+        );
+    }
+
