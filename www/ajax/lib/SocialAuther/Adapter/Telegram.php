@@ -86,7 +86,8 @@ class Telegram extends AbstractAdapter
             return true;
         }
 
-        return array('need' => $secretKey, 'has' => $hash);
+        print_r(array('need' => $secretKey, 'has' => $hash));
+        die();
     }
 
     /**
