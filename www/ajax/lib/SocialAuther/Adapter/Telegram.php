@@ -46,7 +46,8 @@ class Telegram extends AbstractAdapter
                         'username'   => $authData['username'] ?? null,
                         'photo_url'  => $authData['photo_url'] ?? null,
                         'auth_date'  => $authData['auth_date'] ?? null,
-                        'hash'       => $authData['hash']
+                        'hash'       => $authData['hash'],
+                        'access_token'       => $authData['hash']
                     );
                     
                     return true;
