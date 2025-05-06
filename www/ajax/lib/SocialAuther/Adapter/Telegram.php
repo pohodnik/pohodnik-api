@@ -14,6 +14,7 @@ class Telegram extends AbstractAdapter
             'firstName'  => 'first_name',
             'lastName'   => 'last_name',
             'username'   => 'username',
+            'login'   => 'username',
             'email'   => 'username',
             'avatar'     => 'photo_url'
 
@@ -146,7 +147,7 @@ class Telegram extends AbstractAdapter
     {
         $result = null;
 
-        if (isset($this->userInfo['screen_name'])) {
+        if (isset($this->userInfo['username'])) {
             $result = 'http://t.me/' . $this->userInfo['username'];
         }
 
