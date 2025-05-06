@@ -33,9 +33,9 @@ class Telegram extends AbstractAdapter
             // Telegram Widget login passes user data via $_GET
             if (isset($_GET['hash'])) {
                 $authData = $_GET;
-                
+                $verRes = $this->verifyTelegramAuth($authData);
                 // Verify the authentication data
-                if ($this->verifyTelegramAuth($authData)) {
+                if ($verRes) {
                     $this->userInfo = array(
                         'id'         => $authData['id'] ?? null,
                         'first_name' => $authData['first_name'] ?? null,
@@ -48,7 +48,7 @@ class Telegram extends AbstractAdapter
                     
                     return true;
                 } else {
-                    return array('reason' => 'Telegram authentication failed', 'authData' => $authData);
+                    return array('reason' => 'Telegram authentication failed', 'authData' => $authData, "verificationResult" => $verRes);
                 }
             } else {
                 return array('reason' => 'No Telegram authentication data received');
