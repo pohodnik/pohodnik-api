@@ -10,9 +10,6 @@ function degToCard($value) {
     return isset($allDirections[$dIndex]) ? $allDirections[$dIndex] : 'N';
 }
 
-function shortifyTime($time) {
-    return (intval($time) > 12 ? $time - 12 : $time);
-}
 
 if (isset($_GET['id_hiking'])) {
     $add_where .= " AND hiking.`id`=".intval($_GET['id_hiking']);
@@ -39,57 +36,30 @@ while($r = $q->fetch_assoc()){
     $sunset = intval($weather['sunset']);
     $sunrise = intval($weather['sunrise']);
 
-
-
     $hourly = json_decode($hourly_forecast, true);
     $hourFc = array();
 
     $lastTemp = null;
     $firstTimeOfGroup = null;
+
     foreach ($hourly as $h) {
-        extract($h);
-        if (intval($dt) < ($sunrise + 3600) || intval($dt) > ($sunset - 3600)) {
-             continue;
-        }
-        
+        $t = round($h['main']['temp'],0);
 
-        $t = round($temp,0);
-
-        $wmin = round($wind_speed,0);
-        $wmax = round($wind_gust,0);
-        $wdir = degToCard($wind_deg);
+        $wmin = round($h['wind']['speed'], 0);
+        $wmax = round($h['wind']['gust'],0);
+        $wdir = degToCard($h['wind']['deg']);
         $wsp = $wmin == $wmax ? $wmax : "{$wmin}-{$wmax}";
-        $osCou =  isset($snow)
-            ? round($snow['1h'],1)
-            : round($rain['1h'],1);
 
-        $os =  $osCou > 0 && $pop > 0
-            ? (isset($snow)?'s':'r').($osCou*10)."x".round($pop * 10,0)
+        $osCou =  isset($h['snow'])
+            ? round($h['snow']['3h'],1)
+            : round($h['rain']['3h'],1);
+
+        $os =  $osCou > 0 && $h['pop'] > 0
+            ? (isset($h['snow'])?'s':'r').($osCou*10)."x".round($h['pop'] * 10,0)
             : "";
 
-        if ($lastTemp == ($t."".$osCou) && empty($firstTimeOfGroup)) {
-            $firstTimeOfGroup = $time;
-        } 
-        
 
-        if (empty($firstTimeOfGroup)) {
-            $hourFc[] = shortifyTime(intval($time)).">{$t}{$os}";
-        }
-
-        if ($lastTemp != ($t."".$osCou)) {
-            if (!empty($firstTimeOfGroup)) {
-                $hourFc[] =  shortifyTime(intval($firstTimeOfGroup))."-".shortifyTime(intval($time)).">{$t}{$os}";
-            }
-            $firstTimeOfGroup = null;
-        }
-    
-
-
-        
-        // {$wdir}{$wsp}
-        // No precipitation expected
-
-        $lastTemp = ($t."".$osCou);
+        $hourFc[] = intval(date('H', $h['dt'])).">{$t}{$os}";
 
     }
 

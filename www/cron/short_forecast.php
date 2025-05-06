@@ -2,6 +2,9 @@
 ini_set('memory_limit', '512M');
 include("../blocks/db.php"); //подключение к БД
 
+$open_weather_api_key = getenv('OPENWEATHER_API_KEY');
+if (empty($open_weather_api_key)) { die(json_encode(array('error' => "Has no OPENWEATHER_API_KEY variable"))); }
+
 $add_where = "";
 
 if (isset($_GET['id_hiking'])) {
@@ -23,7 +26,20 @@ $z = "SELECT
         (
             date = DATE(NOW()) OR
             date = DATE(DATE_ADD(NOW(), INTERVAL 1 DAY)) OR
-            date = DATE(DATE_ADD(NOW(), INTERVAL 2 DAY))
+            date = DATE(DATE_ADD(NOW(), INTERVAL 2 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 3 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 4 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 5 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 6 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 7 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 8 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 9 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 10 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 11 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 12 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 13 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 14 DAY)) OR
+            date = DATE(DATE_ADD(NOW(), INTERVAL 15 DAY))
         ) {$add_where}
 ";
 
@@ -35,39 +51,34 @@ $updateQueries = array();
 
 while ($r = $q -> fetch_assoc()) {
     extract($r);
-    $url = "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat={$lat}&lon={$lon}&APPID=2c7ee5aa0cd9ccedbcb6c836b605c24c&lang=ru";
+    $url = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat={$lat}&lon={$lon}&APPID={$open_weather_api_key}&lang=ru";
     $body = file_get_contents($url);
     $weather = json_decode($body, true);
-    $timezone_offset = $weather['timezone_offset'];
 
-        if (is_array($weather['hourly'])) {
-                $oneweather = $weather['hourly'];
-                $datesForecast = array();
+    if (is_array($weather['list'])) {
+        $datesForecast = array();
 
-                foreach ($weather['hourly'] as $hour) {
-                    $t = date('Y-m-d', ($hour['dt'] + $timezone_offset) - 1);
-                    if (!isset($datesForecast)) {
-                        $datesForecast[$t] = array();
-                    }
-                    $hour['dt'] = $hour['dt'] + $timezone_offset;
-                    $hour['time'] = date('H', $hour['dt']);
-
-                    $datesForecast[$t][] = $hour;
-                }
-
-                foreach ($datesForecast as $isoDate => $hourlyForecasts) {
-                    $forecastStr = json_encode($hourlyForecasts, JSON_UNESCAPED_UNICODE);
-                    $updateQueries[] =  "UPDATE
-                        hiking_weather SET hourly_forecast = '{$forecastStr}', created_at = NOW()
-                    WHERE date='{$isoDate}' AND id_hiking={$id_hiking}";
-                }
-        } else {
-            die(json_encode(array(
-                'error' => 'not array',
-                'weather' => $weather
-            )));
+        foreach ($weather['list'] as $hour) {
+            $utc_date = date('Y-m-d', $hour['dt']);
+            if (!isset($datesForecast)) {
+                $datesForecast[$utc_date] = array();
+            }
+            $datesForecast[$utc_date][] = $hour;
         }
+
+        foreach ($datesForecast as $isoDate => $hourlyForecasts) {
+            $forecastStr = json_encode($hourlyForecasts, JSON_UNESCAPED_UNICODE);
+            $updateQueries[] =  "UPDATE
+                hiking_weather SET hourly_forecast = '{$forecastStr}', created_at = NOW()
+            WHERE date='{$isoDate}' AND id_hiking={$id_hiking}";
+        }
+    } else {
+        die(json_encode(array(
+            'error' => 'not array',
+            'weather' => $weather
+        )));
     }
+}
 
 
     $q = $mysqli->multi_query(implode(";", $updateQueries));

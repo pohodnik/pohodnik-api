@@ -2,6 +2,9 @@
 include("../blocks/db.php"); //подключение к БД
 $current_user = $_COOKIE["user"];
 
+$open_weather_api_key = getenv('OPENWEATHER_API_KEY');
+if (empty($open_weather_api_key)) { die(json_encode(array('error' => "Has no OPENWEATHER_API_KEY variable"))); }
+
 $add_where = "";
 
 if (isset($_GET['id_hiking'])) {
@@ -84,7 +87,7 @@ $insertValues = array();
             $lon = $params['latlngs'][1];
             $lim = ceil((strtotime($params['max']." 23:59:59") - time()) / 86400);
             $limit = $lim > 16 ? 16 : $lim;
-            $url =  "http://api.openweathermap.org/data/2.5/forecast/daily?units=metric&lat={$lat}&lon={$lon}&cnt={$limit}&APPID=2c7ee5aa0cd9ccedbcb6c836b605c24c&lang=ru";
+            $url =  "https://api.openweathermap.org/data/2.5/forecast/daily?units=metric&lat={$lat}&lon={$lon}&cnt={$limit}&APPID={$open_weather_api_key}&lang=ru";
             $res[$id_hiking][$latlng]['url'] = $url;
             $body = file_get_contents($url);
             $weather = json_decode($body, true);
@@ -109,7 +112,7 @@ $insertValues = array();
 // $lon = 0;
 // $limit = 16;
 
-//     $url =  "http://api.openweathermap.org/data/2.5/forecast/daily?units=metric&lat={$lat}&lon={$lon}&cnt={$limit}&APPID=2c7ee5aa0cd9ccedbcb6c836b605c24c&lang=ru";
+//     $url =  "https://api.openweathermap.org/data/2.5/forecast/daily?units=metric&lat={$lat}&lon={$lon}&cnt={$limit}&APPID={$open_weather_api_key}&lang=ru";
    
 //     $body = file_get_contents("https://sms.ru/sms/send?api_id={$sms_api_key}&to={$phone}&msg=".urlencode(iconv("windows-1251","utf-8",$msg))."&json=1"); # Если приходят крякозябры, то уберите iconv и оставьте только urlencode("Привет!")
 $z = "INSERT INTO `hiking_weather`
