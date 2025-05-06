@@ -79,7 +79,7 @@ class Telegram extends AbstractAdapter
         sort($dataCheckArr);
         $dataCheckString = implode("\n", $dataCheckArr);
         
-        $secretKey = hash('sha256', $this->clientSecret, true);
+        $secretKey = hash_hmac('sha256', $this->clientSecret, true);
         $hash = hash_hmac('sha256', $dataCheckString, $secretKey);
 
         if (strcmp($hash, $checkHash) === 0) {
