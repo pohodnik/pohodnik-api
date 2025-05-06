@@ -35,7 +35,7 @@ class Telegram extends AbstractAdapter
                 $authData = $_GET;
                 $verRes = $this->verifyTelegramAuth($authData);
                 // Verify the authentication data
-                if ($verRes) {
+                if ($verRes === true) {
                     $this->userInfo = array(
                         'id'         => $authData['id'] ?? null,
                         'first_name' => $authData['first_name'] ?? null,
