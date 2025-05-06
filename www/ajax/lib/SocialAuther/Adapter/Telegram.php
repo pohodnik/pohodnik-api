@@ -125,7 +125,12 @@ class Telegram extends AbstractAdapter
 
     public function getEmail()
     {
-        return null;
+        $result = null;
+        if (isset($this->userInfo['username'])) {
+            $result =  $this->userInfo['username'];
+        }
+
+        return $result;
     }
 
     
