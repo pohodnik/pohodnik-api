@@ -1,10 +1,9 @@
 <?php
     require_once("err.php");
-    require_once("config.php");
     
     require_once(__DIR__."/../vendor/autoload.php");
 
-    $CLOUDINARY_URL = getConf('CLOUDINARY_URL');
+    $CLOUDINARY_URL = getenv('CLOUDINARY_URL');
 
     function isUrlCloudinary($url) {
         $pos = strrpos($url, "cloudinary");

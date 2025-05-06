@@ -1,16 +1,12 @@
 <?php
 
     require_once("err.php");
-    require_once("config.php");
-
-
-
-
-    $SMTP_HOST = getConf('SMTP_HOST');
-    $SMTP_USER = getConf('SMTP_USER');
-    $SMTP_PSW = getConf('SMTP_PSW');
-    $SMTP_PORT = getConf('SMTP_PORT');
-    $SMTP_DEBUG = getConf('SMTP_DEBUG');
+    
+    $SMTP_HOST = getenv('SMTP_HOST');
+    $SMTP_USER = getenv('SMTP_USER');
+    $SMTP_PSW = getenv('SMTP_PSW');
+    $SMTP_PORT = getenv('SMTP_PORT');
+    $SMTP_DEBUG = getenv('SMTP_DEBUG');
 
 
     function sendMail($toArray, $subject, $htmlBody, $altBody, $fromName) {

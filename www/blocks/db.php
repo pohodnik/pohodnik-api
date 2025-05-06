@@ -1,9 +1,9 @@
 <?php
-require_once("config.php");
-$host = getConf('MYSQL_HOST');
-$user = getConf('MYSQL_USER');
-$psw = getConf('MYSQL_PASSWORD');
-$db = getConf('MYSQL_DATABASE');
+
+$host = getenv('MYSQL_HOST');
+$user = getenv('MYSQL_USER');
+$psw = getenv('MYSQL_PASSWORD');
+$db = getenv('MYSQL_DATABASE');
 
 $mysqli = new mysqli($host, $user, $psw, $db);
 if ($mysqli->connect_error) {

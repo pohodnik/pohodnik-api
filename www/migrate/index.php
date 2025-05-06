@@ -1,8 +1,7 @@
 <?php
 error_reporting(E_ALL);
-require_once('../blocks/config.php');
 
-if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != getConf('MIGRATOR_USER') || $_SERVER['PHP_AUTH_PW'] != getConf('MIGRATOR_PASSWORD')) {
+if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != getenv('MIGRATOR_USER') || $_SERVER['PHP_AUTH_PW'] != getenv('MIGRATOR_PASSWORD')) {
     header('WWW-Authenticate: Basic realm="Phodnik Migrator"');
     header('HTTP/1.0 401 Unauthorized');
     echo 'Без авторизации тут делать нечего';
@@ -12,10 +11,10 @@ if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != getConf('M
 define("MIGRATIONS_FOLDER", __DIR__."/migrations");
 define("MIGRATIONS_DATA_FOLDER", __DIR__."/seeding");
 
-$host = getConf('MYSQL_HOST');
-$user = getConf('MYSQL_USER');
-$psw = getConf('MYSQL_PASSWORD');
-$db = getConf('MYSQL_DATABASE');
+$host = getenv('MYSQL_HOST');
+$user = getenv('MYSQL_USER');
+$psw = getenv('MYSQL_PASSWORD');
+$db = getenv('MYSQL_DATABASE');
 
 // FROMAT YYYY-MM-DD-HH-MM
 

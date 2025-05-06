@@ -1,6 +1,8 @@
 <?php
 namespace SocialAuther\Adapter;
-
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 class Telegram extends AbstractAdapter
 {
     public function __construct($config)
@@ -79,7 +81,12 @@ class Telegram extends AbstractAdapter
         
         $secretKey = hash('sha256', $this->clientSecret, true);
         $hash = hash_hmac('sha256', $dataCheckString, $secretKey);
-        
+        if (strcmp($hash, $check_hash) !== 0) {
+            throw new Exception('Data is NOT from Telegram');
+        }
+        if ((time() - $auth_data['auth_date']) > 86400) {
+            throw new Exception('Data is outdated');
+        }
         return strcmp($hash, $checkHash) === 0;
     }
 

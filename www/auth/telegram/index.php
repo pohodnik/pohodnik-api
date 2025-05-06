@@ -1,6 +1,5 @@
 <?php
-    require_once("../../blocks/config.php");
-    define('BOT_USERNAME', getConf('TG_CLIENT_ID')); // place username of your bot here
+    define('BOT_USERNAME', getenv('TG_CLIENT_ID')); // place username of your bot here
 
 function getTelegramUserData() {
   if (isset($_COOKIE['tg_user'])) {

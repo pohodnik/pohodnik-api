@@ -40,7 +40,7 @@ $auther = new SocialAuther\SocialAuther($adapter);
                 network='{$auther->getProvider()}' OR
                 provider='{$auther->getProvider()}'
             ) LIMIT 1");
-        if($q && $q->num_rows===1){ // этот пользователь уже задодил под этой социалкой
+        if($q && $q->num_rows===1){ // этот пользователь уже заходил под этой социалкой
             $res = $q->fetch_assoc();
             $id_user = $res["id_user"];
             $idUser = $id_user;
