@@ -14,7 +14,9 @@ class Telegram extends AbstractAdapter
             'firstName'  => 'first_name',
             'lastName'   => 'last_name',
             'username'   => 'username',
+            'email'   => 'username',
             'avatar'     => 'photo_url'
+
         );
 
         $this->provider = 'telegram';
@@ -118,4 +120,42 @@ class Telegram extends AbstractAdapter
     {
         return null;
     }
+
+    public function getEmail()
+    {
+        return null;
+    }
+
+    
+    public function getName()
+    {
+        $result = null;
+
+        if (isset($this->userInfo['first_name']) && isset($this->userInfo['last_name'])) {
+            $result = $this->userInfo['first_name'] . ' ' . $this->userInfo['last_name'];
+        } elseif (isset($this->userInfo['first_name']) && !isset($this->userInfo['last_name'])) {
+            $result = $this->userInfo['first_name'];
+        } elseif (!isset($this->userInfo['first_name']) && isset($this->userInfo['last_name'])) {
+            $result = $this->userInfo['last_name'];
+        }
+
+        return $result;
+    }
+
+    public function getSocialPage()
+    {
+        $result = null;
+
+        if (isset($this->userInfo['screen_name'])) {
+            $result = 'http://t.me/' . $this->userInfo['username'];
+        }
+
+        return $result;
+    }
+
+    public function getSex()
+    {
+        $result = 'male';
+    }
+
 }
