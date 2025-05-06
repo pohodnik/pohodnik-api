@@ -34,7 +34,7 @@ if ($tg_user !== false) {
   $bot_username = BOT_USERNAME;
   $html = <<<HTML
 <h1>Привет, походник!</h1>
-<script async src="https://telegram.org/js/telegram-widget.js?2" data-telegram-login="{$bot_username}" data-size="large" data-radius="4" data-auth-url="https://pohodnik.tk/auth/?provider=telegram" data-request-access="write"></script>
+<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="{$bot_username}" data-size="large" data-radius="4" data-auth-url="https://pohodnik.tk/auth/?provider=telegram" data-request-access="write"></script>
 HTML;
 }
 
