@@ -74,6 +74,24 @@ $auther = new SocialAuther\SocialAuther($adapter);
         die(json_encode(array("error" => $authResult, "auth" => $auther)));
     }
 
+
+print_r(array(
+    "result" => $success,
+    "new" => $new,
+    "uid" => $idUser,
+    "data" => array(
+        "provider"   => $auther->getProvider(),
+        "socialId"   => $auther->getSocialId(),
+        "name"       => $auther->getName(),
+        "email"      => $auther->getEmail(),
+        "socialPage" => $auther->getSocialPage(),
+        "sex"        => $auther->getSex(),
+        "birthday"   => $auther->getBirthday(),
+        "avatar"     => $auther->getAvatar(),
+        "token"      => $auther->getAccessToken()
+    )
+    ));
+
     echo "<script>
     opener.postMessage(".json_encode(array(
         "result" => $success,
