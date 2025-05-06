@@ -163,6 +163,7 @@ class Telegram extends AbstractAdapter
     public function getSex()
     {
         $result = 'male';
+        return $result;
     }
 
 }

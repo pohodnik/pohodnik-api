@@ -30,7 +30,7 @@
         }
 
 
-        if(count($res)){ // этот пользователь уже задодил под этой социалкой
+        if(count($res)){ // этот пользователь уже заходил под этой социалкой
             for($i=0; $i<count($res); $i++){
                 $variant = $res[$i];
                 if(array_key_exists($variant['provider'],$adapterConfigs)){
