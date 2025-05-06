@@ -81,12 +81,6 @@ class Telegram extends AbstractAdapter
         
         $secretKey = hash('sha256', $this->clientSecret, true);
         $hash = hash_hmac('sha256', $dataCheckString, $secretKey);
-        if (strcmp($hash, $check_hash) !== 0) {
-            throw new Exception('Data is NOT from Telegram');
-        }
-        if ((time() - $auth_data['auth_date']) > 86400) {
-            throw new Exception('Data is outdated');
-        }
         return strcmp($hash, $checkHash) === 0;
     }
 
