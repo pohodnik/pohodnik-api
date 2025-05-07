@@ -1,0 +1,1 @@
+ALTER TABLE `hiking_weather` ADD `city` VARCHAR(512) NULL DEFAULT NULL COMMENT 'Данные места по которому получен прогноз' AFTER `name`;

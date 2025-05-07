@@ -23,6 +23,11 @@
         $days_passed = ceil((strtotime($today) - strtotime($hiking_start)) / (60 * 60 * 24)) + 1;
         $days_left = ceil((strtotime($hiking_finish) - strtotime($hiking_start)) / (60 * 60 * 24)) + 1;
         $hiking_day_info_map[$hiking_id][] = "Сегодня {$days_passed} из {$days_left} день похода";
+    
+        $z = "SELECT `date`, `name`, `lat`, `lon`, `forecast`, `hourly_forecast`, `created_at`
+        FROM `hiking_weather` WHERE `id_hiking`={$hiking_id} AND DATE(`date`)=DATE({$date})";
+        $q = $mysqli->query($z);
+        if(!$q){exit(json_encode(array("error"=>"Ошибка ".$mysqli->error)));}
     }
 
     print_r($hiking_day_info_map);
