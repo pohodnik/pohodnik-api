@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/gpx.php"); //Только для авторизованных
-
+ini_set('memory_limit', '256M');
 $token = $_GET["token"];
 
 $q = $mysqli->query("SELECT id_user FROM `user_hash` WHERE hash='{$id_user}' LIMIT 1");

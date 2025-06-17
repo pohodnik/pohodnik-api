@@ -3,6 +3,8 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/gpx.php"); //Только для авторизованных
 
+ini_set('memory_limit', '256M');
+
 $id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 'NULL';
 
 global $mysqli;

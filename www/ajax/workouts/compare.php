@@ -5,7 +5,7 @@ include("../../blocks/gpx.php"); //gps helpers
 
 
 
-
+ini_set('memory_limit', '256M');
 
 global $mysqli;
 

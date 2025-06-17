@@ -6,7 +6,7 @@ if (!($id > 0)) {
 include("../../blocks/db.php"); //подключение к БД
 
 $id_user = intval($_COOKIE["user"]);
-
+ini_set('memory_limit', '256M');
 global $mysqli;
 
 $z = "
