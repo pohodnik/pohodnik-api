@@ -6,29 +6,32 @@
 	include(__DIR__."/../../../vendor/autoload.php"); //Только для авторизованных
 	$id_user = $_COOKIE["user"];
 
-	$id = intval($_POST['id']);
+    $id = intval($_POST['id']);
+	$id_hiking = intval($_POST['id_hiking']);
 	
-	$q=$mysqli->query("SELECT `name`,`date`,`id_user`,`id_hiking`,`img_600`,`img_100`,`img_orig` FROM `hiking_finance_receipt` WHERE id=".$id." AND id_user=".$id_user."");
-	if(!$q || $q->num_rows===0){exit(json_encode(array("error"=>"Ошибка\r\n".$mysqli->error)));}
-	$r = $q->fetch_assoc();
+	if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
+	if(!($id>0)){die(json_encode(array("error"=>"id is undefined")));}
 
-	$q = $mysqli->query("SELECT id FROM hiking_finance WHERE id_receipt={$id} LIMIT 1");
-	if($q && $q->num_rows==1){
-		exit(json_encode(array( "error"=>"Используется как подтверждение расходов" )));
+	$q = $mysqli->query("SELECT id FROM hiking WHERE id={$id_hiking}  AND id_author = {$id_user} LIMIT 1");
+	if($q && $q->num_rows===0){
+		$q = $mysqli->query("SELECT id FROM hiking_editors WHERE id_hiking={$id_hiking}  AND is_financier=1  AND id_user = {$id_user} LIMIT 1");
+		if($q && $q->num_rows===0){
+			die(json_encode(array("error"=>"Нет доступа")));
+		}
 	}
-	
 
-	$z = "SELECT img_orig FROM hiking_finance_receipt WHERE id={$id} LIMIT 1";
+	$z = "SELECT img_orig, img_600, img_100 FROM hiking_finance_receipt WHERE id={$id} LIMIT 1";
 	$q = $mysqli->query($z);
-	if (!$q) {
-		die(json_encode(array("error"=>$mysqli->error)));
-	}
+	if (!$q) die(json_encode(array("success" => false, "error" => $mysqli->error )));
+	
 	$r = $q -> fetch_assoc();
 	$oldPhoto = $r['img_orig'];
 	
 	if (!empty($oldPhoto)) {
 		if (isUrlCloudinary($oldPhoto)) {
 			deleteCloudImageByUrl($oldPhoto);
+            deleteCloudImageByUrl($r['img_600']);
+            deleteCloudImageByUrl($r['img_100']);
 		} else {
 			unlink('../../../'.$r['img_600']);
 			unlink('../../../'.$r['img_100']);
@@ -36,10 +39,7 @@
 		}
 	}
 	
-
-	$q=$mysqli->query("DELETE FROM `hiking_finance_receipt` WHERE id=".$id." AND id_user=".$id_user."");
-	if(!$q){exit(json_encode(array("error"=>"Ошибка\r\n".$mysqli->error)));}
+	$q=$mysqli->query("DELETE FROM `hiking_finance_receipt` WHERE id={$id}");
+	if(!$q){exit(json_encode(array("success" => false, "error"=>"Ошибка\r\n".$mysqli->error)));}
 	exit(json_encode(array( "success"=>true )));
-		
-		
 ?>

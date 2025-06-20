@@ -27,21 +27,30 @@
 		users.name AS uname,
 		users.surname as usurname,
 		users.photo_50 as uphoto,
+
+		author.name AS aname,
+		author.surname as asurname,
+		author.photo_50 as aphoto,
+
 		SUM(hiking_finance.cost * hiking_finance.amount) AS cursumm,
 		GROUP_CONCAT(
 			CONCAT(
-				hfrp.id_user, '|', who.name, ' ', who.surname, '|', hfrp.date_create
+			    hfrp.id_user, '|',
+                who.name, ' ', who.surname, '|',
+                hfrp.date_create, '|',
+                who.photo_50
 			)
 		) AS participation
 	FROM
 		`hiking_finance_receipt`
 		LEFT JOIN users ON hiking_finance_receipt.id_user = users.id
+		LEFT JOIN users as author ON hiking_finance_receipt.id_author = author.id
 		LEFT JOIN hiking_finance ON hiking_finance.id_receipt = hiking_finance_receipt.id
 		LEFT JOIN hiking_finance_receipt_participation AS hfrp ON hfrp.id_hiking_receipt = hiking_finance_receipt.id
 		LEFT JOIN users as who ON hfrp.id_user = who.id
 	WHERE 1 {$addwhere}
 	GROUP BY hiking_finance_receipt.id
-	ORDER BY my, date
+	ORDER BY hiking_finance_receipt.date
 	");
 
 	if(!$q ){exit(json_encode(array("error"=>"Ошибка\r\n".$mysqli->error)));}
