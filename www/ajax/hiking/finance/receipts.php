@@ -37,8 +37,7 @@
 			CONCAT(
 			    hfrp.id_user, '|',
                 who.name, ' ', who.surname, '|',
-                hfrp.date_create, '|',
-                who.photo_50
+                hfrp.date_create
 			)
 		) AS participation
 	FROM
