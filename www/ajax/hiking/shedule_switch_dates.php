@@ -11,8 +11,8 @@ $id_hiking = intval($_POST['id_hiking']);
 $d1 = $mysqli->real_escape_string($_POST['d1']);
 $d2 = $mysqli->real_escape_string($_POST['d2']);
 
-$bufferDate1 = '0000-00-00';
-$bufferDate2 = '0000-00-01';
+$bufferDate1 = '1990-10-11';
+$bufferDate2 = '1991-05-17';
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"Undefined ID hiking")));}
 
