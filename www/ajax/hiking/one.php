@@ -135,6 +135,12 @@ if($q){
 		$r['finish_date'] = date('Y-m-d H:i:s',$r['finish']);
 		$r['timeout'] = $r['finish']<time();
 
+        $tzq = $mysqli->query("SELECT * FROM hiking_timezones WHERE id_hiking={$id}");
+        $r['timezones'] = array();
+        while($tzr = $tzq->fetch_assoc()) {
+            $r['timezones'][] = $tzr;
+        }
+
 		echo json_encode($r);
 }else{exit(json_encode(array("error"=>"Не могу получить список походов \r\n".$mysqli->error)));}
 
