@@ -60,12 +60,20 @@ try {
         // Форматируем результат в удобный вид
         $result = [];
         foreach($pois['elements'] as $element) {
+            $name = $element['tags']['name'];
+
+            if (empty($name)) {
+                foreach ($element['tags'] as $key => $value) {
+                    if(empty($name) && $value !== 'yes' && $value !== 'no') $name = $value;
+                } 
+            }
+
             $result[] = [
                 'id' => $element['id'],
                 'type' => $element['type'],
                 'lat' => $element['lat'],
                 'lon' => $element['lon'],
-                'name' => !empty($element['tags']['name']) ? $element['tags']['name'] : $element['tags']['natural'],
+                'name' => $name,
                 'tags' => $element['tags'],
             ];
         }
