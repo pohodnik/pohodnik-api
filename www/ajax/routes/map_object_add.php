@@ -8,7 +8,7 @@ $id_type = intval($_POST['id_type']);
 $coordinates = isset($_POST['coordinates']) ? $mysqli->real_escape_string(trim($_POST['coordinates'])) : '';
 $trackData = isset($_POST['trackData']) ? $mysqli->real_escape_string(trim($_POST['trackData'])) : '';
 
-$distance = isset($_POST['$distance']) ? floatval($_POST['$distance']) : 0;
+$distance = isset($_POST['distance']) ? intval($_POST['distance']) : 0;
 
 $stroke_color = isset($_POST['stroke_color']) ? $mysqli->real_escape_string(trim($_POST['stroke_color'])) : '#006699';
 $stroke_opacity = isset($_POST['stroke_opacity']) ? intval($_POST['stroke_opacity']) : 100;

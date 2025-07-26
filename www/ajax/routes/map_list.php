@@ -14,6 +14,7 @@ $q = $mysqli->query("
 						routes.desc,
 						routes.length, 
 						routes.date_create,
+                        routes.preview_img,
 						{$id_user} IN (SELECT id_user FROM route_editors WHERE id_route = routes.id) AS ieditor,
 						routes.id_author = {$id_user} AS iauthor,
 						UNIX_TIMESTAMP(routes.date_create) AS uts_date_create,
