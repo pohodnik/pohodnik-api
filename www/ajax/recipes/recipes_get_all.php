@@ -55,7 +55,7 @@ if($for_hiking>0){
 								LEFT JOIN recipes_structure ON recipes_structure.id_recipe = recipes.id
 								LEFT JOIN recipes_products ON  recipes_structure.id_product = recipes_products.id
 								{$joins}
-							WHERE recipes.id_category=".$r['id']." {$claus} GROUP BY recipes.id, , recipes_structure.amount");
+							WHERE recipes.id_category=".$r['id']." {$claus} GROUP BY recipes.id, recipes_structure.amount");
 	if(!$q2){die($mysqli->error);}
 	while($r2 = $q2->fetch_assoc()){
 		$r["items"][] = $r2;
