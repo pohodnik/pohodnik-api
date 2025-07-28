@@ -14,6 +14,7 @@ $coordinates = isset($_POST['coordinates']) ? $mysqli->real_escape_string(trim($
 	$distance = floatval($_POST['distance']);
 	$is_in_distance = intval($_POST['is_in_distance']);
 	$id_mountain_pass = isset($_POST['id_mountain_pass']) && intval($_POST['id_mountain_pass']) > 0 ? intval($_POST['id_mountain_pass']) : 'NULL';
+	$id_obstacle = isset($_POST['id_obstacle']) && intval($_POST['id_obstacle']) > 0 ? intval($_POST['id_obstacle']) : 'NULL';
 
 
 	$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
@@ -42,7 +43,8 @@ $coordinates = isset($_POST['coordinates']) ? $mysqli->real_escape_string(trim($
 			`is_in_distance` = {$is_in_distance},
 			`id_editor` = {$id_user},
 			`date_last_modif` = NOW(),
-			`id_mountain_pass` = {$id_mountain_pass}
+			`id_mountain_pass` = {$id_mountain_pass},
+			`id_obstacle` = {$id_obstacle}
 		WHERE
 			`id` = {$id}
 	";

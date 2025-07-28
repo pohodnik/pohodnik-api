@@ -37,7 +37,8 @@ INSERT INTO `route_objects`
     `icon_id`,
     `ord`,
     `is_confirm`,
-    `id_mountain_pass`
+    `id_mountain_pass`,
+    `id_obstacle`
 )
 SELECT 
     {$new_route_id} as `id_route`,
@@ -58,7 +59,8 @@ SELECT
     `icon_id`,
     `ord`,
     `is_confirm`,
-    `id_mountain_pass`
+    `id_mountain_pass`,
+    `id_obstacle`
 FROM `route_objects` WHERE id_route={$id}";
 $q = $mysqli -> query($z);
 

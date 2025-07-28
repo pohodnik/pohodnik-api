@@ -34,11 +34,26 @@ $q1=$mysqli->query("SELECT
     CONCAT(creator.surname,' ', creator.name) as creator_name,
     editor.id AS editor_id,
 	editor.photo_50 as editor_photo,
-    CONCAT(editor.surname,' ', editor.name) as editor_name
-       
+    CONCAT(editor.surname,' ', editor.name) as editor_name,
+
+    obstacles.`id` as obstacle_id,
+    obstacles.`name` as obstacle_name,
+    obstacles.`description` as obstacle_description,
+
+    ST_X(obstacles.`coordinates`) as obstacle_lat,
+    ST_Y(obstacles.`coordinates`) as obstacle_lon,
+    obstacles.`altitude` as obstacle_altitude,
+    obstacles.`link` as obstacle_link,
+    obstacles.`comment` as obstacle_comment,
+    obstacles.`type` as obstacle_type,
+    obstacles.`category` as obstacle_category,
+    obstacles.`id_geo_region` as obstacle_id_geo_region,
+    obstacles.`created_at` as obstacle_created_at,
+    obstacles.`creator_id` as obstacle_creator_id
 	{$fields}
 FROM route_objects
 	LEFT JOIN mountain_passes ON mountain_passes.id = route_objects.id_mountain_pass
+	LEFT JOIN obstacles ON obstacles.id = route_objects.id_obstacle
 	LEFT JOIN mountain_passes_categories ON mountain_passes_categories.id = mountain_passes.id_pass_category
 	LEFT JOIN users as creator ON creator.id = route_objects.id_creator 
 	LEFT JOIN users as editor ON editor.id = route_objects.id_editor 
