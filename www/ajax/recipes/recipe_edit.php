@@ -9,6 +9,7 @@ $name=isset($_POST['name'])?$mysqli->real_escape_string(trim($_POST['name'])):NU
 $promo=isset($_POST['promo'])?$mysqli->real_escape_string(trim($_POST['promo'])):NULL;
 $text=isset($_POST['text'])?$mysqli->real_escape_string(trim($_POST['text'])):NULL;
 $photo=isset($_POST['photo'])?$mysqli->real_escape_string(trim($_POST['photo'])):NULL;
+$id_category=isset($_POST['id_category'])?intval($_POST['id_category']):NULL;
 
 if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
 	if($photo){
@@ -28,6 +29,7 @@ if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
 	if($promo){$set[] = "promo_text='{$promo}'";}
 	if($text){$set[] = "text='{$text}'";}
 	if($photo){$set[] = "photo='{$photo}'";}
+	if($id_category){$set[] = "id_category={$id_category}";}
 
 		$res = $mysqli->query("UPDATE recipes SET ".implode(", ",$set)." WHERE id={$id}");
 		if($res){

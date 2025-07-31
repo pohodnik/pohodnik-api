@@ -1,8 +1,9 @@
 <?php
-include("../../blocks/db.php"); //подключение к БД
+include("../../blocks/db.php"); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
 $result=array();
-$q = $mysqli->query("SELECT `id`, `name`, `protein`, `fat`, `carbohydrates`, `energy`, `weight`, `cost` FROM `recipes_products` ORDER BY name");
-if(!$q){exit(json_encode(array("error"=>"Ошибка при запросе. \r\n".$mysqli->error)));}
+$q = $mysqli->query("SELECT 
+`id`, `name`, `protein`, `fat`, `carbohydrates`, `energy`, `weight`, `cost` FROM `recipes_products` ORDER BY name");
+if(!$q){exit(json_encode(array("error"=>"пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. \r\n".$mysqli->error)));}
 while($r = $q->fetch_assoc()){
 	$result[] = $r;		
 }

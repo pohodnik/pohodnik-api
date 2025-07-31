@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_category=$_POST['id_category'];
 $name=$mysqli->real_escape_string(trim($_POST['name_recipe']));
 $promo_text=$mysqli->real_escape_string(trim($_POST['promo_text']));
@@ -22,7 +22,12 @@ if (isset($_COOKIE["user"]) && $_COOKIE["user"]>0){
 					`text`='{$text}',
 					`photo`='{$photo}'");
 		if($res){
-		echo json_encode(array("success" => true, "msg"=>"Рецепт ".$name." добавлен список рецептов!. \r\n", "id" => $mysqli -> insert_id));
+		echo json_encode(array(
+            "success" => true,
+            "msg"=>"Рецепт ".$name." добавлен список рецептов!. \r\n",
+            "id" => $mysqli -> insert_id,
+            "id_author" => $id_user
+        ));
 		}else{
 			exit(json_encode(array("error"=>"Ошибка при добавлении рецепта. \r\n".$mysqli->error)));	
 		};
