@@ -14,6 +14,7 @@ $order = "route_objects.ord, route_objects.date_create";
 
 
 if(isset($_GET['id_route'])){ $wh .= " AND route_objects.id_route = ".intval($_GET['id_route']); }
+if(isset($_GET['id_route_object'])){ $wh .= " AND route_objects.id = ".intval($_GET['id_route_object']); }
 if(isset($_GET['id_typeobject'])){ $wh .= " AND route_objects.id_typeobject = ".intval($_GET['id_typeobject']); }
 if(isset($_GET['all'])){ 
 	$fields = ", routes.*, GROUP_CONCAT(hiking.id) AS hikings ";
