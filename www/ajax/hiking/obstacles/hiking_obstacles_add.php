@@ -20,10 +20,6 @@ $date_out = $mysqli->real_escape_string($_POST['date_out']);
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 if(!($id_obstacle>0)){die(json_encode(array("error"=>"id_obstacle is undefined")));}
 
-if(!(strlen($description)>0)){die(json_encode(array("error"=>"description is empty")));}
-if(!(strlen($description_in)>0)){die(json_encode(array("error"=>"description_in is empty")));}
-if(!(strlen($description_out)>0)){die(json_encode(array("error"=>"description_out is empty")));}
-
 if(!(strlen($date_in)>0)){die(json_encode(array("error"=>"date_in is empty")));}
 if(!(strlen($date_out)>0)){die(json_encode(array("error"=>"date_out is empty")));}
 

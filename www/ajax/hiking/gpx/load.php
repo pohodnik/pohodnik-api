@@ -3,7 +3,22 @@
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
 	$id_user = $_COOKIE["user"];
 	$id_hiking = intval($_GET['id_hiking']);
-	$q = $mysqli->query("
+
+    $add_where = "";
+
+    if (isset($_GET['d1']) && !empty($_GET['d1'])) {
+        $add_where .= " AND workout_tracks.date_start >= '".$mysqli->real_escape_string($_GET['d1'])."'";
+    }
+
+    if (isset($_GET['d2']) && !empty($_GET['d2'])) {
+        $add_where .= " AND workout_tracks.date_finish <= '".$mysqli->real_escape_string($_GET['d2'])."'";
+    }
+
+    if (isset($_GET['d']) && !empty($_GET['d'])) {
+        $add_where .= " AND ('".$mysqli->real_escape_string($_GET['d'])."' BETWEEN workout_tracks.date_start AND workout_tracks.date_finish)";
+    }
+
+$z ="
 	SELECT
 	    workout_tracks.*,
 		hiking_tracks.*, 
@@ -15,10 +30,11 @@
 		hiking_tracks
 		LEFT JOIN users ON hiking_tracks.id_user=users.id
 		LEFT JOIN workout_tracks ON hiking_tracks.id_workout_track = workout_tracks.id
-	WHERE hiking_tracks.id_hiking={$id_hiking} 
+	WHERE hiking_tracks.id_hiking={$id_hiking} {$add_where}
 	ORDER BY workout_tracks.date_start ASC
-");
-	if(!$q){ die(json_encode(array('error'=>$mysqli->error))); }
+";
+	$q = $mysqli->query($z);
+	if(!$q){ die(json_encode(array('error'=>$mysqli->error, "query"=>$z))); }
 	$res = array();
 	while($r = $q->fetch_assoc()){
 		$res[] = $r;

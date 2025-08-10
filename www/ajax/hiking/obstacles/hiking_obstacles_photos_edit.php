@@ -7,41 +7,32 @@ include("../../../blocks/rules.php");
 $result = array();
 $current_user = $_COOKIE["user"];
 
-$id_hiking_obstacle = isset($_POST['id_hiking_obstacle'])?intval($_POST['id_hiking_obstacle']):0;
+$id_photo = isset($_POST['id_photo'])?intval($_POST['id_photo']):0;
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 
-$url_preview = $mysqli->real_escape_string($_POST['url_preview']);
-$url = $mysqli->real_escape_string($_POST['url']);
 $date = $mysqli->real_escape_string($_POST['date']);
 $comment = $mysqli->real_escape_string($_POST['comment']);
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
-if(!($id_hiking_obstacle>0)){die(json_encode(array("error"=>"id_hiking_obstacle is undefined")));}
+if(!($id_photo>0)){die(json_encode(array("error"=>"id_photo is undefined")));}
 
-if(!(strlen($url_preview)>0)){die(json_encode(array("error"=>"url_preview is empty")));}
-if(!(strlen($url)>0)){die(json_encode(array("error"=>"url is empty")));}
 if(!(strlen($date)>0)){die(json_encode(array("error"=>"date is empty")));}
 
 $q = $mysqli->query("SELECT id_user FROM hiking_members WHERE id_hiking={$id_hiking} AND id_user={$current_user}");
 if( $q && $q->num_rows===0 ){die(json_encode(array("error"=>"Доступ только у участников похода")));}
 
 $z = "
-INSERT INTO
+UPDATE
     `hiking_obstacles_photos`
 SET
-    `id_hiking_obstacle` = {$id_hiking_obstacle},
-    `url_preview` = '{$url_preview}',
-    `url` = '{$url}',
     `date` = '{$date}',
-    `comment` = '$comment',
-    `created_at` = NOW(),
-    `creator_id` = {$current_user}
+    `comment` = '$comment'
+WHERE id={$id_photo}
 ";
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
 
 die(out(array(
     "success" => true,
-    "affected" => $mysqli->affected_rows,
-    "id" => $mysqli->insert_id
+    "affected" => $mysqli->affected_rows
 )));

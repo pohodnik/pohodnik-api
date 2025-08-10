@@ -49,7 +49,7 @@ $z = "SELECT
     users.`photo_50` as user_photo
 FROM
     `hiking_obstacles_members`
-    LEFT JOIN users ON user.id = hiking_obstacles_members.id_user
+    LEFT JOIN users ON users.id = hiking_obstacles_members.id_user
 WHERE
     hiking_obstacles_members.id_hiking_obstacle={$id}
 ";
@@ -76,7 +76,7 @@ $z = "SELECT
     users.`photo_50` as creator_photo
 FROM
     `hiking_obstacles_photos`
-    LEFT JOIN users ON user.id = hiking_obstacles_photos.creator_id
+    LEFT JOIN users ON users.id = hiking_obstacles_photos.creator_id
 WHERE
     hiking_obstacles_photos.id_hiking_obstacle={$id}
 ";
@@ -112,7 +112,7 @@ FROM
     LEFT JOIN users AS creator ON creator.id = obstacles.creator_id
     LEFT JOIN users AS updator ON updator.id = obstacles.updated_id
     LEFT JOIN geo_regions ON geo_regions.id = obstacles.id_geo_region
-WHERE id={$res['id_obstacle']}";
+WHERE obstacles.id={$res['id_obstacle']}";
 
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
