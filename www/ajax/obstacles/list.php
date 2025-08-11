@@ -10,6 +10,17 @@ if (isset($_GET['type'])) {
     $claus .= " AND obstacles.`type` = '".$mysqli->real_escape_string($_GET['type'])."'";
 }
 
+if (isset($_GET['bounds'])) {
+    $bounds = explode(',', $mysqli->real_escape_string($_GET['bounds']));
+
+
+    $claus .= "AND ST_INTERSECTS(
+        ST_MakeEnvelope(Point({$bounds[0]}, {$bounds[1]}), Point({$bounds[2]}, {$bounds[3]})), 
+        obstacles.coordinates
+    )
+  ";
+}
+
 $z = "
 SELECT
     obstacles.`id`,
