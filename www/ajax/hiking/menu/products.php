@@ -32,9 +32,13 @@ while($r = $q->fetch_assoc()){
 }
 $q = $mysqli->query("SET SESSION group_concat_max_len=999999;");
 $q = $mysqli->query("SELECT
-  recipes_products.name,
-  SUM(recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100)) AS amount,
-  recipes_products.id AS id_product,
+ 
+  SUM(recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100) * IFNULL(hiking_menu_products_replace.rate, 1)) AS amount,
+   IFNULL(replace_product.name, recipes_products.name) as name,
+  IFNULL(replace_product.id, recipes_products.id) AS id_product,
+  hiking_menu_products_replace.rate AS replace_rate,
+  recipes_products.id as original_id_product,
+  recipes_products.name as original_name,
   0 AS is_optimize,
   hiking_menu_products_force.id AS id_force,
   forceUser.id AS forceUserId,
@@ -46,7 +50,7 @@ GROUP_CONCAT(
 		'œ',
 		recipes.name,
 		hiking_menu.date,
-		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100),
+		recipes_structure.amount * (hiking_menu.сorrection_coeff_pct / 100) * IFNULL(hiking_menu_products_replace.rate, 1),
 		hiking_menu.id_act,
 		hiking_menu.assignee_user,
 		CONCAT(assigneeUser.name,' ',assigneeUser.surname),
@@ -86,6 +90,10 @@ FROM hiking_menu
 		AND hiking_menu_products_force.id_hiking={$id_hiking})
 	LEFT JOIN users AS forceUser ON  hiking_menu_products_force.id_user = forceUser.id
 	LEFT JOIN users AS assigneeUser ON  hiking_menu.assignee_user = assigneeUser.id
+    
+    LEFT JOIN hiking_menu_products_replace ON hiking_menu_products_replace.id_source_product = recipes_structure.id_product
+    LEFT JOIN recipes_products AS replace_product ON replace_product.id = `hiking_menu_products_replace`.id_target_product
+
 
 WHERE hiking_menu.id_hiking={$id_hiking} ".$addwhere." GROUP BY id_product");//
 if(!$q){die(json_encode(array("error"=>$mysqli->error)));}

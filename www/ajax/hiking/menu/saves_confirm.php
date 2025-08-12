@@ -18,8 +18,6 @@
     $id = intval($_POST['id']);
     $confirm = $mysqli->real_escape_string($_POST['confirm']);
 
-
-
     if ($confirm == 'false') {
         $current_user = 'NULL';
         $date = 'NULL';

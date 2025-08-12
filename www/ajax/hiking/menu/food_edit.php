@@ -40,7 +40,7 @@ if(isset($_POST['сorrection_coeff_pct'])){
 }
 
 if(isset($_POST['assignee'])){
-	$updatesArr[] = "assignee_user=".intval($_POST['assignee']);
+	$updatesArr[] = "assignee_user=".(intval($_POST['assignee']) > 0 ? intval($_POST['assignee']) : 'NULL');
 }
 
 if(isset($_POST['confirm'])){
@@ -55,8 +55,14 @@ if(isset($_POST['confirm'])){
     }
 }
 
-$q = $mysqli->query("UPDATE hiking_menu SET ".implode(', ', $updatesArr)." WHERE {$wh}");
-if(!$q){die(json_encode(array("error"=>$mysqli->error, "ups" => $updatesArr)));}
+$z = "UPDATE hiking_menu SET ".implode(', ', $updatesArr)." WHERE {$wh}";
+$q = $mysqli->query($z);
+if(!$q){die(json_encode(array(
+    "error"=>$mysqli->error,
+    "ups" => $updatesArr,
+    "z" => $z
+)));}
 
 
-die(json_encode(array("success"=>true, "updates" => $updatesArr)));
+die(json_encode(array("success"=>true, "updates" => $updatesArr,
+"affected"=>$mysqli->affected_rows, "z" => $z)));

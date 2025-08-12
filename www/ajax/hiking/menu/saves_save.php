@@ -26,6 +26,17 @@
     $r = $q -> fetch_row();
     $data_products = $r[0];
 
+    $z = "SELECT GROUP_CONCAT(CONCAT_WS(':', `id_source_product`, `id_target_product`, `rate`, `comment`)) FROM `hiking_menu_products_replace` WHERE id_hiking = {$id_hiking}";
+    $q = $mysqli -> query($z);
+    
+    if(!$q) {
+        die(json_encode(array('in' => 'hiking_menu_products_replace', 'error' => $mysqli -> error)));
+    }
+
+    $r = $q -> fetch_row();
+    $data_products_replaces = $r[0];
+
+
     $z = "
     UPDATE
         `hiking_menu_saves`
@@ -49,6 +60,7 @@
         `id_hiking` = {$id_hiking},
         `data` = '{$data}',
         `data_products` = '{$data_products}',
+        `data_products_replaces` = '{$data_products_replaces}',
         `id_author` = {$id_user},
         `date` = NOW(),
         `is_current` = 1

@@ -1,0 +1,1 @@
+ALTER TABLE `hiking_menu_saves` ADD `data_products_replaces` TEXT NOT NULL AFTER `data_products`;

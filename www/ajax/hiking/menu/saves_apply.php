@@ -10,6 +10,7 @@
     SELECT
         `data`,
         `data_products`,
+        `data_products_replaces`,
         `id_hiking`
     FROM
         `hiking_menu_saves`
@@ -31,6 +32,7 @@
 
     $data = $res['data'];
     $data_products = $res['data_products'];
+    $data_products_replaces = $res['data_products_replaces'];
     $id_hiking = $res['id_hiking'];
 
     if (strlen($data) > 1) {
@@ -81,6 +83,32 @@
             if(!$q4) { die(json_encode(array('in' => 'q4', 'error' => $mysqli -> error, 'sql' => $sql))); }
 
             $result['hiking_menu_products_force'] = $mysqli -> affected_rows;
+        }
+    }
+
+    clearStoredResults();
+
+    if (strlen($data_products_replaces) > 1) {
+        $dataProductsReplaces = explode(',', $data_products_replaces);
+        if (count($dataProductsReplaces) > 0 && strlen($dataProductsReplaces[0]) > 0) {
+
+            $q3 = $mysqli -> multi_query("DELETE FROM `hiking_menu_products_replace` WHERE id_hiking = {$id_hiking};");
+            if(!$q3) { die(json_encode(array('in' => 'q77', 'error' => $mysqli -> error))); }
+
+            $inserts = array();
+            
+            foreach ($dataProductsReplaces as $idValStr) {
+                $idVal = explode(':', $idValStr); 
+                if ($idVal[0] > 0 && $idVal[1] > 0 && $idVal[2] > 0) {
+                    $inserts[] = "({$id_hiking},{$idVal[0]},{$idVal[1]},{$idVal[2]},'{$idVal[3]}',NOW(),{$id_user})";
+                }
+            }
+
+            $sql = "INSERT INTO `hiking_menu_products_replace`(`id_hiking`, `id_source_product`, `id_target_product`, `rate`, `comment`, `created_at`, `creator_id`) VALUES ".implode(",\r\n", $inserts);
+            $q4 = $mysqli->multi_query($sql);
+            if(!$q4) { die(json_encode(array('in' => 'q77', 'error' => $mysqli -> error, 'sql' => $sql))); }
+
+            $result['hiking_menu_products_replace'] = $mysqli -> affected_rows;
         }
     }
 
