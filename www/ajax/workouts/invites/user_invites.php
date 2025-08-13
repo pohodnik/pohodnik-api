@@ -31,7 +31,6 @@ FROM
   `workout_invites`
   LEFT JOIN users ON users.id = workout_invites.`id_author`
   LEFT JOIN workouts ON workouts.id = workout_invites.`id_workout`
-  LEFT JOIN users ON users.id = workouts.id_author
   LEFT JOIN workouts_groups ON workouts.workout_group = workouts_groups.id
   LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
   LEFT JOIN workout_types ON workouts.workout_type = workout_types.id

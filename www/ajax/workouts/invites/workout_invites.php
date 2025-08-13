@@ -29,10 +29,9 @@ $z = "SELECT
     users.photo_50 as user_photo
 FROM
   `workout_invites`
-  LEFT JOIN users ON users.id = workout_invites.`id_author`
   LEFT JOIN workouts ON workouts.id = workout_invites.`id_workout`
-  LEFT JOIN users as author ON author.id = workouts.id_author
-  LEFT JOIN users ON users.id = workouts.id_user
+  LEFT JOIN users as author ON author.id =  workout_invites.`id_author`
+  LEFT JOIN users ON users.id = workout_invites.id_user
 WHERE workout_invites.id_workout={$id_workout}";
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
