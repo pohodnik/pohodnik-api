@@ -12,6 +12,8 @@ $id_hiking = isset($_GET['id_hiking']) ? intval($_GET['id_hiking']) : null;
 $id_position = isset($_GET['id_position']) ? intval($_GET['id_position']) : null;
 $id_recipe = isset($_GET['id_recipe']) ? intval($_GET['id_recipe']) : null;
 $id_route = isset($_GET['id_route']) ? intval($_GET['id_route']) : null;
+$id_workout_group = isset($_GET['id_workout_group']) ? intval($_GET['id_workout_group']) : null;
+$id_workout = isset($_GET['id_workout']) ? intval($_GET['id_workout']) : null;
 
 if (!empty($id_hiking)) {
     $hasRules = hasHikingRules($id_hiking, array('member'));
@@ -23,7 +25,9 @@ $where = array("1");
 if (!empty($id_hiking)) { $where[] = "comments_branch.id_hiking={$id_hiking}"; }
 if (!empty($id_position)) { $where[] = "comments_branch.id_position={$id_position}"; }
 if (!empty($id_recipe)) { $where[] = "comments_branch.id_recipe={$id_recipe}"; }
-if (!empty($id_route)) { $where[] = "comments_branch.id_hiking={$id_route}"; }
+if (!empty($id_route)) { $where[] = "comments_branch.id_route={$id_route}"; }
+if (!empty($id_workout_group)) { $where[] = "comments_branch.id_workout_group={$id_workout_group}"; }
+if (!empty($id_workout)) { $where[] = "comments_branch.id_workout={$id_workout}"; }
 
 
 $z = "
@@ -33,6 +37,8 @@ SELECT
     comments_branch.id_position,
     comments_branch.id_recipe,
     comments_branch.id_route,
+    comments_branch.id_workout_group,
+    comments_branch.id_workout,
     comments_branch.created_at,
     comments_branch.id_author,
     CONCAT(users.name, ' ', users.surname) as user_name,

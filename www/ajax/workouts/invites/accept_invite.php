@@ -29,8 +29,8 @@ if(!($workout_group > 0)) {
             `date_create`
         )
         VALUES(
-            ".$r['workout_type'].",
             '".$r['name']."',
+            ".$r['workout_type'].",
             ".$r['id_user'].",
             NOW()
         )

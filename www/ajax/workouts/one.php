@@ -19,11 +19,18 @@ SELECT
     hiking.name as hiking_name,
     hiking.ava as hiking_ava,
     hiking.start as hiking_start,
-    hiking.finish as hiking_finish
+    hiking.finish as hiking_finish,
+    `workouts_groups`.`name` as workout_group_name,
+    track_owner.id as track_owner_id,
+    track_owner.name as track_owner_name,
+    track_owner.surname as track_owner_surname,
+    track_owner.photo_50 as track_owner_photo
 FROM
     `workouts`
     LEFT JOIN users ON users.id = workouts.id_user
     LEFT JOIN workout_tracks ON workouts.id_workout_track = workout_tracks.id
+    LEFT JOIN users as track_owner ON track_owner.id = workout_tracks.id_user
+    LEFT JOIN workouts_groups ON workouts.workout_group = workouts_groups.id
     LEFT JOIN workout_types ON workouts.workout_type = workout_types.id
     LEFT JOIN hiking_tracks ON hiking_tracks.id_workout_track = workout_tracks.id
     LEFT JOIN hiking ON hiking_tracks.id_hiking = hiking.id
