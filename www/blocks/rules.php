@@ -95,7 +95,7 @@
             $rules["health"] =      boolByFlags($r, array('is_author', 'is_pos1', 'is_pos4', 'is_medic'));
             $rules["media"] =       boolByFlags($r, array('is_author', 'is_pos1', 'is_pos5'));
             $rules["time"] =        boolByFlags($r, array('is_author', 'is_pos1', 'is_pos6'));
-            $rules["equip"] =       boolByFlags($r, array('is_author', 'is_pos1', 'is_pos7'));
+            $rules["equip"] =       boolByFlags($r, array('is_author', 'is_pos1', 'is_pos7', 'is_pos11'));
             $rules["money"] =       boolByFlags($r, array('is_author', 'is_pos1', 'is_pos8', 'is_financier'));
             $rules["info"] =        boolByFlags($r, array('is_author', 'is_pos1', 'is_pos9', 'is_writter'));
             $rules["workouts"] =    boolByFlags($r, array('is_author', 'is_pos1', 'is_pos10'));
