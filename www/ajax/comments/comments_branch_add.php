@@ -14,6 +14,8 @@ $id_recipe = isset($_POST['id_recipe']) ? intval($_POST['id_recipe']) : 'NULL';
 $id_route = isset($_POST['id_route']) ? intval($_POST['id_route']) : 'NULL';
 $id_workout = isset($_POST['id_workout']) ? intval($_POST['id_workout']) : 'NULL';
 $id_workout_group = isset($_POST['id_workout_group']) ? intval($_POST['id_workout_group']) : 'NULL';
+$id_obstacle = isset($_POST['id_obstacle']) ? intval($_POST['id_obstacle']) : 'NULL';
+$id_hiking_obstacle = isset($_POST['id_hiking_obstacle']) ? intval($_POST['id_hiking_obstacle']) : 'NULL';
 
 if ($id_hiking != 'NULL') {
     $hasRules = hasHikingRules($id_hiking, array('member'));
@@ -30,6 +32,8 @@ SET
     `id_route` = {$id_route},
     `id_workout` = {$id_workout},
     `id_workout_group` = {$id_workout_group},
+    `id_obstacle` = {$id_obstacle},
+    `id_hiking_obstacle` = {$id_hiking_obstacle},
     `created_at` = NOW(),
     `id_author` = {$id_user}
 ";

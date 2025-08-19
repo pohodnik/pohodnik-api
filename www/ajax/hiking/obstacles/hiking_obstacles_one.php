@@ -37,6 +37,7 @@ WHERE
 
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
+if($q->num_rows === 0) { die(err("Не настроено", array("z" => $z)));}
 $res = $q -> fetch_assoc();
 
 
