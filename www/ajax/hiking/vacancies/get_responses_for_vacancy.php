@@ -17,7 +17,9 @@ if($q && $q->num_rows===0){ die(err("Нет доступа"));}
 
 $z = "SELECT
 hiking_vacancies_response.*,
-CONCAT(users.name,' ', users.surname) as user
+users.name as user_name,
+users.surname as user_surname,
+users.photo_50 as user_photo
 FROM `hiking_vacancies_response`
 LEFT JOIN users ON users.id = hiking_vacancies_response.id_user
 WHERE hiking_vacancies_response.id_hiking_vacancy={$id_vacancy}";
