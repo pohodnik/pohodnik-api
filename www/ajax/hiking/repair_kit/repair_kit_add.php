@@ -14,7 +14,7 @@ $comment = isset($_POST['comment']) && !empty($_POST['comment']) ? $mysqli->real
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 if(!(strlen($name)>0)){die(json_encode(array("error"=>"name is empty")));}
 
-$hasRules = hasHikingRules($id_hiking, array('boss', 'equip'));
+$hasRules = hasHikingRules($id_hiking, array('boss', 'equip', 'routes'));
 if (!$hasRules) { die(json_encode(array("error"=>"У вас нет доступа"))); }
 
 
