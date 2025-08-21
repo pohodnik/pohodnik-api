@@ -1,4 +1,6 @@
 <?php
+
+header('Content-type: application/json');
     require_once '../../blocks/rules.php';
     require_once '../../blocks/global.php';
 
