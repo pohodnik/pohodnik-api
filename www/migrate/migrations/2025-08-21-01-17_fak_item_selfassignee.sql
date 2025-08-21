@@ -1,0 +1,1 @@
+ALTER TABLE `hiking_first_aid_kit` ADD `count_for_each` INT(2) NOT NULL DEFAULT '0' COMMENT 'Сколько рекомендовано иметь каждому' AFTER `id_assignee`;

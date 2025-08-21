@@ -30,6 +30,10 @@ if (isset($_POST['amount'])) {
     $patch[] = "`amount`=".intval($_POST['amount'])."";
 }
 
+if (isset($_POST['count_for_each'])) {
+    $patch[] = "`count_for_each`=".intval($_POST['count_for_each'])."";
+}
+
 if (isset($_POST['deadline'])) {
     if (empty($_POST['deadline'])) {
         $patch[] = "`deadline` = NULL";

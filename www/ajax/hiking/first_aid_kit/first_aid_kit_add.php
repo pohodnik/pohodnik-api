@@ -10,6 +10,7 @@ $id_assignee = isset($_POST['id_assignee']) && !empty(isset($_POST['id_assignee'
 
 $id_medicament = isset($_POST['id_medicament'])?intval($_POST['id_medicament']):0;
 $amount = isset($_POST['amount'])?intval($_POST['amount']):0;
+$count_for_each = isset($_POST['count_for_each'])?intval($_POST['count_for_each']):0;
 $comment = isset($_POST['comment'])?$mysqli->real_escape_string($_POST['comment']):"";
 $deadline = isset($_POST['deadline']) && !empty($_POST['deadline'])?"'".$mysqli->real_escape_string($_POST['deadline'])."'":"NULL";
 
@@ -30,8 +31,8 @@ if($q && $q->num_rows===1){
 }
 
 $z = "INSERT INTO `hiking_first_aid_kit`
-    (`id_hiking`, `id_medicament`, `amount`, `id_author`, comment, id_assignee, deadline) VALUES 
-    ({$id_hiking},{$id_medicament},{$amount},{$id_user},'{$comment}', {$id_assignee}, {$deadline})";
+    (`id_hiking`, `id_medicament`, `amount`, `id_author`, comment, id_assignee, deadline, count_for_each) VALUES 
+    ({$id_hiking},{$id_medicament},{$amount},{$id_user},'{$comment}', {$id_assignee}, {$deadline}, {$count_for_each})";
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
 
