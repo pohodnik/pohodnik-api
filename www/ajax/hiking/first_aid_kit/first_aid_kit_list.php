@@ -14,12 +14,16 @@ $z = "SELECT
         hiking_first_aid_kit.*,
         medicaments_categories.name as category,
         medicaments_form.name as form_name,
-        medicaments.id as medicament_id
+        medicaments.id as medicament_id,
+        users.name as assignee_name,
+        users.surname as assignee_surname,
+        users.photo_50 as assignee_photo
       FROM
         hiking_first_aid_kit
         LEFT JOIN medicaments ON medicaments.id = hiking_first_aid_kit.id_medicament
         LEFT JOIN medicaments_categories ON medicaments_categories.id = medicaments.medical_group
         LEFT JOIN medicaments_form ON medicaments_form.id = medicaments.form
+        LEFT JOIN users ON `hiking_first_aid_kit`.`id_assignee` = users.id
       WHERE
         hiking_first_aid_kit.id_hiking={$id_hiking} ";
 $q = $mysqli->query($z);

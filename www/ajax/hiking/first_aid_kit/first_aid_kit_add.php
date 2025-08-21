@@ -6,6 +6,8 @@ include("../../../blocks/global.php");
 
 $id_user = $_COOKIE["user"];
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
+$id_assignee = isset($_POST['id_assignee']) && !empty(isset($_POST['id_assignee']))?intval($_POST['id_assignee']):'NULL';
+
 $id_medicament = isset($_POST['id_medicament'])?intval($_POST['id_medicament']):0;
 $amount = isset($_POST['amount'])?intval($_POST['amount']):0;
 $comment = isset($_POST['comment'])?$mysqli->real_escape_string($_POST['comment']):"";
@@ -28,8 +30,8 @@ if($q && $q->num_rows===1){
 }
 
 $z = "INSERT INTO `hiking_first_aid_kit`
-    (`id_hiking`, `id_medicament`, `amount`, `id_author`, comment, deadline) VALUES 
-    ({$id_hiking},{$id_medicament},{$amount},{$id_user},'{$comment}',{$deadline})";
+    (`id_hiking`, `id_medicament`, `amount`, `id_author`, comment, id_assignee, deadline) VALUES 
+    ({$id_hiking},{$id_medicament},{$amount},{$id_user},'{$comment}', {$id_assignee}, {$deadline})";
 $q = $mysqli->query($z);
 if(!$q) { die(err($mysqli->error, array("z" => $z)));}
 

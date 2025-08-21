@@ -16,6 +16,8 @@ $z = "SELECT
     `hiking_repair_kit`.`creator_id`,
     `hiking_repair_kit`.`updated_at`,
     `hiking_repair_kit`.`updater_id`,
+    `hiking_repair_kit`.`id_assignee`,
+    `hiking_repair_kit`.`weight`,
     
     creator.name as creator_name,
     creator.surname as creator_surname,
@@ -23,11 +25,16 @@ $z = "SELECT
 
     updater.name as updater_name,
     updater.surname as updater_surname,
-    updater.photo_50 as updater_photo
+    updater.photo_50 as updater_photo,
+
+    assignee.name as assignee_name,
+    assignee.surname as assignee_surname,
+    assignee.photo_50 as assignee_photo
 FROM
     `hiking_repair_kit`
     LEFT JOIN users as creator ON creator.id = `hiking_repair_kit`.`creator_id`
     LEFT JOIN users as updater ON updater.id = `hiking_repair_kit`.`updater_id`
+    LEFT JOIN users as assignee ON assignee.id = `hiking_repair_kit`.`id_assignee`
 WHERE
     id_hiking={$id_hiking}
 ";
