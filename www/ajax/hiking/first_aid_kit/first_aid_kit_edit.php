@@ -44,7 +44,7 @@ if (isset($_POST['deadline'])) {
 }
 
 if (isset($_POST['id_assignee'])) {
-    if (empty($_POST['id_assignee'])) {
+    if (empty($_POST['id_assignee']) || $_POST['id_assignee'] == 'null') {
         $patch[] = "`id_assignee` = NULL";
     } else {
         $patch[] = "`id_assignee`=".intval($_POST['id_assignee'])."";

@@ -12,7 +12,7 @@ $weight = isset($_POST['weight'])?intval($_POST['weight']):0;
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $name = isset($_POST['name']) && !empty($_POST['name']) ? $mysqli->real_escape_string($_POST['name']) : '';
 $comment = isset($_POST['comment']) && !empty($_POST['comment']) ? $mysqli->real_escape_string($_POST['comment']) : '';
-$id_assignee = isset($_POST['id_assignee']) && !empty(isset($_POST['id_assignee']))?intval($_POST['id_assignee']):'NULL';
+$id_assignee = isset($_POST['id_assignee']) && !empty(($_POST['id_assignee'])) && $_POST['id_assignee'] == 'null'?intval($_POST['id_assignee']):'NULL';
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 if(!($id>0)){die(json_encode(array("error"=>"id is undefined")));}
