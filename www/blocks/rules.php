@@ -44,25 +44,25 @@
             SELECT
                 hiking.id,
                 hiking.id_author={$current_user} as is_author,
-                (hiking_editors.is_cook=1) as is_cook,
-                (hiking_editors.is_guide=1) as is_guide,
-                (hiking_editors.is_writter=1) as is_writter,
-                (hiking_editors.is_financier=1) as is_financier,
-                (hiking_editors.is_medic=1) as is_medic,
-                (hiking_members_positions.id_position=1) as is_pos1,
-                (hiking_members_positions.id_position=2) as is_pos2,
-                (hiking_members_positions.id_position=3) as is_pos3,
-                (hiking_members_positions.id_position=4) as is_pos4,
-                (hiking_members_positions.id_position=5) as is_pos5,
-                (hiking_members_positions.id_position=6) as is_pos6,
-                (hiking_members_positions.id_position=7) as is_pos7,
-                (hiking_members_positions.id_position=8) as is_pos8,
-                (hiking_members_positions.id_position=9) as is_pos9,
-                (hiking_members_positions.id_position=10) as is_pos10,
-                (hiking_members_positions.id_position=11) as is_pos11,
-                (hiking_members_positions.id_position=12) as is_pos12,
-                (hiking_members_positions.id_position=13) as is_pos13,
-                (hiking_members.id IS NOT NULL) as is_member
+                MAX(hiking_editors.is_cook=1) as is_cook,
+                MAX(hiking_editors.is_guide=1) as is_guide,
+                MAX(hiking_editors.is_writter=1) as is_writter,
+                MAX(hiking_editors.is_financier=1) as is_financier,
+                MAX(hiking_editors.is_medic=1) as is_medic,
+                MAX(hiking_members_positions.id_position=1) as is_pos1,
+                MAX(hiking_members_positions.id_position=2) as is_pos2,
+                MAX(hiking_members_positions.id_position=3) as is_pos3,
+                MAX(hiking_members_positions.id_position=4) as is_pos4,
+                MAX(hiking_members_positions.id_position=5) as is_pos5,
+                MAX(hiking_members_positions.id_position=6) as is_pos6,
+                MAX(hiking_members_positions.id_position=7) as is_pos7,
+                MAX(hiking_members_positions.id_position=8) as is_pos8,
+                MAX(hiking_members_positions.id_position=9) as is_pos9,
+                MAX(hiking_members_positions.id_position=10) as is_pos10,
+                MAX(hiking_members_positions.id_position=11) as is_pos11,
+                MAX(hiking_members_positions.id_position=12) as is_pos12,
+                MAX(hiking_members_positions.id_position=13) as is_pos13,
+                MAX(hiking_members.id IS NOT NULL) as is_member
             FROM
                 hiking
                 LEFT JOIN hiking_editors ON (hiking_editors.id_hiking = hiking.id AND hiking_editors.id_user={$current_user})
@@ -70,7 +70,7 @@
             LEFT JOIN hiking_members ON (hiking_members.id_hiking = hiking.id AND hiking_members.id_user={$current_user})
             WHERE
                   hiking.id={$id_hiking}
-            LIMIT 1";
+            GROUP BY hiking.id";
 
         $q = $mysqli->query($z);
         if(!$q){
