@@ -35,10 +35,14 @@
 		users.photo_50 as uphoto,
 		userTo.name AS userToName,
 		userTo.surname as userToSurname,
-		userTo.photo_50 as userToPhoto
+		userTo.photo_50 as userToPhoto,
+        hiking_finance_currencies.name as currency_name,
+        hiking_finance_currencies.short_name as currency_short_name,
+        hiking_finance_currencies.symbol as currency_symbol
 	FROM `hiking_finance_payment`
 		LEFT JOIN users ON hiking_finance_payment.id_user = users.id
 		LEFT JOIN users as userTo ON hiking_finance_payment.id_target_user = userTo.id
+		LEFT JOIN hiking_finance_currencies ON hiking_finance_payment.id_currency = hiking_finance_currencies.id
 	WHERE
 		hiking_finance_payment.id_hiking={$id_hiking}
 		{$addwhere}

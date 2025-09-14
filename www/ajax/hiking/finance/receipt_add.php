@@ -33,6 +33,10 @@ $img_orig = $mysqli->real_escape_string($_POST['img_orig']);
 $img_600 = $mysqli->real_escape_string($_POST['img_600']);
 $img_100 = $mysqli->real_escape_string($_POST['img_100']);
 
+$summ_in_currency = isset($_POST['summ_in_currency']) && floatval($_POST['summ_in_currency'])>0 ? floatval($_POST['summ_in_currency']) : 'NULL';
+$id_currency = isset($_POST['id_currency']) && intval($_POST['id_currency'])>0 ? intval($_POST['id_currency']) : 'NULL';
+
+
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $z = "SELECT img_orig, img_600, img_100 FROM hiking_finance_receipt WHERE id={$id} LIMIT 1";
@@ -54,7 +58,9 @@ $z = (isset($_POST['id']) ? "UPDATE `hiking_finance_receipt` SET" : "INSERT INTO
 `img_600`='{$img_600}',
 `img_100`='{$img_100}',
 `img_orig`='{$img_orig}',
-`summ`={$summ}
+`summ`={$summ},
+`summ_in_currency`={$summ_in_currency},
+`id_currency`={$id_currency}
 ".(isset($_POST['id'])?" WHERE id=".intval($_POST['id']):'');
 
 $q=$mysqli->query($z);

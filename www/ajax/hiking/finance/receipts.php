@@ -39,7 +39,11 @@
                 who.name, ' ', who.surname, '|',
                 hfrp.date_create
 			)
-		) AS participation
+		) AS participation,
+        hiking_finance_currencies.name as currency_name,
+        hiking_finance_currencies.short_name as currency_short_name,
+        hiking_finance_currencies.symbol as currency_symbol
+        
 	FROM
 		`hiking_finance_receipt`
 		LEFT JOIN users ON hiking_finance_receipt.id_user = users.id
@@ -47,6 +51,7 @@
 		LEFT JOIN hiking_finance ON hiking_finance.id_receipt = hiking_finance_receipt.id
 		LEFT JOIN hiking_finance_receipt_participation AS hfrp ON hfrp.id_hiking_receipt = hiking_finance_receipt.id
 		LEFT JOIN users as who ON hfrp.id_user = who.id
+        LEFT JOIN hiking_finance_currencies ON hiking_finance_receipt.id_currency = hiking_finance_currencies.id
 	WHERE 1 {$addwhere}
 	GROUP BY hiking_finance_receipt.id
 	ORDER BY hiking_finance_receipt.date

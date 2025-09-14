@@ -8,6 +8,8 @@ $id_author = $_COOKIE["user"];
 $id_hiking = $_POST['id_hiking'];
 $id_target_user = $_POST['id_target_user'];
 $summ = floatval($_POST['summ']);
+$summ_in_currency = isset($_POST['summ_in_currency']) && floatval($_POST['summ_in_currency'])>0 ? floatval($_POST['summ_in_currency']) : 'NULL';
+$id_currency = isset($_POST['id_currency']) && intval($_POST['id_currency'])>0 ? intval($_POST['id_currency']) : 'NULL';
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is required")));}
 if(!($id_target_user>0)){die(json_encode(array("error"=>"id_target_user is required")));}
@@ -44,7 +46,9 @@ SET
 	`id_hiking`={$id_hiking},
 	`id_target_user`={$id_target_user},
 	`date_create`=NOW(),
-	`total`={$summ}
+	`total`={$summ},
+	`total_in_currency`={$summ_in_currency},
+	`id_currency`={$id_currency}
 {$sql_where}
 ";
 
