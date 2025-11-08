@@ -42,7 +42,28 @@ SELECT
     FROM hiking_members_positions
       LEFT JOIN positions ON positions.id = hiking_members_positions.id_position
     WHERE hiking_members_positions.id_hiking=hiking.id
-  ) as poss
+  ) as poss,
+  (
+    SELECT
+      GROUP_CONCAT(
+        CONCAT_WS(
+          '→',
+          obstacles.id,
+          obstacles.name,
+          obstacles.type,
+          obstacles.category,
+          obstacles.altitude,
+          hiking_obstacles.id,
+          hiking_obstacles.date_in,
+          hiking_obstacles.date_out
+        )
+      SEPARATOR '\n'
+    )
+    FROM hiking_obstacles
+      LEFT JOIN hiking_obstacles_members ON hiking_obstacles.id = hiking_obstacles_members.id_hiking_obstacle
+      LEFT JOIN obstacles ON hiking_obstacles.id_obstacle = obstacles.id
+    WHERE hiking_obstacles.id_hiking=hiking.id AND hiking_obstacles_members.id_user = @id_user
+  ) as obstacles
 FROM hiking_members
   LEFT JOIN hiking ON hiking_members.id_hiking = hiking.id
   LEFT JOIN hiking_types ON hiking_types.id = hiking.id_type
