@@ -5,14 +5,17 @@ include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 
 $id_user = $_COOKIE["user"];
-$id = isset($_GET['id'])?intval($_GET['id']):0;
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-if(!($id>0)){die(err("id is undefined"));}
+if (!($id > 0)) {
+    die(err("id is undefined"));
+}
 
 $z = "SELECT
     hiking_obstacles.`id`,
     hiking_obstacles.`id_hiking`,
     hiking_obstacles.`id_obstacle`,
+    hiking_obstacles.`id_hiking_track`,
     hiking_obstacles.`description`,
     hiking_obstacles.`description_in`,
     hiking_obstacles.`description_out`,
@@ -36,9 +39,13 @@ WHERE
 ";
 
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z)));}
-if($q->num_rows === 0) { die(err("Не настроено", array("z" => $z)));}
-$res = $q -> fetch_assoc();
+if (!$q) {
+    die(err($mysqli->error, array("z" => $z)));
+}
+if ($q->num_rows === 0) {
+    die(err("Не настроено", array("z" => $z)));
+}
+$res = $q->fetch_assoc();
 
 
 $z = "SELECT
@@ -56,9 +63,11 @@ WHERE
 ";
 
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z)));}
+if (!$q) {
+    die(err($mysqli->error, array("z" => $z)));
+}
 $res['members'] = array();
-while ($r = $q -> fetch_assoc()) {
+while ($r = $q->fetch_assoc()) {
     $res['members'][] = $r;
 }
 
@@ -72,6 +81,10 @@ $z = "SELECT
     hiking_obstacles_photos.`comment`,
     hiking_obstacles_photos.`created_at`,
     hiking_obstacles_photos.`creator_id`,
+    hiking_obstacles_photos.`altitude`,
+    ST_X(hiking_obstacles_photos.coordinates) as lat,
+    ST_Y(hiking_obstacles_photos.coordinates) as lon,
+    
     users.`name` as creator_name,
     users.`surname` as creator_surname,
     users.`photo_50` as creator_photo
@@ -83,9 +96,11 @@ WHERE
 ";
 
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z)));}
+if (!$q) {
+    die(err($mysqli->error, array("z" => $z)));
+}
 $res['photos'] = array();
-while ($r = $q -> fetch_assoc()) {
+while ($r = $q->fetch_assoc()) {
     $res['photos'][] = $r;
 }
 
@@ -116,8 +131,10 @@ FROM
 WHERE obstacles.id={$res['id_obstacle']}";
 
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z)));}
-$res['obstacle'] = $q -> fetch_assoc();
+if (!$q) {
+    die(err($mysqli->error, array("z" => $z)));
+}
+$res['obstacle'] = $q->fetch_assoc();
 
 
 

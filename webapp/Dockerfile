@@ -1,10 +1,10 @@
-FROM php:8.0.3-apache
+FROM php:8.0-apache
 
-RUN apt-get update \
-    && apt-get install -y curl wget \
-    && apt-get install -y libonig-dev libpq-dev \
-    && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql
-	
+RUN apt-get update
+RUN apt-get install -y curl wget
+RUN apt-get install -y libonig-dev libpq-dev
+RUN docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql
+
 RUN a2enmod rewrite
 
 # use your users $UID and $GID below

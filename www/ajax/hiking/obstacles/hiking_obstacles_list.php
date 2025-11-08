@@ -5,14 +5,17 @@ include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 
 $id_user = $_COOKIE["user"];
-$id_hiking = isset($_GET['id_hiking'])?intval($_GET['id_hiking']):0;
+$id_hiking = isset($_GET['id_hiking']) ? intval($_GET['id_hiking']) : 0;
 
-if(!($id_hiking>0)){die(err("id_hiking is undefined"));}
+if (!($id_hiking > 0)) {
+    die(err("id_hiking is undefined"));
+}
 
 $z = "SELECT
     hiking_obstacles.`id`,
     hiking_obstacles.`id_hiking`,
     hiking_obstacles.`id_obstacle`,
+    hiking_obstacles.`id_hiking_track`,
     hiking_obstacles.`description`,
     hiking_obstacles.`description_in`,
     hiking_obstacles.`description_out`,
@@ -51,9 +54,11 @@ WHERE
     hiking_obstacles.id_hiking={$id_hiking}
 ";
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z)));}
+if (!$q) {
+    die(err($mysqli->error, array("z" => $z)));
+}
 $res = array();
-while ($r = $q -> fetch_assoc()) {
+while ($r = $q->fetch_assoc()) {
     $res[] = $r;
 }
 

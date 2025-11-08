@@ -7,8 +7,9 @@ include("../../../blocks/rules.php");
 $result = array();
 $current_user = $_COOKIE["user"];
 
-$id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
-$id_obstacle = isset($_POST['id_obstacle'])?intval($_POST['id_obstacle']):0;
+$id_hiking = isset($_POST['id_hiking']) ? intval($_POST['id_hiking']) : 0;
+$id_obstacle = isset($_POST['id_obstacle']) ? intval($_POST['id_obstacle']) : 0;
+$id_hiking_track = isset($_POST['id_hiking_track']) ? intval($_POST['id_hiking_track']) : 'NULL';
 
 $description = $mysqli->real_escape_string($_POST['description']);
 $description_in = $mysqli->real_escape_string($_POST['description_in']);
@@ -17,14 +18,24 @@ $description_out = $mysqli->real_escape_string($_POST['description_out']);
 $date_in = $mysqli->real_escape_string($_POST['date_in']);
 $date_out = $mysqli->real_escape_string($_POST['date_out']);
 
-if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
-if(!($id_obstacle>0)){die(json_encode(array("error"=>"id_obstacle is undefined")));}
+if (!($id_hiking > 0)) {
+    die(json_encode(array("error" => "id_hiking is undefined")));
+}
+if (!($id_obstacle > 0)) {
+    die(json_encode(array("error" => "id_obstacle is undefined")));
+}
 
-if(!(strlen($date_in)>0)){die(json_encode(array("error"=>"date_in is empty")));}
-if(!(strlen($date_out)>0)){die(json_encode(array("error"=>"date_out is empty")));}
+if (!(strlen($date_in) > 0)) {
+    die(json_encode(array("error" => "date_in is empty")));
+}
+if (!(strlen($date_out) > 0)) {
+    die(json_encode(array("error" => "date_out is empty")));
+}
 
 $hasRules = hasHikingRules($id_hiking, array('boss', 'routes'));
-if (!$hasRules) { die(json_encode(array("error"=>"У вас нет доступа"))); }
+if (!$hasRules) {
+    die(json_encode(array("error" => "У вас нет доступа")));
+}
 
 
 $z = "
@@ -33,6 +44,7 @@ INSERT INTO
 SET
     `id_hiking` = {$id_hiking},
     `id_obstacle` = {$id_obstacle},
+    `id_hiking_track` = {$id_hiking_track},
     `description` = '{$description}',
     `description_in` = '{$description_in}',
     `description_out` = '{$description_out}',
@@ -42,7 +54,9 @@ SET
     `creator_id` = {$current_user}
 ";
 $q = $mysqli->query($z);
-if(!$q) { die(err($mysqli->error, array("z" => $z)));}
+if (!$q) {
+    die(err($mysqli->error, array("z" => $z)));
+}
 
 die(out(array(
     "success" => true,
