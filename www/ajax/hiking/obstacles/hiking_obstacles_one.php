@@ -16,6 +16,7 @@ $z = "SELECT
     hiking_obstacles.`id_hiking`,
     hiking_obstacles.`id_obstacle`,
     hiking_obstacles.`id_hiking_track`,
+    hiking_obstacles.`id_hiking_break`,
     hiking_obstacles.`description`,
     hiking_obstacles.`description_in`,
     hiking_obstacles.`description_out`,
