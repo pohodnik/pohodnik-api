@@ -9,6 +9,8 @@ SELECT
   hiking.name,
   hiking.ava,
   hiking.id,
+  hiking.start,
+  hiking.finish,
   GROUP_CONCAT(
     DISTINCT CONCAT_WS(
       '→',

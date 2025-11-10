@@ -9,7 +9,7 @@ $id_user = isset($_GET['id_user']) ? intval($_GET['id_user']) : $_COOKIE["user"]
 $claus = "";
 
 if (isset($_GET['type'])) {
-    $claus .= " AND obstacles.`type` = '".$mysqli->real_escape_string($_GET['type'])."'";
+    $claus .= " AND obstacles.`type` = '" . $mysqli->real_escape_string($_GET['type']) . "'";
 }
 
 $z = "
@@ -37,7 +37,9 @@ SELECT
     hiking_obstacles.date_out,
     hiking_obstacles.id_hiking,
     hiking.name as hiking_name,
-    hiking.ava as hiking_ava
+    hiking.ava as hiking_ava,
+    hiking.start as hiking_start,
+    hiking.finish as hiking_finish
 FROM
     `hiking_obstacles_members`
     LEFT JOIN hiking_obstacles ON hiking_obstacles_members.id_hiking_obstacle = hiking_obstacles.id
@@ -50,11 +52,12 @@ WHERE hiking_obstacles_members.`id_user` = {$id_user} {$claus}
 ORDER BY obstacles.`altitude` DESC
 ";
 $q = $mysqli->query($z);
-if(!$q){die(err($mysqli->error, array('query' => $z)));}
+if (!$q) {
+    die(err($mysqli->error, array('query' => $z)));
+}
 $res = array();
 
-while($r = $q->fetch_assoc()) {
+while ($r = $q->fetch_assoc()) {
     $res[] = $r;
 }
-echo(jout($res));
-
+echo (jout($res));
