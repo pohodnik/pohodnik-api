@@ -6,6 +6,8 @@ $clous = "";
 if (isset($_GET['region'])) {
     $clous .= " AND geo_regions.id=" . intval($_GET['region']);
 }
+$q = $mysqli->query("SET SESSION group_concat_max_len=999999;");
+
 $q = $mysqli->query("
 SELECT 
     routes.id, 
