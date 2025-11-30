@@ -2,19 +2,25 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 
-if (!isset($_GET['id_hiking'])) { die(json_encode(array("error"=>"id_hiking is required"))); }
+if (!isset($_GET['id_hiking'])) {
+    die(json_encode(array("error" => "id_hiking is required")));
+}
 $id_hiking = intval($_GET['id_hiking']);
 
 $id_current_user = $_COOKIE["user"];
 
 $z = "
 SELECT
-    sh.*,
-       
+ 
+    sh.`id`,
+    sh.`id_set`,
+    sh.`to_user`,
+    
     users.name,
     users.surname,
     users.photo_50 as photo,
-       own.id as own_id,
+    
+    own.id as own_id,
     own.name as own_name,
     own.surname as own_surname,
     own.photo_50 as own_photo
@@ -28,9 +34,11 @@ WHERE
 ";
 
 $q = $mysqli->query($z);
-if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+if (!$q) {
+    die(json_encode(array("error" => $mysqli->error)));
+}
 $res = array();
-while($r = $q -> fetch_assoc()) {
+while ($r = $q->fetch_assoc()) {
     $res[] = $r;
 }
 die(json_encode($res));
