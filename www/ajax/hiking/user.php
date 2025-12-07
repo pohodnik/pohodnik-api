@@ -2,11 +2,16 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
+include("../../blocks/global.php"); //Только для авторизованных
 
 $id_friend =0;
 $id_user = $_COOKIE["user"];
 if(isset($_GET['user'])){$id_user = intval($_GET['user']);}
 if(isset($_GET['friend'])){$id_friend = intval($_GET['friend']);}
+
+if ($id_friend == $id_user) {
+    $id_friend = 0;
+}
 
 if( isset($id_friend) && $id_friend>0 ){
 	$friend_hikings = array();

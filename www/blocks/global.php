@@ -1,4 +1,5 @@
 <?php
+
 function err($err, $data = array())
 {
     return json_encode(array(

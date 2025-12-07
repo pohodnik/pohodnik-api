@@ -1,38 +1,53 @@
 <?php
+header('Content-type: application/json');
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/global.php"); //Только для авторизованных
 
 $id_user = $_COOKIE["user"];
+$z = "SELECT  
+    COUNT(DISTINCT hm.id_hiking) AS hiking_count,
+    MIN(h.start) AS hiking_first_date,
+    MAX(h.finish) AS hiking_last_date,
+    GROUP_CONCAT(DISTINCT hm.id_hiking) AS hiking_ids,
+    u.id,
+    u.name,
+    u.surname,
+    u.photo_50,
+    u.sex,
+    u.photo_100
+FROM hiking_members hm
+INNER JOIN hiking_members hm2 ON hm.id_hiking = hm2.id_hiking
+LEFT JOIN users u ON hm.id_user = u.id
+LEFT JOIN hiking h ON hm.id_hiking = h.id
+WHERE hm2.id_user = {$id_user}
+  AND hm.id_user <> {$id_user}
+GROUP BY u.id, u.name, u.surname, u.vk_id, u.photo_50, u.sex
+ORDER BY hiking_count DESC, hiking_last_date";
 
-$q = $mysqli->query("SELECT  
+$q = $mysqli->query($z);
+if (!$q) die(jout(err($mysqli->error, array("z"=>$z))));
 
-    COUNT(DISTINCT hiking_members.id_hiking) AS cou,
-    MAX(UNIX_TIMESTAMP(hiking.start)) AS date, 
-	MIN(UNIX_TIMESTAMP(hiking.finish)) AS start_date, 
-	GROUP_CONCAT(DISTINCT hiking_members.id_hiking) AS hikings,
-    users.id AS id_user, 
-	users.name, 
-    users.surname,  
-    users.vk_id, 
-    users.photo_50, 
-    users.sex
-FROM hiking_members 
+$result = array();
 
-LEFT JOIN users ON hiking_members.id_user = users.id
-LEFT JOIN hiking ON hiking_members.id_hiking = hiking.id
-
-WHERE hiking_members.id_hiking IN (SELECT id_hiking FROM hiking_members WHERE id_user={$id_user})  AND hiking_members.id_user<>{$id_user} GROUP BY users.id  ORDER BY cou DESC, date");
-
-
-
-if($q){
-	$result = array();
-	while($r = $q->fetch_assoc()){
-		$r['date_rus'] = date('d.m.Y', $r['date']);
-		$r['date_rus_start'] = date('d.m.Y', $r['start_date']);
-		$result[] = $r;
-	}
-	echo json_encode($result);
-}else{exit(json_encode(array("error"=>"Не могу получить список походов \r\n".$mysqli->error)));}
+while($r = $q->fetch_assoc()){
+  $result[] = array(
+    "user" => array(
+        "id" => $r['id'],
+        "name" => $r['name'],
+        "surname" => $r['surname'],
+        "photo_50" => $r['photo_50'],
+        "photo_100" => $r['photo_100'],
+        "sex" => $r['sex'],
+    ),
+    "statistic" => array(
+        "count" => $r['hiking_count'],
+        "first_start_date" => $r['hiking_first_date'],
+        "last_finish_date" => $r['hiking_last_date'],
+        "hikings" => $r['hiking_ids'],
+    ),
+  );
+}
+exit(jout($result));
 
 ?>

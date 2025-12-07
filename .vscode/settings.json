@@ -1,5 +1,9 @@
 {
   "cSpell.words": [
     "IFNULL"
-  ]
+  ],
+  "[php]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "obliviousharmony.vscode-php-codesniffer"
+  }
 }
