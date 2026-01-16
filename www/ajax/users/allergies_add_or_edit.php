@@ -8,7 +8,7 @@ $id_medicament = isset($_POST['id_medicament']) && intval($_POST['id_medicament'
 $id = isset($_POST['id'])?intval($_POST['id']):0;
 $type = isset($_POST['type'])?intval($_POST['type']):3;
 //
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $z = ($id>0?"UPDATE":"INSERT INTO")." `user_allergies` SET 
  `id_user`={$id_user},
  `name`='{$name}',

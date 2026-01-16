@@ -5,7 +5,7 @@ include("../../../blocks/rules.php"); // Права доступа
 
 global $mysqli;
 
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}

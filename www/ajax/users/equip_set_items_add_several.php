@@ -8,7 +8,7 @@ if (!isset($id_set) || empty($id_set)) { die(json_encode(array('error' => 'id_se
 $id_equip = $_POST['id_equip'];
 if (!isset($id_equip) || empty($id_equip) || !is_array($id_equip)) { die(json_encode(array('error' => 'id_equip is required array'))); }
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $res = array();
 $rows = array();

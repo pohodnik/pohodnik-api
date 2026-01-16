@@ -5,7 +5,7 @@ include("../../blocks/rules.php");
 
 $result = array();
 $id_hiking = intval($_POST['id_hiking']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $hasRules = hasHikingRules($id_hiking, array('boss', 'time'));
 if (!$hasRules) {

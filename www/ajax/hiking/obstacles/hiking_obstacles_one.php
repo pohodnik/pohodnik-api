@@ -4,7 +4,7 @@ include("../../../blocks/for_auth.php");
 include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if (!($id > 0)) {

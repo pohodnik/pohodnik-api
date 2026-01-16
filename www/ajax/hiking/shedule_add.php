@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 global $mysqli;
 
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = intval($_POST['id_hiking']);
 $d1 = $mysqli->real_escape_string($_POST['d1']);
 $d2 = isset($_POST['d2'])?$mysqli->real_escape_string($_POST['d2']):$d1;

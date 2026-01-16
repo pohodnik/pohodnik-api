@@ -6,7 +6,7 @@ include("../../blocks/global.php");
 
 global $mysqli;
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $id_comments_branch = isset($_POST['id_comments_branch']) ? intval($_POST['id_comments_branch']) : null;
 $id_reply_comment = isset($_POST['id_reply_comment']) && $_POST['id_reply_comment']!=='null' ? intval($_POST['id_reply_comment']) : 'NULL';

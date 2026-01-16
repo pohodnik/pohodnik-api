@@ -5,7 +5,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 				
 $id	= intval( $_POST['id'] );			
 $weight		= intval( $_POST['weight'] );
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 if($mysqli->query("
 					UPDATE `recipes_products_alt` SET  `weight`= {$weight} WHERE id={$id}

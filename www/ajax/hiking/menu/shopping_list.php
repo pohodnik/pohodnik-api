@@ -5,7 +5,7 @@ include("../../../blocks/err.php");
 
 
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_GET['id_hiking']) ? intval($_GET['id_hiking']) : 0;
 $z = "
 SELECT

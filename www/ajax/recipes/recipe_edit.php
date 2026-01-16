@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/imagesStorage.php"); //Только для авторизованных
 include(__DIR__."/../../vendor/autoload.php"); //Только для авторизованных
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id=$_POST['id'];
 $name=isset($_POST['name'])?$mysqli->real_escape_string(trim($_POST['name'])):NULL;
 $promo=isset($_POST['promo'])?$mysqli->real_escape_string(trim($_POST['promo'])):NULL;

@@ -6,7 +6,7 @@ $id_hiking = intval($_GET['id_hiking']);
 $postData = file_get_contents('php://input');
 $data = json_decode($postData, true);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 $q = $mysqli->query("SELECT id FROM hiking_members WHERE id_hiking={$id_hiking}  AND id_author = {$id_user} LIMIT 1");
 if($q && $q->num_rows===0) die(json_encode(array("error"=>"Нет доступа")));

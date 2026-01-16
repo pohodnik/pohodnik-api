@@ -1,46 +1,59 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
+include("../../blocks/global.php"); //Только для авторизованных
 $result = array();
-$data = $_POST['data'];
-$id_user = $_COOKIE["user"];
-$ans_id = array();
+
+$id_user = intval($_COOKIE["user"]);
+$ans_ids = array();
 
 
-foreach($data  as $key => $value){$ans_id[] = $key;}
+$data = json_decode($_POST['data'], true); // {iv_qq: {v_from_input, v_from_variants, v_from_dir, v_custom}}
 
-$q = $mysqli->query("SELECT id, `id_type`, `is_custom`, `is_require`, `is_multi` FROM `iv_qq` WHERE `id` IN(".implode(',',$ans_id).")");
-if($q && $q->num_rows>0){
-	while($r = $q->fetch_assoc()){
-		if($r['is_multi']==0 && count($data[$r['id']])>1){
-			exit(json_encode(array("error"=>"Эм... Кажется несолько ответов на вопрос давать нельзя...")));
-		}			
-		if($r['is_require']==0 && count($data[$r['id']])==0){
-			exit(json_encode(array("error"=>"Эм... Кажется вы забыли ответить на какой-то вопрос...")));
-		}
+$rows_for_answers = array();
+$rows_for_content = array();
 
-		if($mysqli->query("INSERT INTO `iv_ans` SET `id_qq`=".$r['id'].",`id_user`=".$id_user.",`date`='".date('Y-m-d H:i:s')."' ")){
-			$id_ans = $mysqli->insert_id;
-			for($i =0; $i<count($data[$r['id']]); $i++){
-				$z = "INSERT INTO `iv_ans_content` SET
-						`id_ans`={$id_ans},
-						`v_from_input`='".($r['id_type']==1?$data[$r['id']][$i]['value']:"")."',
-						`v_from_variants`=".(($r['id_type']==2 && $data[$r['id']][$i]['custom']!='true')?$data[$r['id']][$i]['value']:"0").",
-						`v_from_dir`=".(($r['id_type']==3 && $data[$r['id']][$i]['custom']!='true')?$data[$r['id']][$i]['value']:"0").",
-						`v_custom`='".($data[$r['id']][$i]['custom']=='true'?$data[$r['id']][$i]['value']:"")."'";
-				if($mysqli->query($z)){
-					$result["success"]=true;
-				} else {
-					exit(json_encode(array("error"=>"Не могу записать варинат ответа... \r\n".$mysqli->error)));
-				}
-				
-			}
-		} else { exit(json_encode(array("error"=>"Не могу сообщить о вашем ответе \r\n".$mysqli->error)));}
+foreach($data as $iv_qq_id => $value){
+    $z = "INSERT INTO `iv_ans`(`id_qq`, `id_user`, `date`) VALUES ({$iv_qq_id},{$id_user},NOW())";
+    $q = $mysqli->query($z);
+    if (!$q) die(jout(err($mysqli->error, array("z" => $z))));
+
+    $ans_id = $mysqli->insert_id;
+
+    $ans_ids[] = $ans_id;
+
+    $v_from_input = '';
+
+    $v_from_variants = 0;
+    $v_from_dir = 0;
+
+    $v_custom = !empty($value['v_custom']) ? $mysqli->real_escape_string($value['v_custom']) : '';
+
+    if (!empty($value['v_from_input'])) {
+        $v_from_input = $mysqli->real_escape_string($value['v_from_input']);
+        $rows_for_content[] = "({$ans_id}, '{$v_from_input}', {$v_from_variants}, {$v_from_dir}, '')";
+    } else if (is_array($value['v_from_variants'])) {
+        foreach ($value['v_from_variants'] as $v) {
+            $rows_for_content[] = "({$ans_id}, '{$v_from_input}', {$v}, {$v_from_dir}, '')";
+        }
+        if (!empty($value['v_custom'])) {
+            $rows_for_content[] = "({$ans_id}, '', 0, 0, '{$v_custom}')";
+        }
+    } else if (is_array($value['v_from_dir'])) {
+        foreach ($value['v_from_dir'] as $v) {
+            $rows_for_content[] = "({$ans_id}, '{$v_from_input}', {$v_from_variants}, {$v}, '')";
+        }
+        if (!empty($value['v_custom'])) {
+            $rows_for_content[] = "({$ans_id}, '', 0, 0, '{$v_custom}')";
+        }   
+    }
+}
 
 
-		
-	}
-	echo json_encode($result);
-}else{exit(json_encode(array("error"=>"Нет ответов на вопросы... \r\n".$mysqli->error)));}
+$z1 = "INSERT INTO `iv_ans_content`(`id_ans`, `v_from_input`, `v_from_variants`, `v_from_dir`, `v_custom`) VALUES ".implode(',', $rows_for_content);
+$q1 = $mysqli->query($z1);
+if (!$q1) die(jout(err($mysqli->error, array("z" => $z1))));
+
+die(jout(array("success" => true, "z" => $z, "z1" => $z1, "answer_ids" => $ans_ids)));
 
 ?>

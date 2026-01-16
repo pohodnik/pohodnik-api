@@ -3,17 +3,17 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 
 $id_product	= intval( $_POST['id_product'] );					
-$id_unut	= intval( $_POST['id_unut'] );			
+$id_unit	= intval( $_POST['id_unit'] );			
 $weight		= intval( $_POST['weight'] );			
 $value		= intval( $_POST['value'] );	
 $cost		= intval( $_POST['cost'] );	
 $note 		= $mysqli->real_escape_string(trim($_POST['note']));
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 if($mysqli->query("
 					INSERT INTO `recipes_products_units_values` SET 
 						`id_product`={$id_product},
-						`id_unit`={$id_unut},
+						`id_unit`={$id_unit},
 						`weight`= {$weight},
 						`value`={$value},
 						`cost`= {$cost},
@@ -25,4 +25,3 @@ if($mysqli->query("
 	die(json_encode(array("error"=>"Ошибка. ".$mysqli->error)));
 }
 		
-

@@ -7,7 +7,7 @@ include("../../blocks/imagesStorage.php"); //Только для авториз�
 $result = array();
 $name = $mysqli->real_escape_string(trim($_POST['name']));
 $value = $mysqli->real_escape_string(trim($_POST['value']));
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id = isset($_POST['id'])?intval($_POST['id']):0;
 if(!($id>0)){die(json_encode(array("error"=>"ID is undefined")));}
 $q = $mysqli->query("SELECT id FROM hiking WHERE id={$id}  AND id_author = {$id_user} LIMIT 1");

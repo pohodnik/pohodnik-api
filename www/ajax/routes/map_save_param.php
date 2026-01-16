@@ -6,7 +6,7 @@ $result = array();
 $id = intval($_POST['id']);
 $name = $mysqli->real_escape_string($_POST['name']);
 $value = $mysqli->real_escape_string($_POST['value']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 if ($name == 'preview_img' && $id > 0) {
     include("../../blocks/imagesStorage.php"); //Только для авторизованных

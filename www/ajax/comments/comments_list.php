@@ -7,7 +7,7 @@ include("../../blocks/rules.php"); // Права доступа
 
 global $mysqli;
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_comments_branch = isset($_GET['id_comments_branch']) ? intval($_GET['id_comments_branch']) : null;
 
 if (empty($id_comments_branch)) { die(err("WRONG id_comments_branch")); }

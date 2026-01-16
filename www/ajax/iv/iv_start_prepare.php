@@ -7,7 +7,7 @@ $id = intval($_GET['id']);
 
 if(!$id>0){die(json_encode(array('bad'=>"Undefined ID")));}
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $bad = array();
 $count_finished_ans = 0;
 $exist_my_ans = false;
@@ -30,7 +30,7 @@ if($q){ $count_finished_ans = $q->num_rows; }
 $q = $mysqli->query("SELECT `name`, `desc`, 
 							UNIX_TIMESTAMP(`date_start`) AS date_start,  
 							UNIX_TIMESTAMP(`date_finish`) AS date_finish,
-							`hello_text`, by_text, `members_limit` FROM `iv` WHERE `id`={$id} LIMIT 1");
+							`hello_text`, by_text, `members_limit`, id_hiking FROM `iv` WHERE `id`={$id} LIMIT 1");
 
 if($q && $q->num_rows===1){
 
@@ -46,6 +46,14 @@ if($q && $q->num_rows===1){
 
 	if($r['members_limit']!=0 && $r['members_limit']<=$count_finished_ans){
 		$bad[] = "Полна коробочка. Опрос закрыт.";
+	}
+    
+    if(intval($r['id_hiking'])>0){
+        $qqq = $mysqli->query("SELECT id FROM hiking_members WHERE id_hiking=".intval($r['id_hiking'])." AND id_user={$id_user} LIMIT 1");
+		if ($qqq -> num_rows === 0) {
+            $bad[] = "Опрос для похода, участником которого вы не являетесь";
+        }
+        
 	}	
 
 	$r['finished'] = $count_finished_ans;

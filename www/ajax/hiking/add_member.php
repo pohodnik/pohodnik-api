@@ -5,7 +5,7 @@ include("../../blocks/dates.php"); //Только для авторизован�
 
 $id_hiking = intval($_POST['id_hiking']);
 $id_user = intval($_POST['id_user']);
-$user = $_COOKIE["user"];
+$user = intval($_COOKIE["user"]);
 
 if(!$id_user>0){die(json_encode(array("error"=>"User id is required")));}
 if(!$id_hiking>0){die(json_encode(array("error"=>"id_hiking id is required")));}

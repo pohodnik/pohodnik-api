@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 
 $id = intval($_GET['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $qi = $mysqli->query("SELECT
     hiking_members.id_user,

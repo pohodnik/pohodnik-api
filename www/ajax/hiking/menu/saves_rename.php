@@ -3,7 +3,7 @@
     $id = intval($_POST['id']);
     $name = $mysqli -> real_escape_string(trim($_POST['name']));
 
-    $id_user = $_COOKIE["user"];
+    $id_user = intval($_COOKIE["user"]);
 
     $z = "
     UPDATE

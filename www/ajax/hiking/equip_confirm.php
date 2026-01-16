@@ -10,7 +10,7 @@ $id = intval($_POST['id']);
 $id_hiking = intval($_POST['id_hiking']);
 $id_equip = isset($_POST['id_equip']) ? intval($_POST['id_equip']) : "";
 $confirm = intval($_POST['confirm']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT id FROM hiking WHERE id_author={$id_user} AND id={$id_hiking}");
 if(!$q || $q->num_rows===0){

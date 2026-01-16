@@ -4,7 +4,7 @@
     $id_hiking = intval($_POST['id_hiking']);
     $name = $mysqli -> real_escape_string(trim($_POST['name']));
 
-    $id_user = $_COOKIE["user"];
+    $id_user = intval($_COOKIE["user"]);
 
     $z = "SELECT GROUP_CONCAT(CONCAT_WS(':', id, assignee_user)) FROM `hiking_menu` WHERE id_hiking = {$id_hiking} AND assignee_user IS NOT NULL";
     $q = $mysqli -> query($z);

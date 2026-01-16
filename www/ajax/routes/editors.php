@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id = intval($_GET['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT 0 as id, users.id as id_user, users.name, users.surname,users.photo_50 as photo, 1 as author FROM routes LEFT JOIN users ON routes.id_author = users.id 
 WHERE routes.id={$id} LIMIT 1");

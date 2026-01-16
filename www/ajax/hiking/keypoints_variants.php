@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id_hiking = intval($_GET['id_hiking']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT route_objects.id, route_objects.name, route_objects.`desc` , route_objects.coordinates
 					FROM  hiking  

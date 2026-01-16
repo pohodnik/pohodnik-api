@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id = intval($_GET['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $res['is_admin'] = 0;
 $res = array();
 $q = $mysqli->query("SELECT is_guide, is_cook, is_writter, is_financier, is_medic FROM hiking_editors WHERE id_hiking={$id} AND id_user={$id_user}") OR die(json_encode(array("error"=>$mysqli->error)));

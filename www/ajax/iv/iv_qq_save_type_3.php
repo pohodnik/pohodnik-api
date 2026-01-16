@@ -2,7 +2,7 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_qq			= intval($_POST['id_qq']);
 $id				= isset($_POST['id'])?intval($_POST['id']):0;
 $id_dir			= intval($_POST['id_dir']);

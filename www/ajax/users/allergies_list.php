@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 
 $tWH = isset($_GET['type'])?" AND type=".intval($_GET['type']):"";
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $z = "SELECT 
 user_allergies.`id`,
 user_allergies.`id_user`,

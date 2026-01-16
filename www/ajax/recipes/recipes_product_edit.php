@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $result = array();
 $id= intval($_POST['id']);
 $amount = floatval($_POST['amount']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 
 		

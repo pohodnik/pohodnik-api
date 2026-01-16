@@ -5,7 +5,17 @@ include("../../blocks/global.php");
 $result = array();
 
 $q = $mysqli->query("SELECT
-farc.*, rc.name as recipe_category_name, fa.name AS food_act_name
+    farc.`id`,
+    farc.`id_food_acts`,
+    farc.`id_recipe_category`,
+    farc.`can_increase`,
+    farc.`can_dublicate`,
+    farc.`min_pct`,
+    farc.`max_pct`,
+    farc.`order_index`,
+    rc.name as recipe_category_name,
+    fa.name AS food_act_name
+
 FROM `food_acts_recipe_categories` as farc
 LEFT JOIN recipes_categories as rc ON rc.id = farc.id_recipe_category
 LEFT JOIN food_acts as fa ON fa.id = farc.id_food_acts

@@ -5,7 +5,7 @@ $result = array();
 $id_route = intval($_POST['id_route']);
 $id_editor = intval($_POST['id_editor']);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 
 $q = $mysqli->query("SELECT id FROM  route_editors WHERE  id_route={$id_route} AND id_user={$id_editor}");

@@ -1,6 +1,6 @@
 <?php
 include("../blocks/db.php"); //подключение к БД
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 
 $open_weather_api_key = getenv('OPENWEATHER_API_KEY');
 if (empty($open_weather_api_key)) { die(json_encode(array('error' => "Has no OPENWEATHER_API_KEY variable"))); }

@@ -6,7 +6,7 @@ include("../../blocks/global.php");
 
 global $mysqli;
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $id_comment = isset($_POST['id_comment']) ? intval($_POST['id_comment']) : null;
 $is_pinned = isset($_POST['is_pinned']) ? $_POST['is_pinned'] == 'true' ? 'TRUE' : 'FALSE' : null;

@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 include("../../blocks/global.php"); //Только для авторизованных
 
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 if(isset($_GET['id'])){
 	$id = intval($_GET['id']);
@@ -18,22 +18,45 @@ if(isset($_GET['id'])){
 	$wh = "user_equip_sets.id_user={$id_user} AND user_equip_sets.id_hiking={$id_hiking}";
 }
 
-
 $r = array();
-$q = $mysqli->query("
-	SELECT
-		user_backpacks.*,
-		user_backpacks.name AS backpack_name,
-		user_equip_sets.*,
-		user_equip_sets.id_user={$id_user} AS has_access,
-	       users.photo_50 as user_photo,
-	       CONCAT(users.surname,' ', users.name) as user_name
-	FROM `user_equip_sets` 
-		LEFT JOIN user_backpacks ON user_backpacks.id =user_equip_sets.id_backpack
-	     LEFT JOIN users ON users.id =user_equip_sets.id_user
-		WHERE ".$wh
-);
-if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+$z = "
+SELECT
+    user_equip_sets.`id`,
+    user_equip_sets.`id_user`,
+    user_equip_sets.`id_hiking`,
+    user_equip_sets.`id_backpack`,
+    user_equip_sets.`name`,
+    user_equip_sets.`description`,
+    user_equip_sets.`date_update`,
+    
+    hiking.id as hiking_id,
+    hiking.name as hiking_name,
+    hiking.ava as hiking_ava,
+    hiking.start as hiking_start,
+    hiking.finish as hiking_finish,
+
+    user_backpacks.`id` as backpack_id,
+    user_backpacks.`id_user` as backpack_id_user,
+    user_backpacks.`name` as backpack_name,
+    user_backpacks.`weight` as backpack_weight,
+    user_backpacks.`value` as backpack_value,
+    user_backpacks.`photo` as backpack_photo,
+    
+    user_equip_sets.id_user as user_id,
+	users.surname as user_surname,
+    users.name as user_name,
+	users.photo_50 as user_photo,
+
+    user_equip_sets.id_user={$id_user} AS has_access
+
+FROM `user_equip_sets` 
+    LEFT JOIN user_backpacks ON user_backpacks.id = user_equip_sets.`id_backpack`
+    LEFT JOIN hiking ON hiking.id = user_equip_sets.`id_hiking`
+    LEFT JOIN users ON users.id =user_equip_sets.id_user
+WHERE ".$wh;
+
+$q = $mysqli->query($z);
+if(!$q) die(jout(err($mysqli->error, array("z" => $z))));
 if($q->num_rows===0){die(json_encode(array("noSet" => true)));}
 $r = $q->fetch_assoc();
 
@@ -43,11 +66,4 @@ while($s = $q ->fetch_assoc()) {
 	$r['share'][] = $s;
 }
 
-
-if($r['id_hiking']>0){
-	$qh = $mysqli->query("SELECT id, name, UNIX_TIMESTAMP(`start`) AS start, UNIX_TIMESTAMP(`finish`) AS finish FROM hiking WHERE id=".$r['id_hiking']." LIMIT 1");
-	if($qh && $qh->num_rows===1){
-		$r['hiking'] = $qh->fetch_assoc();
-	}
-}
-die(json_encode($r));
+die(jout($r));

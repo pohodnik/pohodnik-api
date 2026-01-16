@@ -16,7 +16,7 @@ $endDate = isset($_GET['d2']) ? $mysqli->real_escape_string($_GET['d2']) : null;
 $type = isset($_GET['type']) && !empty($_GET['type']) ? intval($_GET['type']) : null;
 $region = isset($_GET['region']) && !empty($_GET['region']) ? intval($_GET['region']) : null;
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $claus = "1";
 $joins = "";
 

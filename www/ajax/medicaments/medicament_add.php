@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php");
 include("../../blocks/err.php");
 include("../../blocks/global.php");
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $name = isset($_POST['name'])?$mysqli->real_escape_string($_POST['name']):'';
 $medical_group = isset($_POST['medical_group'])?$mysqli->real_escape_string($_POST['medical_group']):"";
 $form = isset($_POST['form'])?$mysqli->real_escape_string($_POST['form']):"";

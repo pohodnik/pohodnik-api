@@ -2,8 +2,8 @@
 
 include("../../../blocks/db.php"); //подключение к БД
 include("../../../blocks/for_auth.php"); //Только для авторизованных
-$id_user = $_COOKIE["user"];
-$id_author = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
+$id_author = intval($_COOKIE["user"]);
 
 $id_hiking = intval($_POST['id_hiking']);
 $id_workout_track = intval($_POST['id_workout_track']);

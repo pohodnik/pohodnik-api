@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $id = isset($_POST['id'])?intval($_POST['id']):0;
 
 $id_hiking = intval($_POST['id_hiking']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT id FROM hiking WHERE id_author={$id_user} AND id={$id_hiking}");
 if(!$q || $q->num_rows===0){

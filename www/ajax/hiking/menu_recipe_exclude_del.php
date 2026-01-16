@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id = isset($_POST['id'])?intval($_POST['id']):0;
 

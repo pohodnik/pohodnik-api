@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 
 if (!isset($_POST['id'])) { die(json_encode(array("error"=>"id is required"))); }
 $id = intval($_POST['id']);
-$id_current_user = $_COOKIE["user"];
+$id_current_user = intval($_COOKIE["user"]);
 
 $z = "SELECT id_set FROM `user_equip_sets_share` WHERE id=$id LIMIT 1";
 $q = $mysqli->query($z);

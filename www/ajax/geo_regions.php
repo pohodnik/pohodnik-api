@@ -1,7 +1,7 @@
 <?php
 include("../blocks/db.php");
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $claus = $id_user>0?"( geo_regions.id = (SELECT id_region FROm users WHERE id={$id_user}) )":"1";
 if(isset($_GET['q'])){
 	$claus = " geo_regions.name LIKE('%".$mysqli->real_escape_string(trim($_GET['q']))."%') ";

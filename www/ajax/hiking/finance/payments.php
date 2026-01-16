@@ -3,7 +3,7 @@
 	include("../../../blocks/db.php"); //подключение к БД
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
 	include("../../../blocks/dates.php");
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 	$id_hiking = intval($_GET['id_hiking']);
 	$addwhere = "";
 	

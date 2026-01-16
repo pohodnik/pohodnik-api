@@ -2,7 +2,7 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $result = array("my_current"=>0, "my_other"=>0, "other_current"=>0, "other_other"=>0);		
 $q = $mysqli->query("SELECT COUNT(id) FROM `hiking` WHERE hiking.start>='".date('Y-m-d H:i:s')."'  AND (SELECT count(`id`) FROM `hiking_members` WHERE `id_user`={$id_user} AND `id_hiking` = hiking.id )=1   ");
 if($q){$r = $q->fetch_row(); $result["my_current"] = $r[0];

@@ -5,7 +5,7 @@ include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 include("../../../blocks/rules.php");
 
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 
 $id = isset($_POST['id'])?intval($_POST['id']):0;
 $weight = isset($_POST['weight'])?intval($_POST['weight']):0;

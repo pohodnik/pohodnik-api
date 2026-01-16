@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 include("../../blocks/dates.php"); //Только для авторизованных
 
 $id_hiking = intval($_POST['id_hiking']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $res = array();
 
 $q = $mysqli->query("SELECT id, name, `desc`, UNIX_TIMESTAMP(date_start) AS date_start, UNIX_TIMESTAMP(date_finish) AS date_finish, 
@@ -23,6 +23,8 @@ if($q && $q->num_rows===0 || count($res)===0){
 	if($q->num_rows===1){
 		$r = $q->fetch_assoc();
 		if($r['start']<time()){die(json_encode(array("error"=>"Поход уже состоялся")));}
+
+
 		if($mysqli->query("INSERT INTO hiking_members SET id_hiking={$id_hiking}, id_user={$id_user}, date=NOW()")){
 			die(json_encode(array("success"=>true)));
 		}else{

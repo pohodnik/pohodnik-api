@@ -3,7 +3,7 @@ include("../../../blocks/db.php");
 include("../../../blocks/for_auth.php");
 include("../../../blocks/err.php");
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking']) ? intval($_POST['id_hiking']) : 0;
 
 $q = $mysqli->query("

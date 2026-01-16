@@ -5,7 +5,7 @@ include("../../blocks/dates.php"); //Только для авторизован�
 include("../../blocks/global.php"); //Только для авторизованных
 
 $id_friend =0;
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 if(isset($_GET['user'])){$id_user = intval($_GET['user']);}
 if(isset($_GET['friend'])){$id_friend = intval($_GET['friend']);}
 

@@ -7,7 +7,7 @@ $id = intval($_POST['id']);
 $is_contact = intval($_POST['is_contact']);
 $is_send_sms = intval($_POST['is_send_sms']);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $key = "secret";
 

@@ -5,7 +5,8 @@
         "guzzlehttp/guzzle": "^6",
       "symfony/yaml": "v6.0.19",
       "symfony/deprecation-contracts": "v2.2.0",
-      "symfony/finder": "v5.4.21"
+      "symfony/finder": "v5.4.21",
+      "phpmailer/phpmailer": "^7.0"
     },
     "config": {
       "platform": {

@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-$result=array();$id_user = $_COOKIE["user"];
+$result=array();$id_user = intval($_COOKIE["user"]);
 if(isset($_GET['id']) && $_GET['id']>0){
 $id_user = $_GET['id'];
 }

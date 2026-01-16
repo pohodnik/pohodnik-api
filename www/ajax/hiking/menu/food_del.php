@@ -7,7 +7,7 @@ $q =  $mysqli->query("SELECT id_hiking FROM hiking_menu WHERE id={$id} LIMIT 1")
 if($q){
 	$r = $q->fetch_assoc();
 	$id_hiking = $r['id_hiking'];
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 	if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 	$q = $mysqli->query("SELECT id FROM hiking WHERE id={$id_hiking}  AND id_author = {$id_user} LIMIT 1");
 	if($q && $q->num_rows===0){

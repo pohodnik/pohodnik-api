@@ -2,7 +2,7 @@
 
 include("../../../blocks/db.php"); //подключение к БД
 include("../../../blocks/for_auth.php"); //Только для авторизованных
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $wh = "";
 if(isset($_GET['id_hiking'])){

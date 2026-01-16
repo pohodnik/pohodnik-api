@@ -7,7 +7,7 @@ if (!isset($_GET['id_hiking'])) {
 }
 $id_hiking = intval($_GET['id_hiking']);
 
-$id_current_user = $_COOKIE["user"];
+$id_current_user = intval($_COOKIE["user"]);
 
 $z = "
 SELECT

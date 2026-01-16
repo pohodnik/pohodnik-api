@@ -7,7 +7,7 @@ $id_recipe = intval($_POST['id_recipe']);
 $id_act    = intval($_POST['id_act']);
 $date      = $mysqli->real_escape_string($_POST['date']);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}
 $q = $mysqli->query("SELECT id FROM hiking WHERE id={$id_hiking}  AND id_author = {$id_user} LIMIT 1");
 if($q && $q->num_rows===0){

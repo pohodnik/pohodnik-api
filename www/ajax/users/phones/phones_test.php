@@ -2,7 +2,7 @@
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php");
 
-    $id_user = $_COOKIE["user"];
+    $id_user = intval($_COOKIE["user"]);
     $id = intval($_POST['id']);
 
     $key="secret";

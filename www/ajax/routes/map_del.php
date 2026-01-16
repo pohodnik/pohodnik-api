@@ -7,7 +7,7 @@ $result = array();
 $id = intval($_POST['id']);
 if(!($id>0)){exit(json_encode(array("error"=>"Не передан идентификатор")));}
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT id FROM routes WHERE id_author={$id_user} AND id={$id} LIMIT 1");
 if(!$q || $q->num_rows!=1){

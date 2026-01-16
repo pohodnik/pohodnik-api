@@ -8,7 +8,7 @@ include(__DIR__ . "/../../vendor/autoload.php"); //Только для авто�
 $possible_keys = explode(',', 'email,name,surname,dob,ava,address,phone,skype,icq,weight,growth,id_region,photo_50,photo_100,photo_200_orig,photo_max,photo_max_orig,uniq_code,sex');
 $img_keys = explode(',', 'ava,photo_50,photo_100,photo_200_orig,photo_max,photo_max_orig');
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $need_to_remove_img = array();
 $update_parts = array();

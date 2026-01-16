@@ -6,7 +6,7 @@ include("../../../blocks/global.php");
 include("../../../blocks/rules.php"); // Права доступа
 
 global $mysqli;
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id = $mysqli->real_escape_string($_POST['id']);
 

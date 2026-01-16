@@ -7,7 +7,7 @@ include("../../blocks/rules.php"); // Права доступа
 
 global $mysqli;
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_GET['id_hiking']) ? intval($_GET['id_hiking']) : null;
 $id_position = isset($_GET['id_position']) ? intval($_GET['id_position']) : null;
 $id_recipe = isset($_GET['id_recipe']) ? intval($_GET['id_recipe']) : null;

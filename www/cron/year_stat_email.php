@@ -2,8 +2,14 @@
 include("../blocks/db.php"); //подключение к БД
 require("../blocks/mail.php"); //мылилка
 
+$domain = getenv('DOMAIN') ?: 'pohodnik.tk';
 
-if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != getenv('MIGRATOR_USER') || $_SERVER['PHP_AUTH_PW'] != getenv('MIGRATOR_PASSWORD')) {
+
+if (
+    !isset($_SERVER['PHP_AUTH_USER']) ||
+    $_SERVER['PHP_AUTH_USER'] != getenv('MIGRATOR_USER') ||
+    $_SERVER['PHP_AUTH_PW'] != getenv('MIGRATOR_PASSWORD')
+) {
     header('WWW-Authenticate: Basic realm="Phodnik Migrator"');
     header('HTTP/1.0 401 Unauthorized');
     echo 'Без авторизации тут делать нечего';
@@ -41,13 +47,13 @@ $result = array();
 while ($r = $q -> fetch_assoc()) {
     $r['addresses'] = trim($r['addresses'], ',');
 
-    $url = "https://pohodnik.tk/user/".$r['id']."/stat/{$year}";
+    $url = "https://{$domain}/user/".$r['id']."/stat/{$year}";
     $subject = "Итоги походного сезона ".$year; 
     $obr = $r['sex']==2?'дорогая':'дорогой';
     $message = " 
     <html> 
         <head> 
-            <title>Итоги походного сезона на сайте pohodnik.tk 🎄</title> 
+            <title>Итоги походного сезона на сайте {$domain} 🎄</title> 
         </head> 
         <body> 
             <p>Привет, ".$r['name'].".</p>
@@ -77,7 +83,7 @@ while ($r = $q -> fetch_assoc()) {
             $subject,
             $message,
             "",
-            "Почтовый сервис сайта Походники"
+            "Почтовый сервис сайта Походники ($domain)"
         ),
         "error" => error_get_last()
     );

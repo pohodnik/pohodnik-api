@@ -2,7 +2,7 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result=array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $login =		isset($_POST["login"])?$mysqli->real_escape_string($_POST["login"]):'';
 $hash =		isset($_POST["hash"])?$mysqli->real_escape_string($_POST["hash"]):'';

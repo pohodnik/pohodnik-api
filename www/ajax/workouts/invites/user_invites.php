@@ -4,7 +4,7 @@ include("../../../blocks/for_auth.php");
 include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 $z = "SELECT 
     workout_invites.`id`,
     workout_invites.`id_workout`,

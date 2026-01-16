@@ -1,7 +1,7 @@
 <?php
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 	$code = $mysqli->real_escape_string($_POST['code']);
 	$q = $mysqli->query("SELECT `id`, `id_user`,`confirm_code`, UNIX_TIMESTAMP(`confirm_date`) AS uts FROM `user_subscribes` WHERE id_user={$id_user} AND 	confirm_code='{$code}' LIMIT 1");
 	if(!$q){die(json_encode(array("error"=>$mysqli->error)));}

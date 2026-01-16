@@ -4,7 +4,7 @@ include("../../../blocks/db.php"); //подключение к БД
 include("../../../blocks/for_auth.php"); //Только для авторизованных
 include("../../../blocks/err.php"); //Только для авторизованных
 $id_user = isset($_POST['id_user'])?intval($_POST['id_user']):$_COOKIE["user"];
-$id_author = $_COOKIE["user"];
+$id_author = intval($_COOKIE["user"]);
 $id_hiking = $_POST['id_hiking'];
 $id_target_user = $_POST['id_target_user'];
 $summ = floatval($_POST['summ']);

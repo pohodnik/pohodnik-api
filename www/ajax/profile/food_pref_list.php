@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-$result=array();$id_user = $_COOKIE["user"];
+$result=array();$id_user = intval($_COOKIE["user"]);
 $q = $mysqli->query("SELECT 
 								user_food_pref.id_act,
 								user_food_pref.id AS id_food_pref,

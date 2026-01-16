@@ -5,7 +5,7 @@
 
     global $mysqli;
 
-    $current_user = $_COOKIE["user"];
+    $current_user = intval($_COOKIE["user"]);
     $date = 'NOW()';
 
     $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;

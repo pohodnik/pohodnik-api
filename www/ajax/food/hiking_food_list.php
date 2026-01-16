@@ -6,7 +6,7 @@ if(isset($_GET['id_hiking']) && $_GET['id_hiking']>0){
 $id_hiking = $_GET['id_hiking'];
 }
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT 
 	hiking_food_list.id_act,

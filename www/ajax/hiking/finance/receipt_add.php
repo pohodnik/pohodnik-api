@@ -8,7 +8,7 @@ include(__DIR__."/../../../vendor/autoload.php"); //Только для авто
 
 
 $id_user = isset($_POST['id_user']) ? intval($_POST['id_user']) : $_COOKIE["user"];
-$id_author = $_COOKIE["user"];
+$id_author = intval($_COOKIE["user"]);
 $id_hiking = intval($_POST['id_hiking']);
 
 if(!($id_hiking>0)){die(json_encode(array("error"=>"id_hiking is undefined")));}

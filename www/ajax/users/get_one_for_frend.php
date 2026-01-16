@@ -3,7 +3,7 @@ header('Content-type: application/json');
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/global.php"); //Только для авторизованных
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id = intval($_GET['id']);
 
 $z = "SELECT `id`, `name`, `surname`, `photo_50`, `photo_100`, `sex` FROM users WHERE id={$id}";

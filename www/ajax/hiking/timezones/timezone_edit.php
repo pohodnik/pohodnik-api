@@ -6,7 +6,7 @@ include("../../../blocks/global.php");
 
 include("../../../blocks/rules.php");
 $result = array();
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id = isset($_POST['id'])?intval($_POST['id']):0;

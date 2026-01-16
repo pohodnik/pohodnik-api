@@ -4,7 +4,7 @@
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
 	include("../../../blocks/imagesStorage.php"); //Только для авторизованных
 	include(__DIR__."/../../../vendor/autoload.php"); //Только для авторизованных
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 
     $id = intval($_POST['id']);
 	$id_hiking = intval($_POST['id_hiking']);

@@ -6,7 +6,7 @@ include("../../blocks/dates.php"); //Только для авторизован�
 global $mysqli;
 
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = intval($_GET['id_hiking']);
 if(!($id_hiking>0)){die(json_encode(array("error"=>"Undefined id_hiking")));}
 $claus = "";

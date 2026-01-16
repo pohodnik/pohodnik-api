@@ -5,7 +5,7 @@ $result = array();
 $id_route = intval($_POST['id_route']);
 $id_region = intval($_POST['id_region']);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT id FROM routes WHERE id_author={$id_user} AND id={$id_route} LIMIT 1");
 if($q && $q->num_rows===0){

@@ -5,7 +5,7 @@ $result = array();
 $id_hiking = intval($_POST['id_hiking']);
 $id_editor = intval($_POST['id_editor']);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT id FROM hiking WHERE id_author={$id_user} LIMIT 1");
 if(!$q || $q->num_rows===0){ die( json_encode(array("error"=>"Access Denied! ".$mysqli->error))); }

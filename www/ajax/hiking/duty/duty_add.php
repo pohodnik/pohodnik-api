@@ -4,7 +4,7 @@ include("../../../blocks/for_auth.php");
 include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 $result = array();
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id_user = isset($_POST['id_user'])?intval($_POST['id_user']):0;

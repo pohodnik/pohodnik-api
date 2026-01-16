@@ -4,7 +4,7 @@ include('../../../blocks/db.php');
 include('../../../blocks/sql.php');
 include("../../../blocks/global.php");
 
-$id_current_user = $_COOKIE["user"];
+$id_current_user = intval($_COOKIE["user"]);
 $id_user = intval($_GET['id_user']);
 $year = intval($_GET['year']);
 

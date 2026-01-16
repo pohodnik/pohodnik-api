@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $result = array();
 $id_recipe = intval($_POST['id_recipe']);
 $id_product = intval($_POST['id_product']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $q = $mysqli->query("SELECT id FROM recipes_structure WHERE id_recipe={$id_recipe} AND id_product={$id_product} LIMIT 1");
 if($q && $q->num_rows === 1){ die(json_encode(array("error"=>"Уже добавлен.".$mysqli->error))); }
 

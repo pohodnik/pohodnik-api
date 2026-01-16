@@ -2,7 +2,7 @@
     include("../../../blocks/db.php"); //подключение к БД
     $id = intval($_POST['id']);
 
-    $id_user = $_COOKIE["user"];
+    $id_user = intval($_COOKIE["user"]);
 
     $result = array();
 

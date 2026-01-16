@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id = intval($_POST['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $q = $mysqli->query("SELECT id FROM hiking WHERE id_author={$id_user} LIMIT 1");
 if(!$q || $q->num_rows===0){ die( json_encode(array("error"=>"Access Denied! ".$mysqli->error))); }

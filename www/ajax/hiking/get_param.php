@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $name = $mysqli->real_escape_string(trim($_GET['name']));
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id = isset($_GET['id'])?intval($_GET['id']):0;
 if(!($id>0)){die(json_encode(array("error"=>"ID is undefined")));}
 

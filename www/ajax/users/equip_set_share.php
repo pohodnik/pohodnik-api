@@ -6,7 +6,7 @@ if (!isset($_POST['id_set'])) { die(json_encode(array("error"=>"id_set is requir
 $id_set = intval($_POST['id_set']);
 $id_user = isset($_POST['id_user']) && !empty($_POST['id_user']) ? intval($_POST['id_user']) : 'NULL';
 
-$id_current_user = $_COOKIE["user"];
+$id_current_user = intval($_COOKIE["user"]);
 
 $z = "SELECT id FROM `user_equip_sets` WHERE id=$id_set AND id_user=$id_current_user LIMIT 1";
 $q = $mysqli->query($z);

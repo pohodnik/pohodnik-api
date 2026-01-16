@@ -5,7 +5,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $id_product	= intval( $_POST['id_product'] );					
 $id_alt	= intval( $_POST['id_alt'] );			
 $weight		= intval( $_POST['weight'] );
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 if($mysqli->query("
 					INSERT INTO `recipes_products_alt` SET 

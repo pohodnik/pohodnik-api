@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 include("../../blocks/err.php"); //Только для авторизованных
 $result = array();
 
-$id_author = $_COOKIE["user"];
+$id_author = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id_product = isset($_POST['id_product'])?intval($_POST['id_product']):0;
 $id_user = isset($_POST['id_user'])?intval($_POST['id_user']):0;

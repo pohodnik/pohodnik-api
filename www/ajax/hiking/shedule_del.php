@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 global $mysqli;
 
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id = intval($_POST['id']);
 if(!($id>0)){die(json_encode(array("error"=>"Undefined ID")));}
 $q = $mysqli->query("SELECT DAY(d1) AS d, id_food_act,id_hiking  FROM hiking_schedule WHERE id={$id} LIMIT 1");

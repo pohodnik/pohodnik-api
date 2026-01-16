@@ -1,7 +1,7 @@
 <?php
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 	$id = intval($_POST['id']);
 	$value = intval($_POST['value']);
 

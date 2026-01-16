@@ -11,7 +11,7 @@ $id = intval($_GET['id']);
 $ext = isset($_GET['ext'])?true:false;
 $optimize =  false;
 if(isset($_GET['optimize'])){$optimize=$_GET['optimize'];}
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 if(!isset($_POST['confirm'])){
 $q = $mysqli->query("SELECT users.name, users.surname, hiking.id_author, hiking.confirm_list_products, UNIX_TIMESTAMP(hiking.confirm_list_date)+{$time_offset} AS dt, hiking.confirm_list_user FROM hiking LEFT JOIN users on users.id = hiking.confirm_list_user WHERE LENGTH(hiking.confirm_list_products)>5 AND hiking.id={$id} LIMIT 1");

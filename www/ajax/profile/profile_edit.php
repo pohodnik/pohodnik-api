@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $new_name = $mysqli->real_escape_string(trim($_POST['new_name']));
 $new_surname = $mysqli->real_escape_string(trim($_POST['new_surname']));
 $new_dob = $mysqli->real_escape_string(trim($_POST['new_dob']));

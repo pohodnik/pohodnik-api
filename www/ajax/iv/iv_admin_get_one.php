@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id = intval($_GET['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $q = $mysqli->query("SELECT id as id_iv, name, `desc`, `id_author`, `date_start`, `date_finish`, `hello_text`, `by_text`, `members_limit`, id_hiking, main FROM `iv` WHERE id={$id} AND `id_author`={$id_user} LIMIT 1");
 if($q){
 	

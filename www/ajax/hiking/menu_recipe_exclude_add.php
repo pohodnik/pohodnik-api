@@ -1,10 +1,10 @@
 <?php
-include("../../blocks/db.php"); //подключение к БД
-include("../../blocks/for_auth.php"); //Только для авторизованных
-include("../../blocks/err.php"); //Только для авторизованных
+include("../../blocks/db.php"); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
+include("../../blocks/for_auth.php"); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+include("../../blocks/err.php"); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 $result = array();
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id_recipe = isset($_POST['id_recipe'])?intval($_POST['id_recipe']):0;
 $comment = $mysqli->real_escape_string(trim($_POST['comment']));
@@ -15,7 +15,7 @@ $q = $mysqli->query("SELECT id FROM hiking WHERE id={$id_hiking}  AND id_author 
 if($q && $q->num_rows===0){
 	$q = $mysqli->query("SELECT id FROM hiking_editors WHERE id_hiking={$id_hiking}  AND is_cook=1  AND id_user = {$id_user} LIMIT 1");
 	if($q && $q->num_rows===0){
-		die(json_encode(array("error"=>"Нет доступа")));
+		die(json_encode(array("error"=>"пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")));
 	}
 }
 

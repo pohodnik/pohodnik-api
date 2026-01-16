@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 $id = intval($_POST['id']);
 $assign_user = intval($_POST['assign_user']);
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 
 $z = "
 	SELECT

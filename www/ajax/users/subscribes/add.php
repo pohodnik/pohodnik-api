@@ -1,12 +1,12 @@
 <?php
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 	$email = $mysqli->real_escape_string($_POST['email']);
 
-$q = $mysqli->query("SELECT id FROM  user_subscribes WHERE email='{$email}'");
-if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
-if($q->num_rows>0){die(json_encode(array("error"=>'email yже используется')));}
+    $q = $mysqli->query("SELECT id FROM  user_subscribes WHERE email='{$email}'");
+    if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
+    if($q->num_rows>0){die(json_encode(array("error"=>'email yже используется')));}
 
 
 	$q = $mysqli->query("INSERT INTO user_subscribes SET email='{$email}', id_user={$id_user}, confirm_code='".md5(time()."sda")."'");

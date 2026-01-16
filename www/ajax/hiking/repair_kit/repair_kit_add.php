@@ -5,7 +5,7 @@ include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 include("../../../blocks/rules.php");
 
-$current_user = $_COOKIE["user"];
+$current_user = intval($_COOKIE["user"]);
 
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $id_assignee = isset($_POST['id_assignee']) && !empty(isset($_POST['id_assignee']))?intval($_POST['id_assignee']):'NULL';

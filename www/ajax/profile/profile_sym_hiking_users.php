@@ -4,7 +4,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/global.php"); //Только для авторизованных
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $z = "SELECT  
     COUNT(DISTINCT hm.id_hiking) AS hiking_count,
     MIN(h.start) AS hiking_first_date,

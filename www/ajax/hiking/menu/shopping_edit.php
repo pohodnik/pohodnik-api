@@ -3,7 +3,7 @@ include("../../../blocks/db.php");
 include("../../../blocks/for_auth.php");
 include("../../../blocks/err.php");
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id = intval($_POST['id']);
 $amount = floatval($_POST['amount']);
 $price = floatval($_POST['price']);

@@ -12,7 +12,7 @@
 
     if(empty($code)) {
         include("../../../blocks/for_auth.php"); //Только для авторизованных
-        $id_user = $_COOKIE["user"];
+        $id_user = intval($_COOKIE["user"]);
     } if(!empty($_SESSION['password_recovery_uid']) && $code == $_SESSION['password_recovery'] ){
         $id_user = $_SESSION['password_recovery_uid'];
         unset($_SESSION['password_recovery']);

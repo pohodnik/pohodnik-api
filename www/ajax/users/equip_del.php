@@ -4,7 +4,7 @@ include("../../blocks/for_auth.php"); //Только для авторизова
 include("../../blocks/imagesStorage.php"); //Только для авторизованных
 include(__DIR__."/../../vendor/autoload.php"); //Только для авторизованных
 $id=intval($_POST['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $res = array();
 $z = "SELECT photo FROM user_equip WHERE id={$id} LIMIT 1";
 $q = $mysqli->query($z);

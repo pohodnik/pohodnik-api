@@ -1,7 +1,7 @@
 <?php
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php"); //Только для авторизованных
-	$id_user = $_COOKIE["user"];
+	$id_user = intval($_COOKIE["user"]);
 	$q = $mysqli->query("SELECT 
 		user_subscribes.id, 
 		user_subscribes.id_user, 
@@ -21,11 +21,10 @@
 	if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
 	$res = array();
 
-
-$func = function($value) {
-	$tmp = explode('|', $value);
-    return array('id'=>$tmp[0], 'name'=>$tmp[1]);
-};
+    $func = function($value) {
+        $tmp = explode('|', $value);
+        return array('id'=>$tmp[0], 'name'=>$tmp[1]);
+    };
 
 	while($r = $q -> fetch_assoc()){
 		if(!$r['id']){continue;}

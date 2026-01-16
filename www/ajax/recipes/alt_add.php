@@ -2,7 +2,7 @@
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_rs = intval($_POST['id_rs']);
 $id_product = intval($_POST['id_product']);
 $amount = floatval($_POST['amount']);

@@ -8,7 +8,7 @@ $protein = floatval($_POST['protein']);
 $fat = floatval($_POST['fat']);
 $carbohydrates = floatval($_POST['carbohydrates']);
 $energy = floatval($_POST['energy']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $q = $mysqli->query("SELECT id FROM recipes_products WHERE `name`='{$name}' AND id<>{$id} LIMIT 1");
 if($q && $q->num_rows === 1){ die(json_encode(array("error"=>"Уже есть продукт с таким наименованием.".$mysqli->error))); }	
 if($mysqli->query("UPDATE `recipes_products` 

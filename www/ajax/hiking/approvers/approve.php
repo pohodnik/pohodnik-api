@@ -16,7 +16,7 @@ $types_positions = array(
 );
 
 global $mysqli;
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
 $entity_id = isset($_POST['entity_id']) && intval($_POST['entity_id']) > 0?intval($_POST['entity_id']):'NULL';
 $entity_type = isset($_POST['entity_type'])?$mysqli->real_escape_string($_POST['entity_type']):'';

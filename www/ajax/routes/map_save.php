@@ -7,7 +7,7 @@ $q = $mysqli->query("SELECT `name` FROM `routes` WHERE name='".trim($mysqli->rea
 if($q && $q->num_rows>0 && $id ===0){exit(json_encode(array("error"=>"Уже есть маршрут с таким наименованием. Задайте другое имя.")));}
 else if(($q && $q->num_rows===0) || $id > 0){
 
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 if($id ===0){
 
 

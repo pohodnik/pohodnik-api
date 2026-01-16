@@ -1,6 +1,6 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-$result=array();$id_user = $_COOKIE["user"];
+$result=array();$id_user = intval($_COOKIE["user"]);
 $add_wh = "";
 if(isset($_GET['is_can_pref'])){
 	$add_wh = " AND is_can_pref=1";

@@ -1,7 +1,7 @@
 <?php
 	include('../../../blocks/db.php');
 	include("../../../blocks/for_auth.php");
-    $id_user = $_COOKIE["user"];
+    $id_user = intval($_COOKIE["user"]);
 
 	$id = intval($_POST['id']);
 	$q = $mysqli->query("DELETE FROM user_phones WHERE id_user={$id_user} AND id={$id}");

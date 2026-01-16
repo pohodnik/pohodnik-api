@@ -1,9 +1,10 @@
 <?php
+header('Content-type: application/json');
 include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 $result = array();
 $id = intval($_GET['id']);
-$id_user = $_COOKIE["user"];
+$id_user = intval($_COOKIE["user"]);
 $q = $mysqli->query("SELECT `id`, `name` FROM `iv` WHERE `id_hiking` = {$id} LIMIT 1");
 if($q && $q->num_rows===1){
 	$r = $q->fetch_row();
