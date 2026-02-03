@@ -5,23 +5,29 @@ $id_user = intval($_COOKIE["user"]);
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 30;
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 $id_group = isset($_GET['id_group']) ?  : 0;
+$id_user = isset($_GET['id_user']) ?  : 0;
 
 
 $where = "1";
 
-if (isset($_GET['id_group'])) {
+if (isset($_GET['id_group']) && !empty($_GET['id_group'])) {
     $id_group = intval($_GET['id_group']);
     $where .= " AND `workouts`.`workout_group`={$id_group}";
 }
 
-if (isset($_GET['d1'])) {
-    $d1 = $mysqli->real_escape_string($_GET['d1']);
-    $where .= " AND `workout_tracks`.`date_start`>'{$d1}'";
+if (isset($_GET['id_user']) && !empty($_GET['id_user'])) {
+    $id_user = intval($_GET['id_user']);
+    $where .= " AND `workouts`.`id_user`={$id_user}";
 }
 
-if (isset($_GET['d2'])) {
+if (isset($_GET['d1']) && !empty($_GET['d1'])) {
+    $d1 = $mysqli->real_escape_string($_GET['d1']);
+    $where .= " AND `workout_tracks`.`date_start`>='{$d1}'";
+}
+
+if (isset($_GET['d2']) && !empty($_GET['d2'])) {
     $d2 = $mysqli->real_escape_string($_GET['d2']);
-    $where .= " AND `workout_tracks`.`date_finish`<'{$d2}'";
+    $where .= " AND `workout_tracks`.`date_finish`<='{$d2}'";
 }
 
 global $mysqli;
