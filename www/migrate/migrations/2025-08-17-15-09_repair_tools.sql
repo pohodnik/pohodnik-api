@@ -49,9 +49,7 @@ CREATE TABLE `hiking_repair_kit_usages` (
 
 ALTER TABLE `hiking_repair_kit_usages`
   ADD KEY `fk_hiking_repair_kit_usages_id_user` (`id_user`),
-  ADD KEY `fk_hiking_repair_kit_usages_created_at` (`created_at`),
   ADD KEY `fk_hiking_repair_kit_usages_id_hiking_repair_kit` (`id_hiking_repair_kit`);
 
 ALTER TABLE `hiking_repair_kit_usages` ADD CONSTRAINT `fkey_hiking_repair_kit_usages_id_hiking_repair_kit` FOREIGN KEY (`id_hiking_repair_kit`) REFERENCES `hiking_repair_kit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `hiking_repair_kit_usages` ADD CONSTRAINT `fkey_hiking_repair_kit_usages_id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `hiking_repair_kit_usages` ADD CONSTRAINT `fkey_hiking_repair_kit_usages_created_at` FOREIGN KEY (`created_at`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
