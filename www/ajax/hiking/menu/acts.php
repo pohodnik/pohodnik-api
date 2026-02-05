@@ -11,7 +11,7 @@ $id = intval($_GET['id_hiking']);
 $auto = isset($_GET['auto']);
 $res = array();
 $q = $mysqli->query("SELECT hiking_schedule.name AS title, hiking_schedule.kkal AS kkal, UNIX_TIMESTAMP(hiking_schedule.d1)+{$time_offset} AS d1, UNIX_TIMESTAMP(hiking_schedule.d1)+{$time_offset} AS d2, food_acts.norm_kkal, food_acts.id, food_acts.name  FROM `hiking_schedule` LEFT JOIN food_acts ON food_acts.id=hiking_schedule.id_food_act WHERE hiking_schedule.id_hiking={$id} AND hiking_schedule.id_food_act IS NOT NULL ORDER BY hiking_schedule.d1");
-if($q){
+if($q && $q->num_rows > 0){
 	$cur = ""; $buf=array();
 	while($r = $q->fetch_assoc()){
 		if($cur != date('Y-m-d',$r['d1']) ){

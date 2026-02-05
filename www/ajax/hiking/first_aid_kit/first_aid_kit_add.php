@@ -6,7 +6,7 @@ include("../../../blocks/global.php");
 
 $id_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking'])?intval($_POST['id_hiking']):0;
-$id_assignee = isset($_POST['id_assignee']) && !empty(isset($_POST['id_assignee']))?intval($_POST['id_assignee']):'NULL';
+$id_assignee = isset($_POST['id_assignee']) && !empty(($_POST['id_assignee'])) && $_POST['id_assignee'] !== 'null'?intval($_POST['id_assignee']):'NULL';
 
 $id_medicament = isset($_POST['id_medicament'])?intval($_POST['id_medicament']):0;
 $amount = isset($_POST['amount'])?intval($_POST['amount']):0;
