@@ -10,7 +10,7 @@ $current_user = intval($_COOKIE["user"]);
 $id_hiking = isset($_POST['id_hiking']) ? intval($_POST['id_hiking']) : 0;
 $id_obstacle = isset($_POST['id_obstacle']) ? intval($_POST['id_obstacle']) : 0;
 $id_hiking_track = isset($_POST['id_hiking_track']) ? intval($_POST['id_hiking_track']) : 'NULL';
-$id_hiking_break = isset($_POST['id_hiking_break']) ? intval($_POST['id_hiking_break']) : 'NULL';
+$id_track_markup = isset($_POST['id_track_markup']) ? intval($_POST['id_track_markup']) : 'NULL';
 
 $description = $mysqli->real_escape_string($_POST['description']);
 $description_in = $mysqli->real_escape_string($_POST['description_in']);
@@ -46,7 +46,7 @@ SET
     `id_hiking` = {$id_hiking},
     `id_obstacle` = {$id_obstacle},
     `id_hiking_track` = {$id_hiking_track},
-    `id_hiking_break` = {$id_hiking_break},
+    `id_track_markup` = {$id_track_markup},
     `description` = '{$description}',
     `description_in` = '{$description_in}',
     `description_out` = '{$description_out}',
