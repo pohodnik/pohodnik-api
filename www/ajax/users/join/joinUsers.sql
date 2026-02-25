@@ -25,7 +25,7 @@ UPDATE `hiking_recipes` SET `id_author`=@id_new_user WHERE `id_author`=@id_old_u
 UPDATE `hiking_route_variants` SET `id_author`=@id_new_user WHERE `id_author`=@id_old_user;
 UPDATE `hiking_route_variants_vote` SET `id_user`=@id_new_user WHERE `id_user`=@id_old_user;
 UPDATE `hiking_tracks` SET `id_user`=@id_new_user WHERE `id_user`=@id_old_user;
-UPDATE `hiking_tracks_break` SET `id_author`=@id_new_user WHERE `id_author`=@id_old_user;
+UPDATE `workout_track_markup` SET `id_author`=@id_new_user WHERE `id_author`=@id_old_user;
 UPDATE `hiking_vacancies_response` SET `id_user`=@id_new_user WHERE `id_user`=@id_old_user;
 UPDATE `hiking_vacancies_response` SET `approve_user_id`=@id_new_user WHERE `approve_user_id`=@id_old_user;
 UPDATE `hiking_workouts_target` SET `id_author`=@id_new_user WHERE `id_author`=@id_old_user;
