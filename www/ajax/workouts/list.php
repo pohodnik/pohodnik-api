@@ -1,4 +1,5 @@
 <?php
+header('Content-type: application/json');
 include("../../blocks/db.php"); //подключение к БД
 
 $id_user = intval($_COOKIE["user"]);
@@ -28,6 +29,11 @@ if (isset($_GET['d1']) && !empty($_GET['d1'])) {
 if (isset($_GET['d2']) && !empty($_GET['d2'])) {
     $d2 = $mysqli->real_escape_string($_GET['d2']);
     $where .= " AND `workout_tracks`.`date_finish`<='{$d2}'";
+}
+
+if (isset($_GET['tag']) && !empty($_GET['tag'])) {
+    $tag = $mysqli->real_escape_string($_GET['tag']);
+    $where .= " AND workout_tags_usages.id_workout_tag={$tag}";
 }
 
 global $mysqli;
@@ -70,7 +76,25 @@ SELECT
     hiking.name as hiking_name,
     hiking.ava as hiking_ava,
     hiking.start as hiking_start,
-    hiking.finish as hiking_finish
+    hiking.finish as hiking_finish,
+    GROUP_CONCAT(
+        DISTINCT CONCAT_WS(
+            'œ',
+            workout_tags.id,
+            workout_tags.name,
+            workout_tags.color,
+            workout_tags.is_personal
+        ) SEPARATOR 'æ'
+    ) AS tags_raw,
+    GROUP_CONCAT(
+        DISTINCT CONCAT_WS(
+            'œ',
+            workout_photos.id,
+            workout_photos.url_preview,
+            workout_photos.url,
+            workout_photos.is_main
+        ) SEPARATOR 'æ'
+    ) AS photos_raw
 FROM
     `workouts`
     LEFT JOIN users ON users.id = workouts.id_user
@@ -79,8 +103,15 @@ FROM
     LEFT JOIN workouts_groups ON workouts.workout_group = workouts_groups.id
     LEFT JOIN hiking_tracks ON hiking_tracks.id_workout_track = workout_tracks.id
     LEFT JOIN hiking ON hiking_tracks.id_hiking = hiking.id
-WHERE {$where}
+    LEFT JOIN workout_tags_usages ON workout_tags_usages.id_workout = workouts.id
+    LEFT JOIN workout_tags ON workout_tags.id = workout_tags_usages.id_workout_tag
+    LEFT JOIN workout_photos ON workout_photos.id_workout = workouts.id AND workout_photos.is_main=1
+WHERE
+    {$where}
+    
+GROUP BY workouts.id
 ORDER BY workout_tracks.date_start DESC
+
 LIMIT {$limit} OFFSET {$offset}
 ";
 $q = $mysqli->query($z);
@@ -89,8 +120,30 @@ if (!$q) {
 }
 
 $res = array();
+
 while ($r = $q -> fetch_assoc()) {
+
+    $r['tags'] = empty($r['tags_raw'])?array():array_map(function($str) {
+        $parts = explode('œ',$str);
+        return array(
+            'id' => $parts[0],
+            'name' => $parts[1],
+            'color' => $parts[2],
+            'is_personal' => $parts[3]
+        );
+    }, explode('æ',$r['tags_raw']));
+
+    $r['photos'] = empty($r['photos_raw'])?array():array_map(function($str) {
+        $parts = explode('œ',$str);
+        return array(
+            'id' => $parts[0],
+            'url_preview' => $parts[1],
+            'url' => $parts[2],
+            'is_main' => $parts[3]
+        );
+    }, explode('æ',$r['photos_raw']));
     $res[] = $r;
 }
+
 
 exit(json_encode($res));
