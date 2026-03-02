@@ -36,6 +36,16 @@ if (isset($_GET['tag']) && !empty($_GET['tag'])) {
     $where .= " AND workout_tags_usages.id_workout_tag={$tag}";
 }
 
+if (isset($_GET['type']) && !empty($_GET['type'])) {
+    $typeOrCSV = $mysqli->real_escape_string($_GET['type']);
+    $where .= " AND workouts.workout_type IN({$typeOrCSV})";
+}
+
+if (isset($_GET['y']) && !empty($_GET['y'])) {
+    $typeOrCSV = $mysqli->real_escape_string($_GET['y']);
+    $where .= " AND YEAR(`workout_tracks`.`date_start`) IN({$typeOrCSV})";
+}
+
 global $mysqli;
 
 $z = "
