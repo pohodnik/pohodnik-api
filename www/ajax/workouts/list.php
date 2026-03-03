@@ -21,14 +21,18 @@ if (isset($_GET['id_user']) && !empty($_GET['id_user'])) {
     $where .= " AND `workouts`.`id_user`={$id_user}";
 }
 
+if (isset($_GET['d']) && !empty($_GET['d'])) {
+    $d = $mysqli->real_escape_string($_GET['d']);
+    $where .= " AND DATE(`workout_tracks`.`date_start`)=DATE('{$d}')";
+}
 if (isset($_GET['d1']) && !empty($_GET['d1'])) {
     $d1 = $mysqli->real_escape_string($_GET['d1']);
-    $where .= " AND `workout_tracks`.`date_start`>='{$d1}'";
+    $where .= " AND DATE(`workout_tracks`.`date_start`)>='{$d1}'";
 }
 
 if (isset($_GET['d2']) && !empty($_GET['d2'])) {
     $d2 = $mysqli->real_escape_string($_GET['d2']);
-    $where .= " AND `workout_tracks`.`date_finish`<='{$d2}'";
+    $where .= " AND DATE(`workout_tracks`.`date_finish`)<='{$d2}'";
 }
 
 if (isset($_GET['tag']) && !empty($_GET['tag'])) {
@@ -46,10 +50,21 @@ if (isset($_GET['y']) && !empty($_GET['y'])) {
     $where .= " AND YEAR(`workout_tracks`.`date_start`) IN({$typeOrCSV})";
 }
 
+$additional_fields = "";
+if (isset($_GET['include_trackdata'])) {
+    $additional_fields .= "`workout_tracks`.trackdata,";
+}
+
+if (isset($_GET['y']) && !empty($_GET['y'])) {
+    $typeOrCSV = $mysqli->real_escape_string($_GET['y']);
+    $where .= " AND YEAR(`workout_tracks`.`date_start`) IN({$typeOrCSV})";
+}
+
 global $mysqli;
 
 $z = "
 SELECT
+{$additional_fields}
     `workouts`.`id`,
     `workouts`.`id_user`,
     `workouts`.`name`,
