@@ -4,6 +4,11 @@
   ],
   "[php]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "obliviousharmony.vscode-php-codesniffer"
-  }
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+  },
+  "[sql]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "sql-formatter-vscode.format-selection"
+  },
+  "editor.linkedEditing": true
 }
