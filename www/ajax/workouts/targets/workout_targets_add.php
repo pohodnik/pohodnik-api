@@ -5,7 +5,7 @@ include("../../../blocks/err.php");
 include("../../../blocks/global.php");
 $result = array();
 $id_user = intval($_COOKIE["user"]);
-$id_hiking = isset($_POST['id_hiking']) ? intval($_POST['id_hiking']) : 'NULL';
+$id_hiking = isset($_POST['id_hiking']) && !empty($_POST['id_hiking']) ? intval($_POST['id_hiking']) : 'NULL';
 
 $name = isset($_POST['name']) && !empty($_POST['name']) ? $mysqli->real_escape_string($_POST['name']) : '';
 $description = isset($_POST['description']) && !empty($_POST['description']) ? $mysqli->real_escape_string($_POST['description']) : '';

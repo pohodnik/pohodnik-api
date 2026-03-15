@@ -14,8 +14,8 @@ $patch = array(
   'need_filter_by_hiking' => false,
   'need_filter_by_type' => false,
   'need_filter_by_id' => false,
-  'my' => isset($_GET['my']) && !empty(isset($_GET['my'])),
-  'actual' => isset($_GET['actual']) && !empty(isset($_GET['actual'])),
+  'my' => isset($_GET['my']) && $_GET['actual'] !== 'false'   ? boolval($_GET['my']) : false,
+  'actual' => isset($_GET['actual']) && $_GET['actual'] !== 'false' ? boolval($_GET['actual']) : false,
   'id_user' => intval($id_user),
 );
 

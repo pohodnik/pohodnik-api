@@ -38,6 +38,7 @@ FROM
   LEFT JOIN workout_targets ON workout_targets.id = @id_workout_target
 WHERE
   workouts.id_user IN(@user_ids)
+  AND (workout_types.id = workout_targets.workout_type OR workout_targets.workout_type IS NULL)
   AND workout_tracks.date_start BETWEEN workout_targets.date_start AND workout_targets.date_finish
 GROUP BY
   users.id
