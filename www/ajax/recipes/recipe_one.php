@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
-$result=array();
-$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
+$result = array();
+$id_user = isset($_COOKIE["user"]) ? intval($_COOKIE["user"]) : 0;
 $id = intval($_GET['id']);
 $optimize = isset($_GET['optimize']);
 $q = $mysqli->query("
@@ -21,13 +21,17 @@ LEFT JOIN recipes_categories ON recipes_categories.id = recipes.id_category
 LEFT JOIN users ON users.id = recipes.id_author
 WHERE recipes.id = {$id} LIMIT 1
 ");
-if(!$q){die(json_encode(array("error"=>$mysqli->error)));}
-if($q->num_rows===0){die(json_encode(array("error"=>"Нет рецепта с таким идентификатором")));}
+if (!$q) {
+    die(json_encode(array("error" => $mysqli->error)));
+}
+if ($q->num_rows === 0) {
+    die(json_encode(array("error" => "Нет рецепта с таким идентификатором")));
+}
 $result = $q->fetch_assoc();
 
 
-if($optimize == false ){
-$q = $mysqli->query("SELECT 
+if ($optimize == false) {
+    $q = $mysqli->query("SELECT 
     recipes_products.id AS id_product, 
     recipes_products.name, 
     recipes_products.protein/100*recipes_structure.amount AS protein, 
@@ -43,7 +47,7 @@ WHERE recipes_structure.id_recipe={$id} ORDER BY recipes_structure.amount DESC
 					");
 } else {
 
-$q = $mysqli->query("
+    $q = $mysqli->query("
 SELECT DISTINCT
     IFNULL(rp1.id, IFNULL(rp2.id, recipes_products.id)) AS id_product,
 	IFNULL(rp1.name, IFNULL(rp2.name, recipes_products.name)) AS name,
@@ -60,16 +64,17 @@ FROM recipes_structure
     LEFT JOIN recipes_products AS rp2 ON recipes_products_alt.id_alt = rp2.id
 WHERE recipes_structure.id_recipe={$id} ORDER BY recipes_structure.amount DESC");
 }
-if(!$q ){ die(json_encode(array("error"=>$mysqli->error))); }
+if (!$q) {
+    die(json_encode(array("error" => $mysqli->error)));
+}
 $result['products'] = array();
-$result['summ'] = array("protein"=>0, "fat"=>0,"carbohydrates"=>0,"energy"=>0, "amount"=>0);
-while($r = $q->fetch_assoc()){
-	$result['summ']['protein']+= $r['protein'];
-	$result['summ']['fat']+= $r['fat'];
-	$result['summ']['carbohydrates']+= $r['carbohydrates'];
-	$result['summ']['energy']+= $r['energy'];
-$result['summ']['amount']+= $r['amount'];
-	$result['products'][] = $r;
+$result['summ'] = array("protein" => 0, "fat" => 0, "carbohydrates" => 0, "energy" => 0, "amount" => 0);
+while ($r = $q->fetch_assoc()) {
+    $result['summ']['protein'] += $r['protein'];
+    $result['summ']['fat'] += $r['fat'];
+    $result['summ']['carbohydrates'] += $r['carbohydrates'];
+    $result['summ']['energy'] += $r['energy'];
+    $result['summ']['amount'] += $r['amount'];
+    $result['products'][] = $r;
 }
 exit(json_encode($result));
-?>

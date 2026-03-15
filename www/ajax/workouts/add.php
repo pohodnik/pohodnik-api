@@ -5,7 +5,7 @@ include("../../blocks/gpx.php"); //Только для авторизованн�
 
 ini_set('memory_limit', '256M');
 
-$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 'NULL';
+$id_user = isset($_COOKIE["user"]) ? intval($_COOKIE["user"]) : 'NULL';
 
 global $mysqli;
 
@@ -37,7 +37,7 @@ $time_mooving = intval($_POST['time_mooving']);
 $time_pause = intval($_POST['time_pause']);
 $track_id = 0;
 
-$q = $mysqli ->query("
+$q = $mysqli->query("
   SELECT
     workout_tracks.id,
     workouts.id_user
@@ -48,13 +48,13 @@ $q = $mysqli ->query("
     workout_tracks.trackdata = '{$trackdata}'
   LIMIT 1");
 if ($q && $q->num_rows == 1) {
-    $r = $q -> fetch_assoc();
-   if ($r['id_user'] == $id_user) {
-    die(json_encode(array('error'=>"Трек уже добавлен")));
-   }
-   $track_id = $r['id'];
+  $r = $q->fetch_assoc();
+  if ($r['id_user'] == $id_user) {
+    die(json_encode(array('error' => "Трек уже добавлен")));
+  }
+  $track_id = $r['id'];
 } else {
-    $z = "
+  $z = "
     INSERT INTO
         `workout_tracks`
     SET
@@ -86,10 +86,12 @@ if ($q && $q->num_rows == 1) {
         `time_pause` = {$time_pause}
     ";
 
-    $q = $mysqli->query($z);
+  $q = $mysqli->query($z);
 
-    if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
-    $track_id = $mysqli->insert_id;
+  if (!$q) {
+    die(json_encode(array('error' => $mysqli->error, 'query' => $z)));
+  }
+  $track_id = $mysqli->insert_id;
 }
 $id_workout_group = 'NULL';
 //check similar
@@ -107,16 +109,18 @@ WHERE
   AND workout_tracks.id <> {$track_id}
 ";
 $q = $mysqli->query($z);
-if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
-if ($q-> num_rows > 0) {
+if (!$q) {
+  die(json_encode(array('error' => $mysqli->error, 'query' => $z)));
+}
+if ($q->num_rows > 0) {
 
   $candidates = array();
-  while ($r = $q -> fetch_assoc()) {
+  while ($r = $q->fetch_assoc()) {
     if (isset($r['id_workout'])) {
       $bounds1 = json_decode($r['bounds'], true);
       $bounds2 = json_decode($bounds, true);
       $similar = compareBounds(array_merge(...$bounds1), array_merge(...$bounds2)); // 0...1 // can be percent
-  
+
       if ($similar > $threshold_similar) {
         if (!isset($candidates[0]) || $candidates[0][2] > $threshold_similar) {
           $candidates[] = array($r['id_workout'], $r['id_workout_group'], $threshold_similar);
@@ -128,7 +132,7 @@ if ($q-> num_rows > 0) {
   }
 
   if (isset($candidates[0])) {
-    if(isset($candidates[0][1])) { // has Group
+    if (isset($candidates[0][1])) { // has Group
       $id_workout_group = $candidates[0][1];
     } else {
       $z = "
@@ -140,20 +144,26 @@ if ($q-> num_rows > 0) {
           `date_update`=NULL
       ";
       $q = $mysqli->query($z);
-      if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
-      $id_workout_group = $mysqli -> insert_id;
+      if (!$q) {
+        die(json_encode(array('error' => $mysqli->error, 'query' => $z)));
+      }
+      $id_workout_group = $mysqli->insert_id;
       $id_wo = $candidates[0][0];
       $z = "UPDATE workouts SET workout_group={$id_workout_group} WHERE id={$id_wo}";
       $q = $mysqli->query($z);
-      if(!$q){die(json_encode(array(
-        'error'=>$mysqli->error,
-        'query' => $z,
-        'candidates' => $candidates,
-        'bounds' => array(
-          $bounds1[0][0], $bounds1[0][1],
-          $bounds1[1][0], $bounds1[1][1]
-        )
-      )));}
+      if (!$q) {
+        die(json_encode(array(
+          'error' => $mysqli->error,
+          'query' => $z,
+          'candidates' => $candidates,
+          'bounds' => array(
+            $bounds1[0][0],
+            $bounds1[0][1],
+            $bounds1[1][0],
+            $bounds1[1][1]
+          )
+        )));
+      }
     }
   }
 }
@@ -176,6 +186,8 @@ SET
 
 $q = $mysqli->query($z);
 
-if(!$q){die(json_encode(array('error'=>$mysqli->error, 'query' => $z)));}
+if (!$q) {
+  die(json_encode(array('error' => $mysqli->error, 'query' => $z)));
+}
 
-die(json_encode(array('success'=>true,'id'=>$mysqli->insert_id, "id_group" => $id_workout_group, "candidates" =>$candidates)));
+die(json_encode(array('success' => true, 'id' => $mysqli->insert_id, "id_group" => $id_workout_group, "candidates" => $candidates)));

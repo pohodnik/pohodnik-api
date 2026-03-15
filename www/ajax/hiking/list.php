@@ -2,45 +2,43 @@
 include("../../blocks/db.php"); //подключение к БД
 // include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/dates.php"); //Только для авторизованных
-$mode = isset($_GET['mode'])?$mysqli->real_escape_string($_GET['mode']):'current';
-$type = isset($_GET['type'])?$mysqli->real_escape_string($_GET['type']):'my';
-$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
-$claus ="1";
-switch($mode){
-	case 'current': // Текущие походы
-		$claus .= " AND hiking.start>='".date('Y-m-d H:i:s')."' ";
-	break;	
-	case 'old': // Архив
-		$claus .= " AND hiking.finish<'".date('Y-m-d H:i:s')."' ";
-	break;
-	
+$mode = isset($_GET['mode']) ? $mysqli->real_escape_string($_GET['mode']) : 'current';
+$type = isset($_GET['type']) ? $mysqli->real_escape_string($_GET['type']) : 'my';
+$id_user = isset($_COOKIE["user"]) ? intval($_COOKIE["user"]) : 0;
+$claus = "1";
+switch ($mode) {
+  case 'current': // Текущие походы
+    $claus .= " AND hiking.start>='" . date('Y-m-d H:i:s') . "' ";
+    break;
+  case 'old': // Архив
+    $claus .= " AND hiking.finish<'" . date('Y-m-d H:i:s') . "' ";
+    break;
 }
-switch($type){
-	case 'my': // мои
-		$claus .= " AND (SELECT count(`id`) FROM `hiking_members` WHERE `id_user`={$id_user} AND `id_hiking` = hiking.id )=1 ";
-	break;	
-	case 'all': // все
-		$claus .= " AND (SELECT count(`id`) FROM `hiking_members` WHERE `id_user`={$id_user} AND `id_hiking` = hiking.id )=0 ";
-	break;
-	
-}		
-	if(isset($_GET["actual"]) && $_GET["actual"]==1){
-		$claus = "  hiking.start>='".date('Y-m-d H:i:s')."' ";
-	}
-	
-	if(isset($_GET["admin"]) && $_GET["admin"]==1){
-		$claus .= " AND hiking.id_author={$id_user} ";
-	}	
-	
+switch ($type) {
+  case 'my': // мои
+    $claus .= " AND (SELECT count(`id`) FROM `hiking_members` WHERE `id_user`={$id_user} AND `id_hiking` = hiking.id )=1 ";
+    break;
+  case 'all': // все
+    $claus .= " AND (SELECT count(`id`) FROM `hiking_members` WHERE `id_user`={$id_user} AND `id_hiking` = hiking.id )=0 ";
+    break;
+}
+if (isset($_GET["actual"]) && $_GET["actual"] == 1) {
+  $claus = "  hiking.start>='" . date('Y-m-d H:i:s') . "' ";
+}
 
-if(isset($_GET['id'])){
-	if(is_array($_GET['id'])){
-		$claus = " hiking.id IN(".implode(',',$_GET['id']).") ";
-	} else if($_GET['id']>0){
-		$claus = " hiking.id = ".$_GET['id'];
-	}
+if (isset($_GET["admin"]) && $_GET["admin"] == 1) {
+  $claus .= " AND hiking.id_author={$id_user} ";
 }
-	
+
+
+if (isset($_GET['id'])) {
+  if (is_array($_GET['id'])) {
+    $claus = " hiking.id IN(" . implode(',', $_GET['id']) . ") ";
+  } else if ($_GET['id'] > 0) {
+    $claus = " hiking.id = " . $_GET['id'];
+  }
+}
+
 $q = $mysqli->query("
 						SELECT 
 							hiking.id, 
@@ -62,23 +60,23 @@ $q = $mysqli->query("
 						WHERE {$claus}
 						ORDER BY hiking.start DESC, hiking.id_type
 ");
-if($q){
-	$result = array();
-	while($r = $q->fetch_assoc()){
-		$r['start_date_rus'] = smartDate($r['start']);
-		$r['finish_date_rus'] = smartDate($r['finish']);
-		
-		$r['duration'] = round((($r['finish']-$r['start'])/86400),1);
+if ($q) {
+  $result = array();
+  while ($r = $q->fetch_assoc()) {
+    $r['start_date_rus'] = smartDate($r['start']);
+    $r['finish_date_rus'] = smartDate($r['finish']);
 
-		
-		$r['start_date'] = date('Y-m-d H:i:s', $r['start']);
-		$r['finish_date'] = date('Y-m-d H:i:s',$r['finish']);
-		
-		$result[] = $r;
-	}
+    $r['duration'] = round((($r['finish'] - $r['start']) / 86400), 1);
 
-	
-	echo json_encode($result);
-}else{exit(json_encode(array("error"=>"Не могу получить список походов \r\n".$mysqli->error)));}
 
-?>
+    $r['start_date'] = date('Y-m-d H:i:s', $r['start']);
+    $r['finish_date'] = date('Y-m-d H:i:s', $r['finish']);
+
+    $result[] = $r;
+  }
+
+
+  echo json_encode($result);
+} else {
+  exit(json_encode(array("error" => "Не могу получить список походов \r\n" . $mysqli->error)));
+}

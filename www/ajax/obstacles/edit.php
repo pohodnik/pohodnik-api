@@ -3,7 +3,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/for_auth.php"); //Только для авторизованных
 include("../../blocks/global.php"); //Только для авторизованных
 
-$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 'NULL';
+$id_user = isset($_COOKIE["user"]) ? intval($_COOKIE["user"]) : 'NULL';
 
 global $mysqli;
 
@@ -38,5 +38,7 @@ WHERE id={$id}
 ";
 
 $q = $mysqli->query($z);
-if(!$q){die(err($mysqli->error, array('query' => $z)));}
+if (!$q) {
+    die(err($mysqli->error, array('query' => $z)));
+}
 die(jout(array('success' => true)));

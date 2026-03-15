@@ -1,7 +1,7 @@
 <?php
 include("../../blocks/db.php"); //подключение к БД
 $result = array();
-$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
+$id_user = isset($_COOKIE["user"]) ? intval($_COOKIE["user"]) : 0;
 $clous = "";
 if (isset($_GET['region'])) {
     $clous .= " AND geo_regions.id=" . intval($_GET['region']);

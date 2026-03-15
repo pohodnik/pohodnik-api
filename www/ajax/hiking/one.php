@@ -4,7 +4,7 @@ include("../../blocks/db.php"); //подключение к БД
 include("../../blocks/dates.php"); //Только для авторизованных
 
 $id = intval($_GET['id']);
-$id_user = isset($_COOKIE["user"]) ? $_COOKIE["user"] : 0;
+$id_user = isset($_COOKIE["user"]) ? intval($_COOKIE["user"]) : 0;
 
 /*
 
@@ -44,7 +44,7 @@ if(!$q || $q->num_rows===0){exit(json_encode(array("error"=>"no_member")));}
 
 */
 
-		
+
 $q = $mysqli->query("
 						SELECT 
 							hiking.id, 
@@ -74,15 +74,15 @@ $q = $mysqli->query("
 						WHERE hiking.id = {$id}
 						ORDER BY hiking.start DESC, hiking.id_type
 ");
-if($q){
+if ($q) {
 
-		
-		$result = array();
-		$r = $q->fetch_assoc();
-		$r["hikers"] = array();
-		$r["is_i_hiker"] = false;
-	
-		$qi = $mysqli->query("SELECT
+
+	$result = array();
+	$r = $q->fetch_assoc();
+	$r["hikers"] = array();
+	$r["is_i_hiker"] = false;
+
+	$qi = $mysqli->query("SELECT
 			hiking_members.id_user, UNIX_TIMESTAMP(hiking_members.date) AS date ,
 			    hiking_members.date_from,
                 hiking_members.date_to,
@@ -91,14 +91,16 @@ if($q){
 			users.photo_50, users.photo_100, users.sex
 		FROM hiking_members LEFT JOIN users ON hiking_members.id_user = users.id
 		WHERE hiking_members.id_hiking={$id} ORDER BY hiking_members.date");
-								
-			while($ri = $qi->fetch_assoc()){
-				$r["hikers"][] = $ri;
-				if($ri['id_user']==$id_user){ $r["is_i_hiker"]=true;}
-			}
-		
 
-			$qi = $mysqli->query("SELECT
+	while ($ri = $qi->fetch_assoc()) {
+		$r["hikers"][] = $ri;
+		if ($ri['id_user'] == $id_user) {
+			$r["is_i_hiker"] = true;
+		}
+	}
+
+
+	$qi = $mysqli->query("SELECT
 			positions.name,
 			positions.description,
 			hiking_vacancies.id_position,
@@ -112,36 +114,38 @@ if($q){
 		LEFT JOIN positions ON positions.id = hiking_vacancies.id_position
 		LEFT JOIN users ON users.id = hiking_vacancies_response.approve_user_id
 		WHERE hiking_vacancies.id_hiking={$id} AND hiking_vacancies_response.approve_user_id IS NOT NULL");
-				if(!$qi){die($mysqli->error);}				
-			while($ri = $qi->fetch_assoc()){
-				for($i = 0; $i<count($r["hikers"]); $i++ ){
-					if(!isset($r["hikers"][$i]['positions'])) {
-						$r["hikers"][$i]['positions'] = array();
-					}
-					if($ri['id_user'] == $r["hikers"][$i]['id_user']) {
-						$r["hikers"][$i]['positions'][] = $ri;
-					}
-				}
+	if (!$qi) {
+		die($mysqli->error);
+	}
+	while ($ri = $qi->fetch_assoc()) {
+		for ($i = 0; $i < count($r["hikers"]); $i++) {
+			if (!isset($r["hikers"][$i]['positions'])) {
+				$r["hikers"][$i]['positions'] = array();
 			}
+			if ($ri['id_user'] == $r["hikers"][$i]['id_user']) {
+				$r["hikers"][$i]['positions'][] = $ri;
+			}
+		}
+	}
 
-		
-		$r['start_date_rus'] = smartDate($r['start']);
-		$r['finish_date_rus'] = smartDate($r['finish']);
-		
-		$r['duration'] = round((($r['finish']-$r['start'])/86400),1);
 
-		
-		$r['start_date'] = date('Y-m-d H:i:s', $r['start']);
-		$r['finish_date'] = date('Y-m-d H:i:s',$r['finish']);
-		$r['timeout'] = $r['finish']<time();
+	$r['start_date_rus'] = smartDate($r['start']);
+	$r['finish_date_rus'] = smartDate($r['finish']);
 
-        $tzq = $mysqli->query("SELECT * FROM hiking_timezones WHERE id_hiking={$id}");
-        $r['timezones'] = array();
-        while($tzr = $tzq->fetch_assoc()) {
-            $r['timezones'][] = $tzr;
-        }
+	$r['duration'] = round((($r['finish'] - $r['start']) / 86400), 1);
 
-		echo json_encode($r);
-}else{exit(json_encode(array("error"=>"Не могу получить список походов \r\n".$mysqli->error)));}
 
-?>
+	$r['start_date'] = date('Y-m-d H:i:s', $r['start']);
+	$r['finish_date'] = date('Y-m-d H:i:s', $r['finish']);
+	$r['timeout'] = $r['finish'] < time();
+
+	$tzq = $mysqli->query("SELECT * FROM hiking_timezones WHERE id_hiking={$id}");
+	$r['timezones'] = array();
+	while ($tzr = $tzq->fetch_assoc()) {
+		$r['timezones'][] = $tzr;
+	}
+
+	echo json_encode($r);
+} else {
+	exit(json_encode(array("error" => "Не могу получить список походов \r\n" . $mysqli->error)));
+}
